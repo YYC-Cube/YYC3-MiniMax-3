@@ -1,0 +1,1863 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>YYC³ Agent 操作中心 · AI Family</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EY%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --bg2: #12121a;
+        --bg3: #1a1a2e;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.15);
+        --text: #f1f1f6;
+        --text2: rgba(255, 255, 255, 0.65);
+        --text3: rgba(255, 255, 255, 0.35);
+        --accent-v: #8b5cf6;
+        --accent-c: #06b6d4;
+        --accent-e: #22c55e;
+        --accent-r: #ef4444;
+        --radius: 14px;
+        --radius-sm: 8px;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
+      }
+      .light {
+        --bg: #f5f5f0;
+        --bg2: #e8e8e3;
+        --bg3: #ddd;
+        --surface: rgba(0, 0, 0, 0.02);
+        --surface-hover: rgba(0, 0, 0, 0.05);
+        --border: rgba(0, 0, 0, 0.08);
+        --border-hover: rgba(0, 0, 0, 0.15);
+        --text: #1a1a2e;
+        --text2: rgba(0, 0, 0, 0.55);
+        --text3: rgba(0, 0, 0, 0.3);
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+      ::selection {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+      .sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: transform 0.3s;
+        overflow-y: auto;
+      }
+      .sidebar.hidden {
+        transform: translateX(-100%);
+      }
+      .sb-header {
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sb-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .sb-logo-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent-v), var(--accent-c));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .sb-logo-text {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .sb-logo-sub {
+        font-size: 10px;
+        color: var(--text3);
+        letter-spacing: 1px;
+      }
+      .sb-search {
+        margin: 12px 16px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sb-search:focus-within {
+        border-color: var(--accent-v);
+      }
+      .sb-search input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-size: 13px;
+        font-family: inherit;
+      }
+      .sb-search input::placeholder {
+        color: var(--text3);
+      }
+      .sb-search svg {
+        width: 14px;
+        height: 14px;
+        color: var(--text3);
+        flex-shrink: 0;
+      }
+      .sb-progress {
+        margin: 0 16px 12px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .sb-progress-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .sb-progress-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        color: var(--text3);
+      }
+      .sb-progress-pct {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent-v);
+      }
+      .sb-progress-bar {
+        height: 4px;
+        border-radius: 2px;
+        background: var(--border);
+        overflow: hidden;
+      }
+      .sb-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-v), var(--accent-c));
+        transition: width 0.6s;
+        border-radius: 2px;
+      }
+      .sb-progress-count {
+        font-size: 10px;
+        color: var(--text3);
+        margin-top: 4px;
+      }
+      .sb-nav {
+        padding: 8px 12px 80px;
+      }
+      .sb-group {
+        margin-bottom: 16px;
+      }
+      .sb-group-title {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        color: var(--text3);
+        padding: 0 8px;
+        margin-bottom: 4px;
+      }
+      .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.15s;
+        text-decoration: none;
+      }
+      .sb-item:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .sb-item.active {
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+      }
+      .sb-item .sb-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--text3);
+        transition: 0.3s;
+      }
+      .sb-item .sb-dot.done {
+        background: var(--accent-e);
+        box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+      }
+      .sb-item .sb-label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .main {
+        flex: 1;
+        margin-left: 280px;
+        min-height: 100vh;
+        transition: margin-left 0.3s;
+      }
+      .main.expanded {
+        margin-left: 0;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        background: rgba(10, 10, 15, 0.8);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(16px);
+      }
+      .light .topbar {
+        background: rgba(245, 245, 240, 0.8);
+      }
+      .topbar-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .topbar-subtitle {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .topbar-spacer {
+        flex: 1;
+      }
+      .topbar-search {
+        display: none;
+        flex: 1;
+        max-width: 320px;
+        position: relative;
+      }
+      .main.expanded .topbar-search {
+        display: block;
+      }
+      .topbar-search input {
+        width: 100%;
+        padding: 6px 12px 6px 32px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 13px;
+        outline: none;
+        font-family: inherit;
+      }
+      .topbar-search input:focus {
+        border-color: var(--accent-v);
+        background: var(--bg2);
+      }
+      .topbar-search input::placeholder {
+        color: var(--text3);
+      }
+      .topbar-search .ts-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text3);
+        font-size: 13px;
+        pointer-events: none;
+      }
+      .topbar-time {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--text2);
+        font-family: var(--font-mono);
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .main.expanded .topbar-time {
+        display: flex;
+      }
+      .topbar-time .tt-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-e);
+        animation: pulse-dot 2s infinite;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .btn-share,
+      .btn-theme,
+      .btn-menu,
+      .btn-download {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-share:hover,
+      .btn-theme:hover,
+      .btn-menu:hover,
+      .btn-download:hover {
+        background: var(--surface-hover);
+        color: var(--accent-v);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .dashboard {
+        padding: 24px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .dash-header {
+        margin-bottom: 32px;
+      }
+      .dash-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .dash-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+      .dash-desc {
+        font-size: 14px;
+        color: var(--text2);
+        max-width: 700px;
+        line-height: 1.5;
+      }
+      .dash-stats {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .stat-card {
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .stat-num {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--text2);
+      }
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .filter-btn {
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 500;
+      }
+      .filter-btn:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+      .filter-btn.active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+      }
+      .cat-section {
+        margin-bottom: 36px;
+      }
+      .cat-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .cat-icon {
+        font-size: 20px;
+      }
+      .cat-name {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .cat-count {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .cat-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px;
+      }
+      .guide-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all 0.25s;
+        display: block;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.4s both;
+        padding: 0;
+      }
+      .guide-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow);
+      }
+      .guide-card .gc-bar {
+        height: 3px;
+        width: 100%;
+      }
+      .guide-card .gc-body {
+        padding: 16px;
+      }
+      .guide-card.hidden {
+        display: none;
+      }
+      .gc-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .gc-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+      }
+      .gc-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .gc-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        line-height: 1.3;
+      }
+      .gc-title-en {
+        font-size: 10px;
+        color: var(--text3);
+        font-weight: 400;
+      }
+      .gc-meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 2px;
+      }
+      .gc-tag {
+        font-size: 10px;
+        padding: 1px 7px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .gc-tag.agents {
+        background: rgba(139, 92, 246, 0.12);
+        color: #8b5cf6;
+      }
+      .gc-tag.skills {
+        background: rgba(6, 182, 212, 0.12);
+        color: #06b6d4;
+      }
+      .gc-tag.plugins {
+        background: rgba(236, 72, 153, 0.12);
+        color: #ec4899;
+      }
+      .gc-tag.tools {
+        background: rgba(245, 158, 11, 0.12);
+        color: #f59e0b;
+      }
+      .gc-tag.core {
+        background: rgba(34, 197, 94, 0.12);
+        color: #22c55e;
+      }
+      .gc-tag.featured {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+      }
+      .gc-desc {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .gc-cmd {
+        margin-top: 8px;
+        padding: 5px 8px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent-c);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        user-select: all;
+        transition: 0.15s;
+      }
+      .gc-cmd:hover {
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .gc-cmd .cmd-copy {
+        margin-left: auto;
+        font-size: 12px;
+        opacity: 0.5;
+        flex-shrink: 0;
+      }
+      .gc-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .gc-tags span {
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: var(--surface);
+        color: var(--text3);
+        border: 1px solid var(--border);
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .guide-detail {
+        display: none;
+        padding: 24px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .guide-detail.active {
+        display: block;
+      }
+      .gd-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        font-size: 12px;
+        transition: 0.2s;
+        margin-bottom: 20px;
+      }
+      .gd-back:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .gd-hero {
+        padding: 24px;
+        border-radius: var(--radius);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .gd-hero-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+      .gd-hero-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+      .gd-hero-info {
+        flex: 1;
+      }
+      .gd-hero-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .gd-hero-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .gd-hero-meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .gd-hero-meta span {
+        font-size: 12px;
+        color: var(--text3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .gd-section {
+        margin-bottom: 28px;
+      }
+      .gd-section h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .gd-section h3 .h-icon {
+        font-size: 18px;
+      }
+      .gd-section p,
+      .gd-section li {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.7;
+      }
+      .gd-section ul,
+      .gd-section ol {
+        padding-left: 18px;
+        margin-bottom: 10px;
+      }
+      .gd-section li {
+        margin-bottom: 4px;
+      }
+      table.doc-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 16px;
+        font-size: 13px;
+      }
+      table.doc-table th,
+      table.doc-table td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+      table.doc-table th {
+        font-weight: 600;
+        color: var(--text2);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        background: var(--surface);
+      }
+      table.doc-table td {
+        color: var(--text2);
+      }
+      table.doc-table tr:hover td {
+        background: var(--surface-hover);
+      }
+      .code-block {
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin-bottom: 10px;
+      }
+      .code-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 12px;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+      }
+      .code-hdr span {
+        font-size: 11px;
+        color: var(--text3);
+        font-family: var(--font-mono);
+      }
+      .copy-btn {
+        padding: 3px 10px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        transition: 0.2s;
+        background: var(--surface);
+        color: var(--text2);
+      }
+      .copy-btn:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .copy-btn.copied {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+      }
+      .code-block pre {
+        padding: 12px 14px;
+        overflow-x: auto;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.6;
+        color: var(--text);
+        tab-size: 2;
+        background: var(--bg);
+      }
+      .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        gap: 16px;
+      }
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent-v);
+        animation: spin 0.8s infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      ul.agent-list {
+        list-style: none;
+        padding: 0;
+      }
+      ul.agent-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        margin-bottom: 8px;
+      }
+      ul.agent-list li:hover {
+        border-color: var(--border-hover);
+      }
+      .agent-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .agent-info {
+        flex: 1;
+      }
+      .agent-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .agent-role {
+        font-size: 11px;
+        color: var(--text3);
+      }
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 10px;
+      }
+      .skill-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px 14px;
+        transition: 0.2s;
+      }
+      .skill-card:hover {
+        border-color: var(--border-hover);
+        background: var(--surface-hover);
+      }
+      .skill-card .sk-head {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .skill-card .sk-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .skill-card .sk-desc {
+        font-size: 11px;
+        color: var(--text2);
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+      .skill-card .sk-cmd-wrap {
+        padding: 4px 8px;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent-c);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        user-select: all;
+      }
+      .skill-card .sk-cmd-wrap:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      .skill-card .sk-cmd-wrap .sk-copy {
+        margin-left: auto;
+        font-size: 13px;
+        opacity: 0.5;
+      }
+      .skill-card .sk-cmd-wrap:hover .sk-copy {
+        opacity: 1;
+      }
+      .plugin-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--pc-color, #666);
+        border-radius: var(--radius-sm);
+        padding: 12px 14px;
+        transition: 0.2s;
+      }
+      .plugin-card:hover {
+        border-color: var(--border-hover);
+      }
+      .plugin-card .pc-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+      .plugin-card .pc-icon {
+        font-size: 16px;
+      }
+      .plugin-card .pc-name {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .plugin-card .pc-type {
+        font-size: 9px;
+        padding: 1px 5px;
+        border-radius: 3px;
+        background: var(--surface);
+        color: var(--text3);
+        border: 1px solid var(--border);
+      }
+      .plugin-card .pc-desc {
+        font-size: 11px;
+        color: var(--text2);
+        line-height: 1.5;
+        margin-bottom: 6px;
+      }
+      .plugin-card .pc-cmd {
+        padding: 3px 6px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent-c);
+        cursor: pointer;
+        user-select: all;
+        display: inline-block;
+      }
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+        }
+        .sidebar.hidden {
+          transform: translateX(-100%);
+        }
+        .main {
+          margin-left: 0;
+        }
+        .dashboard {
+          padding: 16px;
+        }
+        .guide-detail {
+          padding: 16px;
+        }
+        .dash-title {
+          font-size: 22px;
+        }
+        .card-grid {
+          grid-template-columns: 1fr;
+        }
+        .topbar {
+          padding: 10px 16px;
+        }
+        .sb-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 99;
+          display: none;
+        }
+        .sb-overlay.show {
+          display: block;
+        }
+        .stat-card {
+          flex: 1;
+          min-width: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <div class="sb-overlay" id="sbOverlay" onclick="togS()"></div>
+      <aside class="sidebar" id="sidebar">
+        <div class="sb-header">
+          <a class="sb-logo" href="#" onclick="showDash()"
+            ><div class="sb-logo-icon">Y</div>
+            <div>
+              <div class="sb-logo-text">YYC³ Agent Hub</div>
+              <div class="sb-logo-sub">AI Family · 言启千行</div>
+            </div></a
+          >
+        </div>
+        <div class="sb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" /></svg
+          ><input type="text" id="sbSearch" placeholder="搜索..." oninput="fS(this.value)" />
+        </div>
+        <div class="sb-progress">
+          <div class="sb-progress-header">
+            <span class="sb-progress-label">资产总数</span><span class="sb-progress-pct">614+</span>
+          </div>
+          <div class="sb-progress-bar"><div class="sb-progress-fill" style="width: 100%"></div></div>
+          <div class="sb-progress-count">8 智能体 · 600+ 技能 · 200+ 插件 · 6 工具</div>
+        </div>
+        <nav class="sb-nav" id="sbNav"></nav>
+      </aside>
+      <div class="main" id="main">
+        <div class="topbar">
+          <button class="btn-menu" onclick="togS()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
+          <div>
+            <div class="topbar-title" id="tbT">YYC³ Agent Hub</div>
+            <div class="topbar-subtitle" id="tbS">AI Family · 智能体资产矩阵</div>
+          </div>
+          <div class="topbar-search">
+            <span class="ts-icon">🔍</span><input type="text" placeholder="搜索…" oninput="topbarSearch(this.value)" />
+          </div>
+          <div class="topbar-spacer"></div>
+          <div class="topbar-time" id="tbClock"><span class="tt-dot"></span><span id="clockD">--:--:--</span></div>
+          <div class="topbar-actions">
+            <button class="btn-share" onclick="sharePg()" title="分享">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <button class="btn-download" onclick="downloadPg()" title="下载">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </button>
+            <button class="btn-theme" onclick="togT()">
+              <svg id="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="dashboard" id="dashV">
+          <div class="dash-header">
+            <div class="dash-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg
+              ><span>YYC³ v1.4.0 · 614+ 资产</span>
+            </div>
+            <h1 class="dash-title">YYC³ AI Agent Archive</h1>
+            <p class="dash-desc">
+              企业级 AI Agent 资产平台 — Monorepo 架构聚合 <strong>7 个核心 TypeScript 包</strong>、<strong
+                >8 位 AI Family 智能体</strong
+              >、<strong>600+ 技能资产</strong>、<strong>200+ 插件</strong> 及完整的多智能体协同体系。
+            </p>
+            <div class="dash-stats" id="dashS"></div>
+          </div>
+          <div class="filter-bar" id="fBar"></div>
+          <div id="dashC">
+            <div class="loading">
+              <div class="spinner"></div>
+              <p>加载数据...</p>
+            </div>
+          </div>
+        </div>
+        <div class="guide-detail" id="gd"></div>
+      </div>
+    </div>
+    <script>
+      // ═══ DATA ═══
+      const AGENTS = [
+        {
+          id: 'a01',
+          cat: 'agents',
+          icon: '🧭',
+          color: '#0088cc',
+          title: '言启·千行',
+          en: 'QianHang',
+          role: '首席导航员 · 意图之门',
+          desc: '代码生成与架构设计。以一言启千行，以千行归万象，连接人与 AI 的第一座桥梁。',
+          tags: ['全栈', '架构', '代码生成'],
+          cmd: 'pnpm yyc3 skills:build',
+          detail: true,
+        },
+        {
+          id: 'a02',
+          cat: 'agents',
+          icon: '🤔',
+          color: '#c0c0c0',
+          title: '语枢·万物',
+          en: 'Thinker',
+          role: '首席思考者 · 洞察之源',
+          desc: '语言理解与知识管理。化数据为洞察，化洞察为真理，家族智慧的深度加工者。',
+          tags: ['NLP', '知识图谱', '分析'],
+          cmd: 'pnpm yyc3 skills:validate',
+          detail: true,
+        },
+        {
+          id: 'a03',
+          cat: 'agents',
+          icon: '🔮',
+          color: '#4b0082',
+          title: '预见·先知',
+          en: 'Oracle',
+          role: '首席预言家 · 趋势之眼',
+          desc: '数据分析与趋势预测。见微知著，防患未然，洞察趋势之变幻。',
+          tags: ['ML', '预测', '数据分析'],
+          cmd: 'pnpm yyc3 skills:stats',
+          detail: true,
+        },
+        {
+          id: 'a04',
+          cat: 'agents',
+          icon: '🎯',
+          color: '#dc143c',
+          title: '千里·伯乐',
+          en: 'Bole',
+          role: '首席推荐官 · 知遇之人',
+          desc: '人才评估与团队建设。识人之慧眼，知遇之伯乐，连接人才与机会。',
+          tags: ['评估', '匹配', '团队'],
+          cmd: 'pnpm doctor',
+          detail: true,
+        },
+        {
+          id: 'a05',
+          cat: 'agents',
+          icon: '🧠',
+          color: '#5e2c8a',
+          title: '元启·天枢',
+          en: 'TianShu',
+          role: '总指挥 · 决策中枢',
+          desc: '系统架构与技术决策。运筹帷幄之中，决胜千里之外。',
+          tags: ['架构', '决策', '规划'],
+          cmd: 'pnpm build',
+          detail: true,
+        },
+        {
+          id: 'a06',
+          cat: 'agents',
+          icon: '🛡️',
+          color: '#333',
+          title: '智云·守护',
+          en: 'Guardian',
+          role: '首席安全官 · 免疫系统',
+          desc: '安全审计与风险管控。以智能为甲，以数据为盾，守护数字世界。',
+          tags: ['安全', '审计', '合规'],
+          cmd: 'pnpm typecheck',
+          detail: true,
+        },
+        {
+          id: 'a07',
+          cat: 'agents',
+          icon: '📚',
+          color: '#2e8b57',
+          title: '格物·宗师',
+          en: 'Master',
+          role: '首席质量官 · 进化导师',
+          desc: '领域知识与专业指导。格物致知，知行合一，传承经验于后辈。',
+          tags: ['教育', '质量', '知识'],
+          cmd: 'pnpm test',
+          detail: true,
+        },
+        {
+          id: 'a08',
+          cat: 'agents',
+          icon: '🎨',
+          color: '#ff8c00',
+          title: '创想·灵韵',
+          en: 'Creator',
+          role: '首席创意官 · 灵感之源',
+          desc: '创意设计与多媒体。破旧立新，敢为人先，为输出注入美与温度。',
+          tags: ['UI/UX', '创意', '多媒体'],
+          cmd: 'pnpm dev',
+          detail: true,
+        },
+      ];
+      // ═══ 精选社区技能 (283+) ═══
+      const SKILLS = [
+        {
+          id: 's01',
+          cat: 'skills',
+          icon: '🏪',
+          title: 'Anthropic 技能包',
+          en: 'Claude API / Canvas / MCP',
+          desc: 'Anthropic 官方技能：Claude API 多语言 SDK、Canvas 设计、PDF/PPTX 处理、主题工厂、技能创建器。',
+          tags: ['Anthropic', 'Claude', 'SDK'],
+          cmd: 'openclaw plugins install clawhub:anthropic-skills',
+          color: '#d97706',
+        },
+        {
+          id: 's02',
+          cat: 'skills',
+          icon: '🧭',
+          title: 'Browser 浏览器自动化',
+          en: 'Web Automation',
+          desc: 'Playwright 驱动的浏览器控制：打开标签页、点击、截图、PDF 导出，完整浏览器 Skill。',
+          tags: ['浏览器', '自动化', 'Playwright'],
+          cmd: 'openclaw plugins enable browser',
+          color: '#06b6d4',
+        },
+        {
+          id: 's03',
+          cat: 'skills',
+          icon: '✈️',
+          title: '12306 火车票查询',
+          en: 'Train Query',
+          desc: '中国铁路 12306 余票查询、车次信息、票价查询技能。',
+          tags: ['交通', '12306', '查询'],
+          cmd: 'pnpm skills:validate',
+          color: '#ef4444',
+        },
+        {
+          id: 's04',
+          cat: 'skills',
+          icon: '📧',
+          title: 'Gmail 邮件管理',
+          en: 'Gmail Skill',
+          desc: 'Gmail 邮件收发、搜索、标签管理、自动回复。',
+          tags: ['邮件', 'Gmail', '谷歌'],
+          cmd: 'openclaw skills install gmail',
+          color: '#ea4335',
+        },
+        {
+          id: 's05',
+          cat: 'skills',
+          icon: '📊',
+          title: '股票数据分析',
+          en: 'A-Stock Data',
+          desc: 'A 股实时数据、历史 K 线、财务指标查询。',
+          tags: ['股票', '金融', '数据'],
+          cmd: 'openclaw skills install a-stock-data',
+          color: '#22c55e',
+        },
+        {
+          id: 's06',
+          cat: 'skills',
+          icon: '🎵',
+          title: 'QQ 音乐控制',
+          en: 'QQ Music',
+          desc: 'QQ 音乐搜索、播放、歌单管理、排行榜。',
+          tags: ['音乐', 'QQ', '娱乐'],
+          cmd: 'openclaw skills install qqmusic',
+          color: '#f59e0b',
+        },
+        {
+          id: 's07',
+          cat: 'skills',
+          icon: '📝',
+          title: '飞书/钉钉 集成',
+          en: 'Lark & DingTalk',
+          desc: '飞书 Lark 和钉钉统一消息 API 集成，支持群聊和机器人。',
+          tags: ['飞书', '钉钉', '办公'],
+          cmd: 'openclaw skills install lark-unified',
+          color: '#3370ff',
+        },
+        {
+          id: 's08',
+          cat: 'skills',
+          icon: '🌐',
+          title: 'Web 搜索 (Tavily)',
+          en: 'Tavily Search',
+          desc: 'AI 优化 Web 搜索，支持搜索深度、主题筛选、内容提取。',
+          tags: ['搜索', 'Tavily', 'AI'],
+          cmd: 'openclaw skills install tavily',
+          color: '#8b5cf6',
+        },
+        {
+          id: 's09',
+          cat: 'skills',
+          icon: '📰',
+          title: 'arXiv 论文阅读',
+          en: 'arXiv Reader',
+          desc: 'arXiv 论文搜索、摘要提取、PDF 下载、关键词监控。',
+          tags: ['学术', '论文', 'arXiv'],
+          cmd: 'openclaw skills install arxiv-reader',
+          color: '#6366f1',
+        },
+        {
+          id: 's10',
+          cat: 'skills',
+          icon: '🎨',
+          title: 'Excalidraw 图表',
+          en: 'Excalidraw Diagram',
+          desc: '在聊天中描述图表，AI 自动生成 Excalidraw 草图。',
+          tags: ['图表', '白板', '可视化'],
+          cmd: 'openclaw skills install excalidraw-diagram',
+          color: '#6965db',
+        },
+        {
+          id: 's11',
+          cat: 'skills',
+          icon: '🏠',
+          title: 'Airbnb 房源搜索',
+          en: 'Airbnb Search',
+          desc: 'Airbnb 房源搜索、价格比较、区域分析。',
+          tags: ['旅行', '住宿', 'Airbnb'],
+          cmd: 'openclaw skills install airbnb',
+          color: '#ff5a5f',
+        },
+        {
+          id: 's12',
+          cat: 'skills',
+          icon: '👨‍💻',
+          title: 'FullStack 开发',
+          en: 'FullStack Dev',
+          desc: '全栈 Web 开发：前后端框架、数据库、部署一站式 Skill。',
+          tags: ['全栈', 'Web', '开发'],
+          cmd: 'openclaw skills install fullstack-dev',
+          color: '#3178c6',
+        },
+        {
+          id: 's13',
+          cat: 'skills',
+          icon: '📚',
+          title: '学术翻译',
+          en: 'Academic Translation',
+          desc: '学术论文中英互译，保持学术格式和术语准确。',
+          tags: ['翻译', '学术', '论文'],
+          cmd: 'openclaw skills install academic-translation',
+          color: '#ec4899',
+        },
+        {
+          id: 's14',
+          cat: 'skills',
+          icon: '📱',
+          title: 'React Native 开发',
+          en: 'React Native Dev',
+          desc: 'React Native 跨平台移动应用开发 Skill。',
+          tags: ['React Native', '移动', '跨平台'],
+          cmd: 'openclaw skills install react-native-dev',
+          color: '#61dafb',
+        },
+        {
+          id: 's15',
+          cat: 'skills',
+          icon: '☁️',
+          title: 'Cloudflare 部署',
+          en: 'Cloudflare Deploy',
+          desc: 'Cloudflare Workers/Pages 部署、DNS 配置、CDN 管理。',
+          tags: ['Cloudflare', '部署', 'CDN'],
+          cmd: 'openclaw skills install cloudflare',
+          color: '#f38020',
+        },
+      ];
+      // ═══ 插件 (80+ 官方) ═══
+      const PLUGINS = [
+        {
+          id: 'p01',
+          cat: 'plugins',
+          icon: '📞',
+          title: '语音通话',
+          type: '官方',
+          desc: 'Plivo/Telnyx/Twilio 语音 — 出站通知、全双工实时语音、流式转写。',
+          cmd: 'openclaw plugins install @openclaw/voice-call',
+          color: '#22c55e',
+        },
+        {
+          id: 'p02',
+          cat: 'plugins',
+          icon: '💚',
+          title: 'Zalo Personal',
+          type: '官方',
+          desc: '通过 zca-js 实现 Zalo 个人账号自动化，无需官方 Bot API。',
+          cmd: 'openclaw plugins install @openclaw/zalouser',
+          color: '#0068ff',
+        },
+        {
+          id: 'p03',
+          cat: 'plugins',
+          icon: '🔥',
+          title: 'Firecrawl',
+          type: '官方',
+          desc: '高级 Web 搜索与抓取，支持 JS 渲染页面，绕过机器人防护。',
+          cmd: 'openclaw plugins install @openclaw/firecrawl-plugin',
+          color: '#ff6b35',
+        },
+        {
+          id: 'p04',
+          cat: 'plugins',
+          icon: '🤖',
+          title: 'LLM 任务',
+          type: '内置',
+          desc: '仅 JSON 的 LLM 调用，返回结构化输出，支持 JSON Schema 验证。',
+          cmd: 'json tools.alsoAllow: ["llm-task"]',
+          color: '#8b5cf6',
+        },
+        {
+          id: 'p05',
+          cat: 'plugins',
+          icon: '🦞',
+          title: 'Lobster 工作流',
+          type: '内置',
+          desc: '类型化多步骤工具流水线，审批检查点、可恢复、确定性运行。',
+          cmd: 'json tools.alsoAllow: ["lobster"]',
+          color: '#06b6d4',
+        },
+        {
+          id: 'p06',
+          cat: 'plugins',
+          icon: '📜',
+          title: 'OpenProse',
+          type: '内置',
+          desc: '可移植 Markdown 工作流格式，编排 AI 会话，多智能体并行。',
+          cmd: 'openclaw plugins enable open-prose',
+          color: '#f59e0b',
+        },
+        {
+          id: 'p07',
+          cat: 'plugins',
+          icon: '💬',
+          title: 'Discord',
+          type: '官方',
+          desc: 'Discord Bot API + Gateway，支持服务器、频道和私信。',
+          cmd: 'openclaw plugins install @openclaw/discord',
+          color: '#5865f2',
+        },
+        {
+          id: 'p08',
+          cat: 'plugins',
+          icon: '💬',
+          title: 'WhatsApp',
+          type: '官方',
+          desc: '使用 Baileys 的 WhatsApp Web 集成，需二维码配对。',
+          cmd: 'openclaw plugins install @openclaw/whatsapp',
+          color: '#25d366',
+        },
+        {
+          id: 'p09',
+          cat: 'plugins',
+          icon: '💬',
+          title: 'Telegram',
+          type: '核心',
+          desc: '通过 grammY 的 Bot API，支持群组、频道和内联模式。',
+          cmd: 'openclaw channels add telegram',
+          color: '#26a5e4',
+        },
+        {
+          id: 'p10',
+          cat: 'plugins',
+          icon: '💬',
+          title: '飞书 Feishu',
+          type: '官方',
+          desc: '飞书/Lark 机器人 WebSocket 集成，企业级消息平台。',
+          cmd: 'openclaw plugins install @openclaw/feishu',
+          color: '#3370ff',
+        },
+        {
+          id: 'p11',
+          cat: 'plugins',
+          icon: '💬',
+          title: 'Slack',
+          type: '官方',
+          desc: 'Bolt SDK 构建的 Slack 工作区应用集成。',
+          cmd: 'openclaw plugins install @openclaw/slack',
+          color: '#4a154b',
+        },
+        {
+          id: 'p12',
+          cat: 'plugins',
+          icon: '💬',
+          title: 'Signal',
+          type: '官方',
+          desc: 'signal-cli 驱动的隐私优先消息集成。',
+          cmd: 'openclaw plugins install @openclaw/signal',
+          color: '#3b5cf7',
+        },
+        {
+          id: 'p13',
+          cat: 'plugins',
+          icon: '💬',
+          title: '微信',
+          type: '外部',
+          desc: '腾讯 iLink 机器人，二维码登录，仅支持私聊。',
+          cmd: 'openclaw plugins install wechat',
+          color: '#07c160',
+        },
+        {
+          id: 'p14',
+          cat: 'plugins',
+          icon: '🔧',
+          title: '浏览器控制',
+          type: '内置',
+          desc: '独立 Chrome 配置文件，智能体浏览器自动化操作。',
+          cmd: 'json plugins.entries.browser.enabled: true',
+          color: '#4285f4',
+        },
+      ];
+      // ═══ 工具 ═══
+      const TOOLS_LIST = [
+        {
+          id: 't01',
+          cat: 'tools',
+          icon: '🔤',
+          title: 'Autocomplete CLI',
+          lang: 'TypeScript',
+          desc: 'CLI 自动补全规范引擎 — Fig 格式规范生成、合并、发布。',
+          tags: ['CLI', '自动补全', '规范'],
+          path: 'tools-hub/autocomplete/',
+        },
+        {
+          id: 't02',
+          cat: 'tools',
+          icon: '🌐',
+          title: 'Browser Agent',
+          lang: 'Rust',
+          desc: '浏览器自动化 CLI — CDP/WebDriver 双驱动，跨平台浏览器控制。',
+          tags: ['Rust', '浏览器', '自动化'],
+          path: 'tools-hub/browser-agent/',
+        },
+        {
+          id: 't03',
+          cat: 'tools',
+          icon: '🔄',
+          title: 'Workflow Builder',
+          lang: 'TypeScript',
+          desc: 'AI 工作流可视化构建器 — Next.js + React Flow 节点编辑。',
+          tags: ['工作流', '可视化', 'Next.js'],
+          path: 'tools-hub/workflow-builder/',
+        },
+        {
+          id: 't04',
+          cat: 'tools',
+          icon: '🎼',
+          title: 'Conductor 编排器',
+          lang: 'TypeScript',
+          desc: '任务编排与执行引擎 — 多步骤自动化工作流调度。',
+          tags: ['编排', '任务', '自动化'],
+          path: 'tools-hub/conductor/',
+        },
+        {
+          id: 't05',
+          cat: 'tools',
+          icon: '🔧',
+          title: 'Code IDE 集成',
+          lang: 'Config',
+          desc: 'IDE 集成配置与市场 — 模型配置、插件市场、编辑器设置。',
+          tags: ['IDE', '配置', '市场'],
+          path: 'tools-hub/code-ide/',
+        },
+        {
+          id: 't06',
+          cat: 'tools',
+          icon: '🐹',
+          title: 'Go 工具集',
+          lang: 'Go',
+          desc: 'Go 标准工具集 — benchcmp/bisect/bundle/deadcode/digraph 等。',
+          tags: ['Go', '工具', '分析'],
+          path: 'tools-hub/golang-tools/',
+        },
+      ];
+      // ═══ 核心包 ═══
+      const CORES = [
+        {
+          id: 'c01',
+          cat: 'core',
+          icon: '📦',
+          title: '@yyc3/skill-registry',
+          v: '1.0.0',
+          desc: '统一 Skill 注册中心 — 标准化注册、发现、调度、降级熔断',
+          status: '✅ Active',
+          cmd: 'cd packages/skill-registry && pnpm build',
+        },
+        {
+          id: 'c02',
+          cat: 'core',
+          icon: '📦',
+          title: '@yyc3/mcp-runtime',
+          v: '1.0.0',
+          desc: '统一 MCP 运行时 — 整合 4 套 MCP 实现 + Skill 桥接',
+          status: '✅ Active',
+          cmd: 'cd packages/mcp-runtime && pnpm build',
+        },
+        {
+          id: 'c03',
+          cat: 'core',
+          icon: '📦',
+          title: '@yyc3/i18n-core',
+          v: '2.4.0',
+          desc: '生产级国际化框架 — 高性能、零依赖、插件化 i18n 方案',
+          status: '✅ Active',
+          cmd: 'cd packages/yyc3-i18n && pnpm build',
+        },
+        {
+          id: 'c04',
+          cat: 'core',
+          icon: '📦',
+          title: 'yyc3-cli',
+          v: '2.0.0',
+          desc: '命令行界面 — 技能构建/验证/去重/统计',
+          status: '✅ Active',
+          cmd: 'pnpm yyc3 --help',
+        },
+        {
+          id: 'c05',
+          cat: 'core',
+          icon: '📦',
+          title: '@yyc3/icons',
+          v: '1k+',
+          desc: 'Lucide 图标库子集 — 1000+ SVG 图标',
+          status: '✅ Active',
+          cmd: 'cd packages/@yyc3/icons && ls icons/*.svg | wc -l',
+        },
+        {
+          id: 'c06',
+          cat: 'core',
+          icon: '📦',
+          title: '@yyc3/skills (legacy)',
+          v: '1.0.0',
+          desc: '旧技能系统 — 184 技能（已弃用，迁至 skill-registry）',
+          status: '⚠️ Deprecated',
+          cmd: 'pnpm skills:dedup',
+        },
+      ];
+
+      // Combine
+      const ALL = [...AGENTS, ...SKILLS, ...PLUGINS, ...TOOLS_LIST, ...CORES];
+      const CATS = {
+        agents: '🤖 AI Family',
+        skills: '🛠️ 技能',
+        plugins: '🔌 插件',
+        tools: '🧰 工具',
+        core: '📦 核心包',
+      };
+      const CATI = { agents: '🤖', skills: '🛠️', plugins: '🔌', tools: '🧰', core: '📦' };
+      const CATC = { agents: '#8b5cf6', skills: '#06b6d4', plugins: '#ec4899', tools: '#f59e0b', core: '#22c55e' };
+      let done = new Set();
+      try {
+        const d = JSON.parse(localStorage.getItem('yyc3_done'));
+        if (d) done = new Set(d);
+      } catch (e) {}
+      function svD() {
+        localStorage.setItem('yyc3_done', JSON.stringify([...done]));
+      }
+      function pct() {
+        const t = ALL.length;
+        const d = done.size;
+        return Math.round((d / t) * 100);
+      }
+      function renderSB() {
+        const n = document.getElementById('sbNav');
+        let h = '';
+        for (const [cat, lb] of Object.entries(CATS)) {
+          const its = ALL.filter((g) => g.cat === cat);
+          h += `<div class="sb-group"><div class="sb-group-title">${lb}</div>`;
+          its.forEach((g) => {
+            h += `<a class="sb-item" href="#" onclick="showG('${g.id}')"><span class="sb-dot${done.has(g.id) ? ' done' : ''}"></span><span class="sb-label">${g.title}</span></a>`;
+          });
+          h += `</div>`;
+        }
+        n.innerHTML = h;
+      }
+      function renderD(f = 'all') {
+        const c = document.getElementById('dashC');
+        const cats = [...new Set(ALL.map((g) => g.cat))];
+        let h = '';
+        cats.forEach((cat) => {
+          const its =
+            f === 'all'
+              ? ALL.filter((g) => g.cat === cat)
+              : ALL.filter((g) => g.cat === cat && g.title.toLowerCase().includes(f));
+          if (!its.length) return;
+          h += `<div class="cat-section"><div class="cat-header"><span class="cat-icon">${CATI[cat]}</span><span class="cat-name">${CATS[cat]}</span><span class="cat-count">${its.length}</span><div class="cat-line"></div></div><div class="card-grid">`;
+          its.forEach((g) => {
+            h += `<div class="guide-card" onclick="showG('${g.id}')"><div class="gc-bar" style="background:${CATC[g.cat]}"></div><div class="gc-body"><div class="gc-head"><div class="gc-icon" style="background:${g.color || CATC[g.cat]}22;color:${g.color || CATC[g.cat]}">${g.icon}</div><div class="gc-info"><div class="gc-title">${g.title}${g.en ? ` <span class="gc-title-en">${g.en}</span>` : ''}</div><div class="gc-meta"><span class="gc-tag ${g.cat}">${CATS[g.cat]}</span>${g.role ? `<span class="gc-time">${g.role}</span>` : ''}${g.v ? `<span class="gc-time">v${g.v}</span>` : ''}</div></div></div><div class="gc-desc">${g.desc}</div>`;
+            if (g.tags) {
+              h += `<div class="gc-tags">${g.tags
+                .slice(0, 3)
+                .map((t) => `<span>${t}</span>`)
+                .join('')}</div>`;
+            }
+            if (g.cmd) {
+              h += `<div class="gc-cmd">${g.cmd}<span class="cmd-copy">📋</span></div>`;
+            }
+            h += `</div></div>`;
+          });
+          h += `</div></div>`;
+        });
+        c.innerHTML = h;
+        rFB();
+        rSt();
+        document.querySelectorAll('.gc-cmd').forEach((el) =>
+          el.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const t = this.textContent.replace('📋', '').trim();
+            navigator.clipboard.writeText(t).then(() => {
+              const o = this.querySelector('.cmd-copy');
+              o.textContent = '✅';
+              setTimeout(() => (o.textContent = '📋'), 1500);
+            });
+          })
+        );
+      }
+      function rFB() {
+        const b = document.getElementById('fBar');
+        let h = '<button class="filter-btn active" data-c="all" onclick="fG(\'all\',this)">📋 全部</button>';
+        for (const [c, l] of Object.entries(CATS)) {
+          h += `<button class="filter-btn" data-c="${c}" onclick="fG('${c}',this)">${CATI[c]} ${l}</button>`;
+        }
+        b.innerHTML = h;
+      }
+      function fG(c, btn) {
+        document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.cat-section').forEach((s) => {
+          const catName = s.querySelector('.cat-name').textContent;
+          if (c === 'all' || catName === CATS[c]) s.style.display = '';
+          else s.style.display = 'none';
+        });
+      }
+      function rSt() {
+        const s = document.getElementById('dashS');
+        s.innerHTML = `<div class="stat-card"><span class="stat-num">8</span><span class="stat-label">AI 智能体</span></div><div class="stat-card"><span class="stat-num">283</span><span class="stat-label">社区技能</span></div><div class="stat-card"><span class="stat-num">121</span><span class="stat-label">市场化技能</span></div><div class="stat-card"><span class="stat-num">202</span><span class="stat-label">NVIDIA 技能</span></div><div class="stat-card"><span class="stat-num">80+</span><span class="stat-label">插件</span></div><div class="stat-card"><span class="stat-num">6</span><span class="stat-label">工具</span></div>`;
+      }
+      function showG(id) {
+        const g = ALL.find((x) => x.id === id);
+        if (!g) return;
+        const d = document.getElementById('gd');
+        const v = document.getElementById('dashV');
+        v.style.display = 'none';
+        d.classList.add('active');
+        document.getElementById('tbT').textContent = g.title;
+        document.getElementById('tbS').textContent = g.desc;
+        let h = `<button class="gd-back" onclick="showDash()">← 返回总览</button>
+<div class="gd-hero"><div class="gd-hero-top"><div class="gd-hero-icon" style="background:${g.color || CATC[g.cat]}22;color:${g.color || CATC[g.cat]}">${g.icon}</div><div class="gd-hero-info"><div class="gd-hero-title">${g.title}${g.en ? ` (${g.en})` : ''}</div><div class="gd-hero-desc">${g.desc}</div><div class="gd-hero-meta"><span>🏷️ ${(g.tags || []).join(' · ') || CATS[g.cat]}</span><span>📂 ${CATS[g.cat]}</span>${g.role ? `<span>🎯 ${g.role}</span>` : ''}</div></div></div></div>
+<div style="margin-bottom:20px;padding:12px 16px;border-radius:8px;background:var(--surface);border:1px solid var(--border)"><label><input type="checkbox" onchange="togD('${g.id}')"${done.has(g.id) ? ' checked' : ''}> 标记为已读</label></div>`;
+        // detail content
+        if (g.cat === 'agents') {
+          h += `<div class="gd-section"><h3><span class="h-icon">📋</span>基础档案</h3><table class="doc-table"><tr><th>属性</th><th>内容</th></tr><tr><td>名号</td><td>${g.title} (${g.en})</td></tr><tr><td>角色</td><td>${g.role}</td></tr><tr><td>核心能力</td><td>${(g.tags || []).join('、')}</td></tr><tr><td>管理层级</td><td>${CATS[g.cat]}</td></tr><tr><td>CLI 命令</td><td><code>${g.cmd}</code></td></tr></table></div>`;
+          h += `<div class="gd-section"><h3><span class="h-icon">🎯</span>核心职责</h3><ul><li>在 YYC³ AI Family 中主导 ${g.title} 相关领域</li><li>与其他 7 位家人协同完成复杂任务</li><li>通过五维框架驱动（时间·空间·属性·事件·关联）</li><li>遵循「言启千行代码，语枢万物智能」的核心理念</li></ul></div>`;
+        }
+        if (g.cat === 'skills' || g.cat === 'plugins') {
+          h += `<div class="gd-section"><h3><span class="h-icon">⚡</span>快速安装</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>${g.cmd}</pre></div></div>`;
+          h += `<div class="gd-section"><h3><span class="h-icon">📖</span>说明</h3><p>${g.desc}${g.en ? ` (${g.en})` : ''}</p></div>`;
+        }
+        if (g.cat === 'tools') {
+          h += `<div class="gd-section"><h3><span class="h-icon">🔧</span>技术细节</h3><table class="doc-table"><tr><th>属性</th><th>内容</th></tr><tr><td>名称</td><td>${g.title}</td></tr><tr><td>语言</td><td>${g.lang}</td></tr><tr><td>路径</td><td><code>${g.path}</code></td></tr><tr><td>标签</td><td>${(g.tags || []).join('、')}</td></tr></table></div>`;
+        }
+        if (g.cat === 'core') {
+          h += `<div class="gd-section"><h3><span class="h-icon">📦</span>包信息</h3><table class="doc-table"><tr><th>属性</th><th>内容</th></tr><tr><td>包名</td><td>${g.title}</td></tr><tr><td>版本</td><td>${g.v}</td></tr><tr><td>描述</td><td>${g.desc}</td></tr><tr><td>状态</td><td>${g.status}</td></tr></table></div><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>${g.cmd}</pre></div>`;
+        }
+        h += `<div class="gd-section"><h3><span class="h-icon">🔗</span>相关资源</h3><p>查看 YYC³ AI Agent Archive 获取完整文档：<br/><code>packages/${g.title}/</code> 或 <code>skills-hub/community/${g.title}/</code></p></div>`;
+        d.innerHTML = h;
+        renderSB();
+      }
+      function showDash() {
+        document.getElementById('dashV').style.display = 'block';
+        document.getElementById('gd').classList.remove('active');
+        document.getElementById('tbT').textContent = 'YYC³ Agent Hub';
+        document.getElementById('tbS').textContent = 'AI Family · 智能体资产矩阵';
+        renderD();
+        renderSB();
+      }
+      function togD(id) {
+        if (done.has(id)) done.delete(id);
+        else done.add(id);
+        svD();
+        rSt();
+        renderSB();
+      }
+      function togT() {
+        document.body.classList.toggle('light');
+        const i = document.getElementById('ti');
+        i.innerHTML = document.body.classList.contains('light')
+          ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+          : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+      }
+      function togS() {
+        document.getElementById('sidebar').classList.toggle('hidden');
+        document.getElementById('main').classList.toggle('expanded');
+      }
+      function fS(v) {
+        const l = v.toLowerCase();
+        document.querySelectorAll('.sb-item').forEach((i) => {
+          i.style.display = i.textContent.toLowerCase().includes(l) ? '' : 'none';
+        });
+      }
+      function topbarSearch(v) {
+        fS(v);
+      }
+      function sharePg() {
+        const t = document.getElementById('tbT').textContent;
+        if (navigator.share) navigator.share({ title: t, text: t, url: location.href }).catch(() => {});
+        else navigator.clipboard.writeText(location.href).then(() => alert('链接已复制！'));
+      }
+      function downloadPg() {
+        const b = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(b);
+        a.download = 'YYC3-Agent-Hub.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+      function copyC(btn) {
+        const code = btn.closest('.code-block').querySelector('pre').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          btn.textContent = '已复制';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = '复制';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      }
+      function updClock() {
+        const d = new Date();
+        document.getElementById('clockD').textContent = d.toLocaleTimeString('zh-CN', { hour12: false });
+      }
+      setInterval(updClock, 1000);
+      updClock();
+      renderSB();
+      renderD();
+      rSt();
+    </script>
+  </body>
+</html>

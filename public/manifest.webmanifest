@@ -1,0 +1,23 @@
+{
+  "name": "YYC³ AI Family · Comic Drama",
+  "short_name": "YYC³",
+  "description": "AI 驱动的工业化漫剧生产平台 · 8 Agent 协同 · 全链路闭环",
+  "icons": [
+    {
+      "src": "/yyc3-icons/Web%20App/android-chrome-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/yyc3-icons/Web%20App/android-chrome-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0a1628",
+  "background_color": "#0a1628",
+  "display": "standalone",
+  "start_url": "/"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "tos-assist-plugin",
+  "name": "TerraMaster TOS Assist",
+  "description": "Provides TOS CLI documentation, authentication management, and skill system for operating TerraMaster NAS.",
+  "skills": ["tos_skills"],
+  "contracts": {
+    "tools": ["auth_login", "auth_get_api_credentials", "tos-actions", "tos-refresh-skills"]
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false
+  }
+}

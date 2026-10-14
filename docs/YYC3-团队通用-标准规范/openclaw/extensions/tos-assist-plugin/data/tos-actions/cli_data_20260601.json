@@ -1,0 +1,6208 @@
+{
+  "tos-info": {
+    "command": "tos info [--json]",
+    "description": "显示系统总体信息（TOS 版本、硬件、CPU、内存、温度、风扇）。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": {
+      "headers": [
+        "PROPERTY",
+        "VALUE"
+      ],
+      "example_rows": [
+        [
+          "TOS Version",
+          "7.0.0447"
+        ],
+        [
+          "BIOS Version",
+          "6.00"
+        ],
+        [
+          "Model",
+          "F4-424"
+        ],
+        [
+          "Uptime",
+          "12 days 05:34:48"
+        ],
+        [
+          "IP Address",
+          "192.168.1.20"
+        ],
+        [
+          "CPU Model",
+          "Intel N95"
+        ],
+        [
+          "CPU Usage",
+          "18%"
+        ],
+        [
+          "Memory Total",
+          "8 GB"
+        ],
+        [
+          "Memory Usage",
+          "42%"
+        ],
+        [
+          "System Temp",
+          "41 °C"
+        ],
+        [
+          "CPU Temp",
+          "52 °C"
+        ],
+        [
+          "Fan Speed",
+          "1200 RPM"
+        ]
+      ]
+    },
+    "output_json": {
+      "tos_version": "7.0.0447",
+      "bios_version": "6.00",
+      "model": "F4-424",
+      "uptime": "12 days 05:34:48",
+      "ip_address": "192.168.1.20",
+      "cpu_model": "Intel N95",
+      "cpu_usage": 18,
+      "memory_total": "8 GB",
+      "memory_usage": 42,
+      "system_temperature": 41,
+      "cpu_temperature": 52,
+      "fan_speed": 1200
+    },
+    "output_json_fields": [
+      {
+        "name": "tos_version",
+        "type": "string",
+        "description": "TOS 系统版本号"
+      },
+      {
+        "name": "bios_version",
+        "type": "string",
+        "description": "BIOS 版本号，不可用时为 \"-\""
+      },
+      {
+        "name": "model",
+        "type": "string",
+        "description": "设备型号，不可用时为 \"-\""
+      },
+      {
+        "name": "uptime",
+        "type": "string",
+        "description": "开机时长，格式：X days HH:MM:SS 或 HH:MM:SS"
+      },
+      {
+        "name": "ip_address",
+        "type": "string",
+        "description": "物理网口 IPv4 地址（多个用逗号分隔）"
+      },
+      {
+        "name": "cpu_model",
+        "type": "string",
+        "description": "CPU 型号"
+      },
+      {
+        "name": "cpu_usage",
+        "type": "integer",
+        "description": "CPU 使用率百分比"
+      },
+      {
+        "name": "memory_total",
+        "type": "string",
+        "description": "总内存，如 \"8 GB\""
+      },
+      {
+        "name": "memory_usage",
+        "type": "integer",
+        "description": "内存使用率百分比"
+      },
+      {
+        "name": "system_temperature",
+        "type": "integer|null",
+        "description": "系统温度（°C），无传感器时为 null"
+      },
+      {
+        "name": "cpu_temperature",
+        "type": "integer|null",
+        "description": "CPU 温度（°C），无传感器时为 null"
+      },
+      {
+        "name": "fan_speed",
+        "type": "integer|null",
+        "description": "风扇转速（RPM），无传感器时为 null"
+      }
+    ],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-ssh-status": {
+    "command": "tos ssh status [--json]",
+    "description": "显示 SSH 服务的启用状态和配置端口。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "PROPERTY     VALUE\nSSH Status   enabled\nPort         22",
+    "output_json": "{\n  \"enabled\": true,\n  \"port\": 22\n}",
+    "output_json_fields": [
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "description": "是否已启用"
+      },
+      {
+        "name": "port",
+        "type": "integer",
+        "description": "服务端口号"
+      }
+    ],
+    "flags": [],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-ssh-enable": {
+    "command": "tos ssh enable [--port <port>]",
+    "description": "启用并启动 SSH 服务。可指定端口，默认 22。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": false,
+    "output_table": "SSH enabled on port 22",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [
+      {
+        "flag": "--port",
+        "description": "SSH 端口号（默认 22）"
+      }
+    ],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-ssh-disable": {
+    "command": "tos ssh disable [--yes]",
+    "description": "禁用 SSH 服务。高风险操作，可能断开当前远程会话。本地命令，无需认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "output_table": "SSH disabled",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-buzzer-status": {
+    "command": "tos buzzer status [--json]",
+    "description": "显示蜂鸣器告警状态。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "PROPERTY        VALUE\nBuzzer Status   enabled",
+    "output_json": "{\"enabled\": true}",
+    "output_json_fields": [
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "description": "是否已启用"
+      }
+    ],
+    "flags": [],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-buzzer-enable": {
+    "command": "tos buzzer enable",
+    "description": "启动蜂鸣器警报脚本。若蜂鸣器已启用则输出 \"Buzzer already enabled\" 并返回 0（幂等）。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": false,
+    "output_table": "Buzzer enabled",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-buzzer-disable": {
+    "command": "tos buzzer disable",
+    "description": "禁用蜂鸣器告警。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": false,
+    "output_table": "Buzzer disabled",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-disk-list": {
+    "command": "tos disk list [--detail] [--sort <size|status|temp>] [--json]",
+    "description": "列出所有磁盘驱动器。远程命令,通过Unix socket通信。",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "flag": "--detail",
+        "description": "显示额外信息（类型、带宽、阵列成员）"
+      },
+      {
+        "flag": "--sort",
+        "description": "排序: size, status, temp"
+      }
+    ],
+    "output_table": "DISK ID   MODEL                    CAPACITY   HEALTH   TEMP   SYSTEM DISK\nHDD1      ST2000VX017-3CV102       2.00 TB    normal   -      No",
+    "output_json": "[{\"disk_id\": \"HDD1\", \"model\": \"ST2000VX017-3CV102\", \"capacity\": \"2.00 TB\", \"capacity_bytes\": 2000000000000, \"capacity_human\": \"2.00 TB\", \"health\": \"normal\", \"temperature_celsius\": \"\", \"is_system_disk\": false}]",
+    "health_values": [
+      "normal(OverallHealth=0)",
+      "warning(OverallHealth=1)",
+      "error(OverallHealth=2)",
+      "-(unknown, OverallHealth=999/other)"
+    ],
+    "output_json_fields": [
+      {
+        "name": "disk_id",
+        "type": "string",
+        "description": "磁盘标识符，如 HDD1"
+      },
+      {
+        "name": "model",
+        "type": "string",
+        "description": "设备型号"
+      },
+      {
+        "name": "capacity",
+        "type": "string",
+        "description": "磁盘容量（人类可读）"
+      },
+      {
+        "name": "capacity_bytes",
+        "type": "integer",
+        "description": "磁盘容量（字节）"
+      },
+      {
+        "name": "capacity_human",
+        "type": "string",
+        "description": "磁盘容量（人类可读）"
+      },
+      {
+        "name": "health",
+        "type": "string",
+        "enum": [
+          "normal",
+          "warning",
+          "error",
+          "-"
+        ],
+        "description": "磁盘健康状态"
+      },
+      {
+        "name": "temperature_celsius",
+        "type": "string",
+        "description": "磁盘温度（°C），虚拟机磁盘为空字符串"
+      },
+      {
+        "name": "is_system_disk",
+        "type": "boolean",
+        "description": "是否为系统盘"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-disk-mount": {
+    "command": "tos disk mount <disk-name>",
+    "description": "挂载磁盘驱动器。已挂载时幂等返回 0。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "disk-name",
+        "required": true,
+        "description": "磁盘名称,如 sda"
+      }
+    ],
+    "output_table": "Disk mounted: sda",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-disk-unmount": {
+    "command": "tos disk unmount <disk-name> [--yes]",
+    "description": "卸载磁盘驱动器（高风险,可能中断数据访问）。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "disk-name",
+        "required": true,
+        "description": "磁盘名称"
+      }
+    ],
+    "output_table": "Disk unmounted: sda",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-fan-status": {
+    "command": "tos fan status [--json]",
+    "description": "显示当前风扇控制模式和转速。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "PROPERTY      VALUE\nFan Control   enabled\nMode          auto\nSpeed         1200 RPM",
+    "output_json": "{\n  \"enabled\": true,\n  \"mode\": \"auto\",\n  \"rpm\": 1200\n}",
+    "output_json_fields": [
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "description": "是否已启用"
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "enum": [
+          "auto",
+          "low",
+          "mid",
+          "high"
+        ],
+        "description": "风扇控制模式"
+      },
+      {
+        "name": "rpm",
+        "type": "integer",
+        "description": "风扇转速（RPM）"
+      }
+    ],
+    "flags": [],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-fan-set-mode": {
+    "command": "tos fan set-mode --mode <auto|low|mid|high>",
+    "description": "设置风扇控制模式。设置时保留现有蜂鸣器配置不变。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--mode",
+        "shorthand": "",
+        "description": "风扇模式，必填，可选值：auto, low, mid, high"
+      }
+    ],
+    "output_table": "Fan mode set to auto",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-storage-info": {
+    "command": "tos storage info [--scope <disk|volume|raid|all>] [--json]",
+    "description": "显示存储总体信息（磁盘数量、阵列数量、卷数量、Hyper Cache状态）。远程命令,通过Unix socket (/var/run/socks/storage.sock)通信。",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "flag": "--scope",
+        "description": "过滤范围: disk, volume, raid, all (默认: all)"
+      }
+    ],
+    "output_table": "PROPERTY           VALUE\nDisk Count         1\nHealthy Disks      0\nWarning Disks      0\nFailed Disks       0\nArray Count        1\nVolume Count       1\nExternal Devices   0\nHyper Cache        disabled",
+    "output_json": "{\"disk_count\": 1, \"healthy_disk_count\": 0, \"warning_disk_count\": 0, \"failed_disk_count\": 0, \"array_count\": 1, \"volume_count\": 1, \"external_device_count\": 0, \"hypercache_enabled\": false}",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-system-reboot": {
+    "command": "tos system reboot [--yes]",
+    "description": "重启 TOS 系统（高风险）。交互模式显示确认提示，非交互模式必须传 --yes。本地命令，无需认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "Reboot scheduled",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-system-poweroff": {
+    "command": "tos system poweroff [--yes]",
+    "description": "安全关机 TOS 系统（高风险）。交互模式显示确认提示，非交互模式必须传 --yes。本地命令，无需认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "Power off scheduled",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-log-view": {
+    "command": "tos log view [event] [--level <level>] [--lines <n>] [--json]",
+    "description": "查看系统日志。可指定事件类别和日志级别。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "args": [
+      {
+        "name": "event",
+        "description": "事件类别: all, system, connect, file, samba, ftp, storage, transmit (默认: all)",
+        "required": false
+      }
+    ],
+    "output_table": "TIME                        LEVEL   MODULE   USER   MESSAGE\n2026-04-23T10:00:00+08:00   INFO    system   -      System started",
+    "output_json": "[{\"time\": \"2026-04-23T10:00:00+08:00\", \"level\": \"INFO\", \"module\": \"system\", \"user\": \"test\", \"message\": \"System started\"}]",
+    "output_json_fields": [
+      {
+        "name": "time",
+        "type": "string",
+        "format": "ISO 8601 datetime",
+        "description": "日志时间"
+      },
+      {
+        "name": "level",
+        "type": "string",
+        "enum": [
+          "INFO",
+          "WARN",
+          "ERROR"
+        ],
+        "description": "日志级别"
+      },
+      {
+        "name": "module",
+        "type": "string",
+        "description": "日志来源模块"
+      },
+      {
+        "name": "user",
+        "type": "string",
+        "description": "关联用户名"
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "description": "日志消息内容"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--level",
+        "description": "日志级别: all, info, warn, error (默认: all)"
+      },
+      {
+        "flag": "--lines",
+        "description": "显示行数（默认 20）"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-log-clear": {
+    "command": "tos log clear [event] [--level <level>] [--yes]",
+    "description": "清除系统日志。高风险操作，不可逆删除。远程命令，需要认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "event",
+        "description": "事件类别: all, system, connect, file, samba, ftp, storage, transmit (默认: all)",
+        "required": false
+      }
+    ],
+    "output_table": "Logs cleared: all",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [
+      {
+        "flag": "--level",
+        "description": "日志级别: all, info, warn, error (默认: all)"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-log-export": {
+    "command": "tos log export [event] [--level <level>] [--output <path>]",
+    "description": "导出系统日志为 CSV 文件。可指定事件类别和日志级别。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "event",
+        "description": "事件类别: all, system, connect, file, samba, ftp, storage, transmit (默认: all)",
+        "required": false
+      }
+    ],
+    "output_table": "Logs exported\nOutput Path    /tmp/tos-log.csv\nFile Size      12 MB",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [
+      {
+        "flag": "--level",
+        "description": "日志级别: all, info, warn, error (默认: all)"
+      },
+      {
+        "flag": "--output",
+        "description": "输出目录（默认当前目录）"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-firewall-status": {
+    "command": "tos firewall status [--json]",
+    "description": "显示防火墙启用状态。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "PROPERTY          VALUE\nFirewall Status   enabled",
+    "output_json": "{\"enabled\": true}",
+    "output_json_fields": [
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "description": "是否已启用"
+      }
+    ],
+    "flags": [],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-firewall-enable": {
+    "command": "tos firewall enable",
+    "description": "启用防火墙。若已启用则输出 \"Firewall already enabled\" 并返回 0（幂等）。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": false,
+    "output_table": "Firewall enabled",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-firewall-disable": {
+    "command": "tos firewall disable [--yes]",
+    "description": "禁用防火墙（高风险，暴露所有网络端口）。若已禁用则输出 \"Firewall already disabled\" 并返回 0（幂等）。交互模式显示确认提示，非交互模式必须传 --yes。本地命令，无需认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "Firewall disabled",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-system-update-check": {
+    "command": "tos system update check [--json]",
+    "description": "检查系统更新。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "Update available\nCurrent Version    7.0.0447\nTarget Version     7.0.0559\nPackage Size       774.2 MB",
+    "output_json": {
+      "has_update": true,
+      "current_version": "7.0.0447",
+      "target_version": "7.0.0559",
+      "package_size": 811808571
+    },
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-system-update-install": {
+    "command": "tos system update install [--yes]",
+    "description": "下载并安装系统更新（高风险）。完整流程：检查→下载(进度)→安装(进度)→可能重启。交互模式显示确认提示，非交互模式必须传 --yes。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      },
+      {
+        "name": "--force",
+        "shorthand": "",
+        "description": "强制安装"
+      }
+    ],
+    "output_table": "Update found: 7.0.0447 → 7.0.0559\nDownloading... 100%\nStarting system upgrade...\nUpgrade complete\nReboot required: yes",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-version": {
+    "command": "tos --version",
+    "description": "显示版本号",
+    "supports_json": true,
+    "output_table": "TOS CLI 1.0.0\nTOS 7.0.0\nBuild 20260423",
+    "output_json": {
+      "cli_version": "1.0.0",
+      "tos_version": "7.0.0",
+      "build": "20260423"
+    },
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-fileservice-status": {
+    "command": "tos fileservice status [<service-name>] [--json]",
+    "description": "显示文件服务状态。指定服务名则只显示该服务。本地命令，无需认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "args": [
+      {
+        "name": "service-name",
+        "description": "服务名: smb, nfs, ftp, webdav, rsync（可选）",
+        "required": false
+      }
+    ],
+    "output_table": "SERVICE   ENABLED   STATUS    PORT\nsmb       true      running   445",
+    "output_json": "[{\"service_name\": \"smb\", \"enabled\": true, \"status\": \"running\", \"port\": \"445\"}]",
+    "output_json_fields": [
+      {
+        "name": "service_name",
+        "type": "string",
+        "description": "文件服务名称"
+      },
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "description": "是否已启用"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive",
+          "disabled"
+        ],
+        "description": "资源状态。用户: active=已启用/inactive=未激活/disabled=已禁用; 阵列/卷: normal/degraded/corrupted 等"
+      },
+      {
+        "name": "port",
+        "type": "integer",
+        "description": "服务端口号"
+      }
+    ],
+    "flags": [],
+    "auth": {
+      "required": false
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-fileservice-enable": {
+    "command": "tos fileservice enable <service-name>",
+    "alias": "tos fs enable <service-name>",
+    "description": "启用文件服务。若已启用则输出 \"File service already enabled\" 并返回 4（状态冲突）。校验服务名，写入配置文件 enable: true，执行 systemctl enable 和 systemctl start。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "service-name",
+        "required": true,
+        "description": "文件服务名称，可选值：smb, nfs, ftp, webdav, rsync（不区分大小写）"
+      }
+    ],
+    "output_table": "File service enabled: smb",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-fileservice-disable": {
+    "command": "tos fileservice disable <service-name> [--yes]",
+    "alias": "tos fs disable <service-name> [--yes]",
+    "description": "禁用文件服务（高风险）。若已禁用则输出 \"File service already disabled\" 并返回 0（幂等）。可能中断活动文件访问。交互模式显示确认提示，非交互模式必须传 --yes。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "service-name",
+        "required": true,
+        "description": "文件服务名称，可选值：smb, nfs, ftp, webdav, rsync（不区分大小写）"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "File service disabled: smb",
+    "output_json": null,
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-list": {
+    "command": "tos user list [--status <active|inactive>] [--json]",
+    "description": "列出所有本地用户。可按状态过滤。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "USERNAME   STATUS    LAST LOGIN\nadmin      active    2026-04-23T09:12:00+08:00\nalice      inactive  -",
+    "output_json": "[{\"username\": \"admin\", \"status\": \"active\", \"last_login\": \"2026-04-23T09:12:00+08:00\"}]",
+    "output_json_fields": [
+      {
+        "name": "username",
+        "type": "string",
+        "description": "TOS 本地用户名"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive",
+          "disabled"
+        ],
+        "description": "资源状态。用户: active=已启用/inactive=未激活/disabled=已禁用; 阵列/卷: normal/degraded/corrupted 等"
+      },
+      {
+        "name": "last_login",
+        "type": "string | null",
+        "format": "ISO 8601 datetime",
+        "description": "最后一次登录时间。用户从未登录时为 null"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--status",
+        "description": "按状态过滤: active, inactive"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-add": {
+    "command": "tos user add <username> [--password <pw>] [--password-stdin] [--group <name>] [--enabled true|false] [--yes]",
+    "description": "创建新的本地用户。交互模式逐项提示输入用户名、密码、用户组和启用状态；非交互模式需传 --yes 及密码（推荐 --password-stdin）。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "username",
+        "required": true,
+        "description": "用户名"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--password",
+        "shorthand": "",
+        "description": "明文密码（不推荐，会暴露在进程列表中）"
+      },
+      {
+        "name": "--password-stdin",
+        "shorthand": "",
+        "description": "从标准输入读取密码（推荐）"
+      },
+      {
+        "name": "--group",
+        "shorthand": "",
+        "description": "主用户组，默认 users"
+      },
+      {
+        "name": "--enabled",
+        "shorthand": "",
+        "description": "是否启用，默认 true"
+      },
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过交互确认"
+      }
+    ],
+    "mutual_exclusions": [
+      [
+        "--password",
+        "--password-stdin"
+      ]
+    ],
+    "output_table": "User created: alice",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-delete": {
+    "command": "tos user delete <username> [--yes]",
+    "description": "删除本地用户（高风险，不可逆）。交互模式显示确认提示，非交互模式必须传 --yes。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "username",
+        "required": true,
+        "description": "要删除的用户名"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "User deleted: alice",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-group-list": {
+    "command": "tos user-group list [--detail] [--json]",
+    "description": "列出所有本地用户组。--detail 显示成员列表。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "GROUP NAME   DESCRIPTION       MEMBER COUNT\nadmin        Administrators    2",
+    "output_json": "[{\"group_name\": \"admin\", \"description\": \"Administrators\", \"member_count\": 2, \"members\": [\"root\"]}]",
+    "output_json_fields": [
+      {
+        "name": "group_name",
+        "type": "string",
+        "description": "用户组名称"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "用户组描述。daemon 可能返回 i18n 变量名"
+      },
+      {
+        "name": "member_count",
+        "type": "integer",
+        "description": "组成员数量"
+      },
+      {
+        "name": "members",
+        "type": "array<string>",
+        "description": "组成员用户名列表。仅 --detail 模式返回"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--detail",
+        "description": "显示成员列表（增加 MEMBERS 列）"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-group-add": {
+    "command": "tos user-group add <group-name> [--description <desc>]",
+    "description": "创建新的本地用户组。可指定描述。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "group-name",
+        "description": "用户组名称",
+        "required": true
+      }
+    ],
+    "output_table": "User group created: admins",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [
+      {
+        "flag": "--description",
+        "description": "用户组描述"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-group-delete": {
+    "command": "tos user-group delete <group-name> [--yes]",
+    "description": "删除本地用户组（高风险，不可逆）。交互模式显示确认提示，非交互模式必须传 --yes。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "group-name",
+        "required": true,
+        "description": "要删除的用户组名称"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "User group deleted: admins",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-user-online": {
+    "command": "tos user online [--json]",
+    "description": "显示当前在线用户，包括 HTTP、SMB、NFS、FTP、SSH、WebDAV 等活动连接。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": {
+      "headers": [
+        "USERNAME",
+        "IP",
+        "LOGIN TIME",
+        "SERVICE"
+      ],
+      "example_rows": [
+        [
+          "admin",
+          "192.168.1.10",
+          "2026-04-23T09:12:00",
+          "TOS Web"
+        ],
+        [
+          "admin",
+          "192.168.1.10",
+          "2026-04-23T09:12:00",
+          "SSH"
+        ],
+        [
+          "alice",
+          "10.0.0.5",
+          "2026-04-22T18:30:00",
+          "SMB"
+        ]
+      ]
+    },
+    "output_json": [
+      {
+        "username": "admin",
+        "ip": "192.168.1.10",
+        "login_time": "2026-04-23T09:12:00",
+        "service": "TOS Web"
+      },
+      {
+        "username": "admin",
+        "ip": "192.168.1.10",
+        "login_time": "2026-04-23T09:12:00",
+        "service": "SSH"
+      },
+      {
+        "username": "alice",
+        "ip": "10.0.0.5",
+        "login_time": "2026-04-22T18:30:00",
+        "service": "SMB"
+      }
+    ],
+    "output_json_fields": [
+      {
+        "name": "username",
+        "type": "string",
+        "description": "用户名"
+      },
+      {
+        "name": "ip",
+        "type": "string",
+        "description": "客户端 IP 地址"
+      },
+      {
+        "name": "login_time",
+        "type": "string",
+        "description": "登录时间，ISO 8601 格式（YYYY-MM-DDTHH:mm:ss）"
+      },
+      {
+        "name": "service",
+        "type": "string",
+        "description": "服务类型：TOS Web / SSH / SMB / NFS / FTP / WebDAV / SCP 等"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-shared-folder-list": {
+    "command": "tos shared-folder list [--detail] [--json]",
+    "description": "列出所有共享文件夹。--detail 显示隐藏状态和启用状态。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "NAME     PATH       ENABLED   ENCRYPTED\npublic   Volume3    true      No",
+    "output_json": "[{\"folder_id\": 1, \"folder_name\": \"public\", \"device\": \"Volume3\", \"disabled\": false, \"ecryptfs\": 0}]",
+    "output_json_fields": [
+      {
+        "name": "folder_id",
+        "type": "integer",
+        "description": "共享文件夹 ID"
+      },
+      {
+        "name": "folder_name",
+        "type": "string",
+        "description": "共享文件夹名称"
+      },
+      {
+        "name": "device",
+        "type": "string",
+        "description": "所在存储设备名，如 Volume3"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "用户组描述。daemon 可能返回 i18n 变量名"
+      },
+      {
+        "name": "ecryptfs",
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ],
+        "description": "是否加密。0=否, 1=是"
+      },
+      {
+        "name": "hidden",
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ],
+        "description": "是否隐藏。0=否, 1=是"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "是否已禁用"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--detail",
+        "description": "显示 HIDDEN 和 STATUS 列"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-shared-folder-show": {
+    "command": "tos shared-folder show <folder-id> [--json]",
+    "description": "显示指定共享文件夹的详细信息，包括挂载路径、所有者、卷、回收站、Time Machine、SMB/NFS/FTP/WebDAV 状态等。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "args": [
+      {
+        "name": "folder-id",
+        "required": true,
+        "description": "共享文件夹的 ID"
+      }
+    ],
+    "output_table": {
+      "headers": [
+        "PROPERTY",
+        "VALUE"
+      ],
+      "example_rows": [
+        [
+          "Folder ID",
+          "1"
+        ],
+        [
+          "Folder Name",
+          "public"
+        ],
+        [
+          "Device",
+          "Volume3"
+        ],
+        [
+          "Mount Path",
+          "/Volume3/public"
+        ],
+        [
+          "Description",
+          "Public share"
+        ],
+        [
+          "Owner",
+          "super"
+        ],
+        [
+          "Encrypted",
+          "No"
+        ],
+        [
+          "Hidden",
+          "No"
+        ],
+        [
+          "Recycle Bin",
+          "On"
+        ],
+        [
+          "Save Days",
+          "20"
+        ],
+        [
+          "Time Machine",
+          "Yes"
+        ],
+        [
+          "Quota Flag",
+          "Disabled"
+        ],
+        [
+          "SMB",
+          "Yes"
+        ],
+        [
+          "NFS",
+          "No"
+        ]
+      ]
+    },
+    "output_json": {
+      "folder_id": 1,
+      "folder_name": "public",
+      "device": "Volume3",
+      "mnt_path": "/Volume3/public",
+      "description": "Public share",
+      "hidden": 0,
+      "ecryptfs": 0,
+      "owner": "super",
+      "volume_name": "",
+      "type": "LFS"
+    },
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-shared-folder-add": {
+    "command": "tos shared-folder add <folder-name> [--path <path>] [--device <device>] [--desc <desc>] [--encrypt] [--recycle <0|1|2>] [--hidden] [--quota <-1|0|1>] [--quota-size <GB>] [--save-days <days>] [--time-machine] [--password <pw>] [--password-stdin] [--yes]",
+    "alias": "tos shared-folder create (deprecated)",
+    "description": "添加新的共享文件夹。交互模式（无 --yes）逐项提示输入挂载路径、设备、加密、回收站等设置；非交互模式需传 --yes 及必填参数 --path 和 --device。加密时需要 --password 或 --password-stdin。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "folder-name",
+        "required": true,
+        "description": "共享文件夹名称，不能为空，不能包含 / 或 \\"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--path",
+        "description": "挂载路径（必填，非交互模式），如 /Volume1/data"
+      },
+      {
+        "name": "--device",
+        "description": "存储设备（必填，非交互模式），如 @disk, @usb, @iscsi"
+      },
+      {
+        "name": "--desc",
+        "description": "文件夹描述"
+      },
+      {
+        "name": "--encrypt",
+        "description": "启用加密"
+      },
+      {
+        "name": "--recycle",
+        "description": "回收站设置：0=关闭，1=开启，2=仅管理员访问（默认 1）"
+      },
+      {
+        "name": "--hidden",
+        "description": "隐藏文件夹"
+      },
+      {
+        "name": "--quota",
+        "description": "配额标志：-1=禁用，0=关闭，1=启用（默认 -1）"
+      },
+      {
+        "name": "--quota-size",
+        "description": "配额大小（GB）"
+      },
+      {
+        "name": "--save-days",
+        "description": "回收站保留天数（默认 30）"
+      },
+      {
+        "name": "--time-machine",
+        "description": "启用 Time Machine 备份"
+      },
+      {
+        "name": "--password",
+        "description": "加密密码（不推荐明文）"
+      },
+      {
+        "name": "--password-stdin",
+        "description": "从标准输入读取加密密码"
+      },
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过交互确认"
+      },
+      {
+        "name": "--enabled",
+        "shorthand": "",
+        "description": "创建后是否启用，默认 true"
+      }
+    ],
+    "mutual_exclusions": [
+      [
+        "--password",
+        "--password-stdin"
+      ]
+    ],
+    "output_table": "Shared folder created: <folder-name>",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-shared-folder-delete": {
+    "command": "tos shared-folder delete <folder-name> [--yes]",
+    "description": "删除共享文件夹。高风险操作，永久删除文件夹及所有内容。远程命令，需要认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "folder-name",
+        "description": "共享文件夹名称",
+        "required": true
+      }
+    ],
+    "output_table": "Shared folder deleted: myshare",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-list": {
+    "command": "tos app list [--status <running|stopped>] [--refresh] [--json]",
+    "description": "列出所有已安装和可用的应用。可过滤运行/停止状态。远程命令，需要认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "APP ID   NAME      VERSION   STATUS         CATEGORY     SIZE\nmysql    MariaDB   10.3.33   running        Utilities    17.9 MB",
+    "output_json": "[{\"id\": \"mysql\", \"name\": \"MariaDB\", \"version\": \"10.3.33\", \"status\": \"running\", \"category\": \"Utilities\", \"size\": \"17.9 MB\"}]",
+    "output_json_fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "description": "应用 ID"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "阵列/池名称"
+      },
+      {
+        "name": "version",
+        "type": "string",
+        "description": "版本号"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive",
+          "disabled"
+        ],
+        "description": "资源状态。用户: active=已启用/inactive=未激活/disabled=已禁用; 阵列/卷: normal/degraded/corrupted 等"
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "description": "应用分类"
+      },
+      {
+        "name": "size",
+        "type": "string",
+        "description": "应用大小（人类可读）"
+      },
+      {
+        "name": "author",
+        "type": "string",
+        "description": ""
+      },
+      {
+        "name": "install",
+        "type": "integer",
+        "description": "安装状态。0=未安装, 1=已安装, 2=有可用更新"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--status",
+        "description": "按状态过滤: running, stopped"
+      },
+      {
+        "flag": "--refresh",
+        "description": "绕过缓存，重新查询应用商店"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-info": {
+    "command": "tos app info <app-id> [--json]",
+    "description": "显示指定应用的完整详细信息。app-id 区分大小写。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "args": [
+      {
+        "name": "app-id",
+        "required": true,
+        "description": "应用 ID（区分大小写）"
+      }
+    ],
+    "output_table": {
+      "headers": [
+        "PROPERTY",
+        "VALUE"
+      ],
+      "example_rows": [
+        [
+          "ID",
+          "mysql"
+        ],
+        [
+          "Name",
+          "MariaDB"
+        ],
+        [
+          "Version",
+          "10.3.33"
+        ],
+        [
+          "Author",
+          "MariaDB"
+        ],
+        [
+          "Type",
+          "iframe"
+        ],
+        [
+          "Category",
+          "Utilities"
+        ],
+        [
+          "Size",
+          "17.9 MB"
+        ],
+        [
+          "Install Status",
+          "installed"
+        ],
+        [
+          "Running",
+          "Yes"
+        ],
+        [
+          "Install Path",
+          "/Volume3/@apps"
+        ],
+        [
+          "Source",
+          "third"
+        ],
+        [
+          "App Type",
+          "tpk"
+        ]
+      ]
+    },
+    "output_json": {
+      "id": "mysql",
+      "name": "MariaDB",
+      "version": "10.3.33",
+      "author": "MariaDB",
+      "category": "Utilities",
+      "size": "17.9 MB",
+      "install_status": "installed",
+      "is_running": true
+    },
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-install": {
+    "command": "tos app install <app-id> [--path <path>] [--yes]",
+    "description": "从应用商店安装应用。交互模式需要确认，非交互模式需 --yes。远程命令，需要认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "app-id",
+        "description": "应用 ID",
+        "required": true
+      }
+    ],
+    "output_table": "App installed: mysql",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [
+      {
+        "flag": "--path",
+        "description": "自定义安装路径"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-uninstall": {
+    "command": "tos app uninstall <app-id> [--clean] [--yes]",
+    "description": "卸载应用（高风险，不可逆）。--clean 同时删除所有残留数据。交互模式显示确认提示，非交互模式必须传 --yes。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "app-id",
+        "required": true,
+        "description": "要卸载的应用 ID"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--clean",
+        "shorthand": "",
+        "description": "同时删除所有残留数据"
+      },
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "Uninstalled mysql",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-update": {
+    "command": "tos app update [<app-id>] [--path <path>] [--yes]",
+    "description": "更新已安装的应用。不传 app-id 则更新所有有可用更新的应用。高风险操作。远程命令，需要认证。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "app-id",
+        "description": "应用 ID（可选，不传则更新全部）",
+        "required": false
+      }
+    ],
+    "output_table": "Updating mysql...",
+    "output_json": "",
+    "output_json_fields": [],
+    "flags": [
+      {
+        "flag": "--path",
+        "description": "自定义安装路径"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-enable": {
+    "command": "tos app enable <app-id>",
+    "alias": "tos app start (deprecated alias)",
+    "description": "启用已安装的应用。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "app-id",
+        "required": true,
+        "description": "要启用的应用 ID"
+      }
+    ],
+    "output_table": "App enabled: mysql",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-disable": {
+    "command": "tos app disable <app-id> [--yes]",
+    "alias": "tos app stop (deprecated alias)",
+    "description": "禁用应用（高风险，可能中断正在使用的服务）。交互模式显示确认提示，非交互模式必须传 --yes。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "app-id",
+        "required": true,
+        "description": "要禁用的应用 ID"
+      }
+    ],
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "App disabled: mysql",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-app-status": {
+    "command": "tos app status <app-id> [--json]",
+    "description": "检查应用是否已安装、是否运行中，以及版本号。对未安装的应用仍返回有效数据。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "args": [
+      {
+        "name": "app-id",
+        "required": true,
+        "description": "应用 ID"
+      }
+    ],
+    "output_table": {
+      "headers": [
+        "PROPERTY",
+        "VALUE"
+      ],
+      "example_rows": [
+        [
+          "App ID",
+          "mysql"
+        ],
+        [
+          "Installed",
+          "Yes"
+        ],
+        [
+          "Running",
+          "Yes"
+        ],
+        [
+          "Version",
+          "10.3.33"
+        ]
+      ]
+    },
+    "output_json": {
+      "app_id": "mysql",
+      "installed": true,
+      "running": true,
+      "version": "10.3.33"
+    },
+    "output_json_fields": [
+      {
+        "name": "app_id",
+        "type": "string",
+        "description": "应用 ID"
+      },
+      {
+        "name": "installed",
+        "type": "boolean",
+        "description": "是否已安装"
+      },
+      {
+        "name": "running",
+        "type": "boolean",
+        "description": "是否正在运行"
+      },
+      {
+        "name": "version",
+        "type": "string",
+        "description": "版本号，未安装时为 \"-\""
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-array-list": {
+    "command": "tos array list [--detail] [--sort <size|status>] [--json]",
+    "description": "列出所有存储阵列。远程命令,通过Unix socket通信。",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "flag": "--detail",
+        "description": "显示额外信息（已分配空间）"
+      },
+      {
+        "flag": "--sort",
+        "description": "排序: size, status"
+      }
+    ],
+    "output_table": "ARRAY ID   TYPE    STATUS     MEMBERS   TOTAL     AVAILABLE\narray1     raid1   normal     HDD2      466 GB    0 B\narray2     raid5   corrupted  HDD3,HDD4  2 TB     0 B",
+    "output_json": "[{\"array_id\": \"...\", \"name\": \"Storage Pool 1\", \"type\": \"raid1\", \"status\": \"normal\", \"members\": [\"HDD2\"], \"total_size_bytes\": 500000000000, \"total_size_human\": \"466 GB\", \"available_size_bytes\": 0, \"available_size_human\": \"0 B\"}]",
+    "status_values": [
+      "normal(Health=7)",
+      "syncing(Health=3)",
+      "mounting(Health=4)",
+      "migratable(Health=9)",
+      "creating(Health=1)",
+      "degraded(Health=2)",
+      "corrupted(Health=0)",
+      "available(Health=999)"
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-array-mount": {
+    "command": "tos array mount <array-uuid>",
+    "description": "挂载存储阵列。已挂载时幂等返回 0。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "array-uuid",
+        "required": true,
+        "description": "阵列 UUID"
+      }
+    ],
+    "output_table": "Array mounted: uuid",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-array-delete": {
+    "command": "tos array unmount <array-uuid> [--yes]",
+    "description": "删除存储阵列（高风险,不可逆,可能影响关联的卷）。API: DELETE /storage/delete/pool/:uuid,需要 x-curpass-token 密码验证。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "array-uuid",
+        "required": true,
+        "description": "阵列 UUID"
+      }
+    ],
+    "output_table": "Array unmounted: uuid",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-tnas-online-info": {
+    "command": "tos tnas-online info [--detail] [--json]",
+    "description": "查看 tnas.online 远程访问状态。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "name": "--detail",
+        "shorthand": "",
+        "description": "显示完整连接信息（账号、URL、IP、版本、VPN、运行时长）"
+      }
+    ],
+    "output_table": {
+      "headers": [
+        "PROPERTY",
+        "VALUE"
+      ],
+      "example_rows": [
+        [
+          "Status",
+          "enabled"
+        ],
+        [
+          "TNAS ID",
+          "ABCD1234"
+        ],
+        [
+          "Connected",
+          "true"
+        ]
+      ]
+    },
+    "output_json": {
+      "version": "251105-7eef91e",
+      "user": "user@example.com",
+      "tnasid": "ABCD1234",
+      "nodeURL": "https://mynas.tnas.link",
+      "cloudURL": "https://tnas.online/MyNAS-01",
+      "ipv4": "100.75.252.1/22",
+      "ipv6": "fd58:ea50:7bd5:a630::1/64",
+      "code": 2,
+      "connect_status": 2,
+      "vpn": false,
+      "up_time": 90000000000
+    },
+    "output_json_fields": [
+      {
+        "name": "version",
+        "type": "string",
+        "description": "online 版本号"
+      },
+      {
+        "name": "user",
+        "type": "string",
+        "description": "当前或上次登录的账号邮箱，未登录过返回空字符串"
+      },
+      {
+        "name": "tnasid",
+        "type": "string",
+        "description": "TNAS 唯一标识符"
+      },
+      {
+        "name": "nodeURL",
+        "type": "string",
+        "description": "远程访问节点 URL，未启用时为空"
+      },
+      {
+        "name": "cloudURL",
+        "type": "string",
+        "description": "远程访问云端 URL，未启用时为空"
+      },
+      {
+        "name": "ipv4",
+        "type": "string",
+        "description": "虚拟组网 IPv4 地址，未启用时为空"
+      },
+      {
+        "name": "ipv6",
+        "type": "string",
+        "description": "虚拟组网 IPv6 地址，未启用时为空"
+      },
+      {
+        "name": "code",
+        "type": "integer",
+        "description": "状态码：0=已停止, 1=启动中, 2=已启动"
+      },
+      {
+        "name": "connect_status",
+        "type": "integer",
+        "description": "连接状态：0=断开, 1=连接中, 2=已连接"
+      },
+      {
+        "name": "vpn",
+        "type": "boolean",
+        "description": "是否启用 VPN"
+      },
+      {
+        "name": "up_time",
+        "type": "integer",
+        "description": "已启用时长（纳秒）"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-tnas-online-enable": {
+    "command": "tos tnas-online enable --tnas-id <tnas-id> --account <email> [--password <pw>] [--password-stdin] [--yes]",
+    "description": "启用 tnas.online 远程访问。交互模式逐项提示输入 TNAS ID、账号和密码；非交互模式需传 --yes 及必填参数 --tnas-id、--account 和密码（推荐 --password-stdin）。已启用时返回退出码 4。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--tnas-id",
+        "shorthand": "",
+        "description": "TNAS ID，必填"
+      },
+      {
+        "name": "--account",
+        "shorthand": "",
+        "description": "铁威马账号（邮箱格式），必填"
+      },
+      {
+        "name": "--password",
+        "shorthand": "",
+        "description": "账号密码（不推荐明文）"
+      },
+      {
+        "name": "--password-stdin",
+        "shorthand": "",
+        "description": "从标准输入读取密码（推荐）"
+      },
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过交互确认"
+      }
+    ],
+    "mutual_exclusions": [
+      [
+        "--password",
+        "--password-stdin"
+      ]
+    ],
+    "output_table": "tnas-online enabled\nTNAS ID    MyNAS-01\nAccount    user@example.com",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-tnas-online-disable": {
+    "command": "tos tnas-online disable [--yes]",
+    "description": "禁用 tnas.online 远程访问（高风险，可能中断远程访问）。交互模式显示确认提示，非交互模式必须传 --yes。已禁用时幂等返回 0。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": true,
+    "supports_json": false,
+    "flags": [
+      {
+        "name": "--yes",
+        "shorthand": "-y",
+        "description": "跳过确认提示（非交互模式必填）"
+      }
+    ],
+    "output_table": "tnas-online disabled",
+    "output_json": null,
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-network-info": {
+    "command": "tos network info [--scope <all|ip|dns|gateway>] [--json]",
+    "description": "查看系统网络配置信息，包括设备名、HTTP/HTTPS 端口、主网卡接口、IPv4/IPv6 地址、MAC、MTU、DNS 和网关。（远程命令，需设置 TOS_USER/TOS_PASS 环境变量或传 --user/--pass 提供凭据）",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "name": "--scope",
+        "shorthand": "",
+        "description": "显示范围：all（全部）、ip（接口/IPv4/IPv6/MAC/MTU）、dns（DNS）、gateway（网关），默认 all"
+      }
+    ],
+    "output_table": {
+      "headers": [
+        "PROPERTY",
+        "VALUE"
+      ],
+      "example_rows": [
+        [
+          "Device Name",
+          "TNAS-fe52"
+        ],
+        [
+          "HTTP Port",
+          "8181"
+        ],
+        [
+          "HTTPS Port",
+          "5443"
+        ],
+        [
+          "Interface",
+          "eth1"
+        ],
+        [
+          "IPv4",
+          "10.18.13.150"
+        ],
+        [
+          "IPv6",
+          "fe80::6ebf:b5ff:fe02:fe52"
+        ],
+        [
+          "MAC",
+          "6c:bf:b5:02:fe:52"
+        ],
+        [
+          "MTU",
+          "1500"
+        ],
+        [
+          "DNS",
+          "10.18.2.10"
+        ],
+        [
+          "IPv4 Gateway",
+          "10.18.13.1"
+        ],
+        [
+          "IPv6 Gateway",
+          "-"
+        ],
+        [
+          "Bond Enabled",
+          "false"
+        ]
+      ]
+    },
+    "output_json": {
+      "device_name": "TNAS-fe52",
+      "http_port": 8181,
+      "https_port": 5443,
+      "interface": "eth1",
+      "ipv4": "10.18.13.150",
+      "ipv6": "fe80::6ebf:b5ff:fe02:fe52",
+      "mac": "6c:bf:b5:02:fe:52",
+      "mtu": 1500,
+      "dns": "10.18.2.10",
+      "ipv4_gateway": "10.18.13.1",
+      "ipv6_gateway": "",
+      "bond_enabled": false
+    },
+    "output_json_fields": [
+      {
+        "name": "device_name",
+        "type": "string",
+        "description": "设备名称"
+      },
+      {
+        "name": "http_port",
+        "type": "integer",
+        "description": "HTTP 服务端口"
+      },
+      {
+        "name": "https_port",
+        "type": "integer",
+        "description": "HTTPS 服务端口"
+      },
+      {
+        "name": "interface",
+        "type": "string",
+        "description": "主网卡接口名称"
+      },
+      {
+        "name": "ipv4",
+        "type": "string",
+        "description": "IPv4 地址"
+      },
+      {
+        "name": "ipv6",
+        "type": "string",
+        "description": "IPv6 地址，无则为空"
+      },
+      {
+        "name": "mac",
+        "type": "string",
+        "description": "MAC 地址"
+      },
+      {
+        "name": "mtu",
+        "type": "integer",
+        "description": "MTU 值"
+      },
+      {
+        "name": "dns",
+        "type": "string",
+        "description": "主 DNS 服务器地址"
+      },
+      {
+        "name": "ipv4_gateway",
+        "type": "string",
+        "description": "IPv4 默认网关"
+      },
+      {
+        "name": "ipv6_gateway",
+        "type": "string",
+        "description": "IPv6 默认网关，无则为空"
+      },
+      {
+        "name": "bond_enabled",
+        "type": "boolean",
+        "description": "是否启用链路聚合"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-firewall-rule": {
+    "command": "tos firewall rule [--detail] [--json]",
+    "description": "列出所有防火墙规则。远程命令，需要认证。兼容别名: tos firewall list。",
+    "high_risk": false,
+    "supports_json": true,
+    "output_table": "RULE ID   ACTION   PROTOCOL   SOURCE   PORT\n1         allow    tcp        0.0.0.0/0   22",
+    "output_json": "[{\"id\": \"1\", \"name\": \"Allow SSH\", \"policy\": \"ACCEPT\", \"protocol\": [\"TCP\"], \"iplist\": [\"0.0.0.0/0\"], \"portlist\": [\"22\"]}]",
+    "output_json_fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "description": "应用 ID"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "阵列/池名称"
+      },
+      {
+        "name": "policy",
+        "type": "string",
+        "description": "策略: ACCEPT/DROP"
+      },
+      {
+        "name": "protocol",
+        "type": "string",
+        "description": "协议类型"
+      },
+      {
+        "name": "iplist",
+        "type": "array<string>",
+        "description": "IP 地址列表"
+      },
+      {
+        "name": "portlist",
+        "type": "array<string>",
+        "description": "端口列表"
+      },
+      {
+        "name": "enable",
+        "type": "boolean",
+        "description": "是否启用"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--detail",
+        "description": "显示 DESTINATION 和 DESCRIPTION 列"
+      }
+    ],
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-volume-list": {
+    "command": "tos volume list [--detail] [--sort <size|status>] [--json]",
+    "description": "列出所有卷。远程命令,通过Unix socket通信。",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "flag": "--detail",
+        "description": "显示额外信息（压缩状态）"
+      },
+      {
+        "flag": "--sort",
+        "description": "排序: size, status"
+      }
+    ],
+    "output_table": "VOLUME     ID                                   STATUS   TOTAL     AVAILABLE   FILESYSTEM   HYPERCACHE\nVolume 1   uuid-here                             normal   466 GB    450 GB      btrfs        disabled",
+    "output_json": "[{\"volume\": \"Volume 1\", \"volume_id\": \"uuid-here\", \"status\": \"normal\", \"total_size_bytes\": 500000000000, \"total_size_human\": \"466 GB\", \"available_size_bytes\": 483000000000, \"available_size_human\": \"450 GB\", \"filesystem\": \"btrfs\", \"hypercache_enabled\": false}]",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-volume-mount": {
+    "command": "tos volume mount <volume-uuid>",
+    "description": "挂载卷。已挂载时幂等返回 0。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "volume-uuid",
+        "required": true,
+        "description": "卷 UUID"
+      }
+    ],
+    "output_table": "Volume mounted: uuid",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-volume-delete": {
+    "command": "tos volume unmount <volume-uuid> [--yes]",
+    "description": "删除卷（高风险,不可逆）。卸载前列出受影响的共享文件夹。API: DELETE /storage/delete/volume/:uuid,需要 x-curpass-token 密码验证。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "volume-uuid",
+        "required": true,
+        "description": "卷 UUID"
+      }
+    ],
+    "output_table": "Volume unmounted: uuid",
+    "auth": {
+      "required": true,
+      "methods": [
+        {
+          "type": "env_credentials",
+          "priority": 1,
+          "description": "通过环境变量传入用户名和密码进行 TOS daemon API 认证",
+          "credentials": [
+            {
+              "env": "TOS_USER",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "env": "TOS_PASS",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "alt_flags": [
+            "--user/-u",
+            "--pass/-P"
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: TOS_USER and TOS_PASS required",
+            "retryable": true
+          }
+        },
+        {
+          "type": "cli_flags",
+          "priority": 0,
+          "description": "通过命令行标志传入用户名和密码（优先级高于环境变量）",
+          "credentials": [
+            {
+              "flag": "--user",
+              "short": "-u",
+              "label": "用户名",
+              "required": true,
+              "secret": false
+            },
+            {
+              "flag": "--pass",
+              "short": "-P",
+              "label": "密码",
+              "required": true,
+              "secret": true
+            }
+          ],
+          "failure": {
+            "exit_code": 1,
+            "message": "Authentication failed: --user and --pass required",
+            "retryable": true
+          }
+        }
+      ]
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      },
+      {
+        "exit_code": 1,
+        "condition": "缺少认证凭据",
+        "message": "TOS_USER and TOS_PASS required"
+      },
+      {
+        "exit_code": 2,
+        "condition": "认证失败",
+        "message": "Permission denied: invalid credentials"
+      },
+      {
+        "exit_code": 6,
+        "condition": "无法连接 daemon",
+        "message": "Network error: cannot reach TOS daemon at {TOS_DAEMON_URL}"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-logout": {
+    "command": "tos logout",
+    "description": "清除当前TOS守护进程的缓存会话。无会话时幂等(exit 0)。",
+    "high_risk": false,
+    "supports_json": false,
+    "output_table": "Logged out",
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-service-list": {
+    "command": "tos service list [--status <running|stopped>] [--json]",
+    "description": "列出所有TOS系统服务(smb/nfs/ftp/sftp/rsync/ssh/telnet/webdav/webdavs)。本地命令,基于systemd,无需认证。",
+    "high_risk": false,
+    "supports_json": true,
+    "flags": [
+      {
+        "flag": "--status",
+        "description": "按状态过滤: running, stopped"
+      }
+    ],
+    "output_table": "SERVICE NAME   STATUS    AUTOSTART\nsmb            running   false\nssh            running   true",
+    "output_json": "[{\"service_name\": \"smb\", \"status\": \"running\", \"autostart\": true}]",
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-service-start": {
+    "command": "tos service start <service-name>",
+    "description": "启动系统服务。幂等操作,已运行时返回0并输出already running。本地命令,基于systemd。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "service-name",
+        "required": true,
+        "description": "服务名称(smb/nfs/ftp/sftp/rsync/ssh/telnet/webdav/webdavs)"
+      }
+    ],
+    "output_table": "Service started: smb",
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-service-stop": {
+    "command": "tos service stop <service-name> [--yes]",
+    "description": "停止系统服务(高风险,可能中断活跃用户)。幂等操作,已停止时返回0并输出already stopped。本地命令,基于systemd。",
+    "high_risk": true,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "service-name",
+        "required": true,
+        "description": "服务名称"
+      }
+    ],
+    "output_table": "Service stopped: smb",
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "缺少确认",
+        "message": "Confirmation required. Re-run with --yes to continue."
+      },
+      {
+        "exit_code": 99,
+        "condition": "用户取消",
+        "message": "Operation cancelled by user"
+      },
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-service-restart": {
+    "command": "tos service restart <service-name>",
+    "description": "重启系统服务。若未运行则等同于start。本地命令,基于systemd。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "service-name",
+        "required": true,
+        "description": "服务名称"
+      }
+    ],
+    "output_table": "Service restarted: smb",
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  },
+  "tos-service-set": {
+    "command": "tos service set <service-name> --autostart <true|false>",
+    "description": "设置服务是否开机自启动。本地命令,基于systemd enable/disable。",
+    "high_risk": false,
+    "supports_json": false,
+    "args": [
+      {
+        "name": "service-name",
+        "required": true,
+        "description": "服务名称"
+      }
+    ],
+    "flags": [
+      {
+        "flag": "--autostart",
+        "description": "是否开机自启: true, false"
+      }
+    ],
+    "output_table": "Service autostart set: smb=true",
+    "auth": {
+      "required": false
+    },
+    "output_json_fields": [],
+    "errors": [
+      {
+        "exit_code": 1,
+        "condition": "参数错误",
+        "message": "Missing required option or invalid parameter value"
+      },
+      {
+        "exit_code": 9,
+        "condition": "内部错误",
+        "message": "Internal error"
+      }
+    ],
+    "default_output_format": "table"
+  }
+}
+

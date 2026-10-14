@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>OpenClaw 操作中心 · YYC³</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EO%3C/text%3E%3C/svg%3E"/>
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a2e;--surface:rgba(255,255,255,0.03);--surface-hover:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--text:#f1f1f6;--text2:rgba(255,255,255,0.65);--text3:rgba(255,255,255,0.35);--accent-v:#8b5cf6;--accent-c:#06b6d4;--accent-e:#22c55e;--accent-r:#ef4444;--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,0.3);--font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;--font-mono:'SF Mono','Fira Code','Cascadia Code','JetBrains Mono','Consolas',monospace}
+.light{--bg:#f5f5f0;--bg2:#e8e8e3;--bg3:#ddd;--surface:rgba(0,0,0,0.02);--surface-hover:rgba(0,0,0,0.05);--border:rgba(0,0,0,0.08);--border-hover:rgba(0,0,0,0.15);--text:#1a1a2e;--text2:rgba(0,0,0,0.55);--text3:rgba(0,0,0,0.3);--shadow:0 4px 24px rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+::selection{background:rgba(139,92,246,0.3);color:#fff}
+.app{display:flex;min-height:100vh}
+.sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform 0.3s ease}
+.sidebar.hidden{transform:translateX(-100%)}
+.sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.sb-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent-v),var(--accent-c));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff}
+.sb-logo-text{font-size:15px;font-weight:700;color:var(--text)}
+.sb-logo-sub{font-size:10px;color:var(--text3);letter-spacing:1px}
+.sb-search{margin:12px 16px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;gap:8px;transition:0.2s}
+.sb-search:focus-within{border-color:var(--accent-v)}
+.sb-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13px}
+.sb-search input::placeholder{color:var(--text3)}
+.sb-search svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
+.sb-progress{margin:0 16px 12px;padding:10px 12px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border)}
+.sb-progress-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sb-progress-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3)}
+.sb-progress-pct{font-size:11px;font-weight:700;color:var(--accent-v)}
+.sb-progress-bar{height:4px;border-radius:2px;background:var(--border);overflow:hidden;margin-bottom:4px}
+.sb-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent-v),var(--accent-c));transition:width 0.6s ease}
+.sb-progress-count{font-size:10px;color:var(--text3)}
+.sb-nav{flex:1;overflow-y:auto;padding:8px 12px 80px}
+.sb-nav::-webkit-scrollbar{width:3px}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-group{margin-bottom:16px}
+.sb-group-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;color:var(--text2);font-size:12px;cursor:pointer;transition:0.15s;text-decoration:none;position:relative}
+.sb-item:hover{background:var(--surface-hover);color:var(--text)}
+.sb-item.active{background:rgba(139,92,246,0.12);color:var(--accent-v)}
+.sb-item .sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--text3);transition:0.3s}
+.sb-item .sb-dot.done{background:var(--accent-e);box-shadow:0 0 6px rgba(34,197,94,0.4)}
+.sb-item .sb-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.main{flex:1;margin-left:280px;min-height:100vh;transition:margin-left 0.3s ease}
+.main.expanded{margin-left:0}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 24px;background:rgba(10,10,15,0.8);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.light .topbar{background:rgba(245,245,240,0.8)}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-subtitle{font-size:12px;color:var(--text3)}
+.topbar-spacer{flex:1}
+.topbar-search{display:none;flex:1;max-width:320px;position:relative}
+.main.expanded .topbar-search{display:block}
+.topbar-search input{width:100%;padding:6px 12px 6px 32px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;transition:0.2s;font-family:inherit}
+.topbar-search input:focus{border-color:var(--accent-v);background:var(--bg2)}
+.topbar-search input::placeholder{color:var(--text3)}
+.topbar-search .ts-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none}
+.topbar-time{display:none;align-items:center;gap:5px;font-size:12px;color:var(--text2);font-family:var(--font-mono);padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border);user-select:none;white-space:nowrap}
+.main.expanded .topbar-time{display:flex}
+.topbar-time .tt-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-e);animation:pulse-dot 2s ease infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+.btn-share,.btn-theme,.btn-menu{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+.btn-share:hover,.btn-theme:hover,.btn-menu:hover{background:var(--surface-hover);color:var(--accent-v);border-color:rgba(139,92,246,0.3)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.progress-actions{display:flex;align-items:center;gap:4px}
+.btn-action{width:30px;height:30px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+.btn-action:hover{background:var(--surface-hover);color:var(--text)}
+.dashboard{padding:24px;max-width:1400px;margin:0 auto}
+.dash-header{margin-bottom:32px}
+.dash-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(139,92,246,0.12);color:var(--accent-v);font-size:11px;font-weight:600;margin-bottom:8px}
+.dash-title{font-size:28px;font-weight:700;margin-bottom:6px;line-height:1.2}
+.dash-desc{font-size:14px;color:var(--text2);max-width:600px;line-height:1.5}
+.dash-stats{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap}
+.stat-card{padding:12px 18px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.stat-num{font-size:20px;font-weight:700}
+.stat-label{font-size:11px;color:var(--text2)}
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;transition:0.2s;font-weight:500}
+.filter-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.cat-section{margin-bottom:36px}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.cat-icon{font-size:20px}
+.cat-name{font-size:16px;font-weight:600}
+.cat-count{font-size:12px;color:var(--text3)}
+.cat-line{flex:1;height:1px;background:var(--border)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.guide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;cursor:pointer;transition:all 0.25s ease;text-decoration:none;display:block;color:inherit;position:relative;overflow:hidden;animation:fadeUp 0.4s ease both}
+.guide-card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:var(--shadow)}
+.guide-card.hidden{display:none}
+.guide-card .gc-bar{position:absolute;top:0;left:0;right:0;height:3px}
+.gc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.gc-icon{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
+.gc-info{flex:1;min-width:0}
+.gc-title{font-size:14px;font-weight:600;margin-bottom:2px;line-height:1.3}
+.gc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gc-tag{font-size:10px;padding:1px 7px;border-radius:4px;font-weight:600}
+.gc-tag.getting-started{background:rgba(34,197,94,0.12);color:#22c55e}
+.gc-tag.core{background:rgba(139,92,246,0.12);color:#8b5cf6}
+.gc-tag.tools{background:rgba(6,182,212,0.12);color:#06b6d4}
+.gc-tag.channels{background:rgba(245,158,11,0.12);color:#f59e0b}
+.gc-tag.plugins{background:rgba(236,72,153,0.12);color:#ec4899}
+.gc-tag.nodes{background:rgba(34,197,94,0.12);color:#22c55e}
+.gc-tag.media{background:rgba(139,92,246,0.12);color:#8b5cf6}
+.gc-tag.automation{background:rgba(239,68,68,0.12);color:#ef4444}
+.gc-time{font-size:10px;color:var(--text3)}
+.gc-desc{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.gc-tags span{font-size:9px;padding:2px 6px;border-radius:4px;background:var(--surface);color:var(--text3);border:1px solid var(--border)}
+.guide-detail{display:none;padding:24px;max-width:900px;margin:0 auto}
+.guide-detail.active{display:block}
+.gd-back{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-size:12px;transition:0.2s;text-decoration:none;margin-bottom:20px}
+.gd-back:hover{background:var(--surface-hover);color:var(--text)}
+.gd-hero{padding:24px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);margin-bottom:24px}
+.gd-hero-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.gd-hero-icon{width:48px;height:48px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px}
+.gd-hero-info{flex:1}
+.gd-hero-title{font-size:22px;font-weight:700;margin-bottom:4px}
+.gd-hero-desc{font-size:13px;color:var(--text2);line-height:1.5}
+.gd-hero-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.gd-hero-meta span{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.gd-prereq{margin-bottom:24px;padding:16px 20px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border)}
+.gd-prereq-title{font-size:12px;font-weight:600;margin-bottom:8px;color:var(--text2)}
+.gd-prereq ul{padding-left:16px}
+.gd-prereq li{font-size:12px;color:var(--text2);line-height:1.7}
+.step{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;background:var(--surface);transition:0.2s}
+.step:hover{border-color:var(--border-hover)}
+.step-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
+.step-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;transition:0.2s;cursor:pointer}
+.step-num:hover{transform:scale(1.1)}
+.step-num-done{background:#22c55e!important;box-shadow:0 0 8px rgba(34,197,94,0.4)}
+.step-title{flex:1;font-size:14px;font-weight:500}
+.step-time{font-size:11px;color:var(--text3);white-space:nowrap}
+.step-toggle{font-size:12px;color:var(--text3);transition:transform 0.3s ease;width:20px;text-align:center}
+.step.open .step-toggle{transform:rotate(90deg)}
+.step-body{display:none}
+.step.open .step-body{display:block}
+.step-body-inner{padding:0 18px 18px}
+.step-content{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px}
+.step-content p{margin-bottom:8px}
+.step-content code{padding:2px 6px;border-radius:4px;background:rgba(139,92,246,0.1);color:var(--accent-v);font-family:var(--font-mono);font-size:12px}
+.step-warning{padding:10px 14px;border-radius:var(--radius-sm);background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);margin-bottom:10px;font-size:12px;color:#ef4444;line-height:1.5}
+.step-tip{padding:10px 14px;border-radius:var(--radius-sm);background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);margin-bottom:10px;font-size:12px;color:var(--accent-c);line-height:1.5}
+.code-block{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);margin-bottom:10px}
+.code-hdr{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.code-hdr span{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.copy-btn{padding:3px 10px;border-radius:4px;border:none;cursor:pointer;font-size:11px;transition:0.2s;background:var(--surface);color:var(--text2)}
+.copy-btn:hover{background:var(--surface-hover);color:var(--text)}
+.copy-btn.copied{background:rgba(34,197,94,0.15);color:#22c55e}
+.code-block pre{padding:12px 14px;overflow-x:auto;font-family:var(--font-mono);font-size:12px;line-height:1.6;color:var(--text);tab-size:2;background:var(--bg)}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:16px}
+.spinner{width:32px;height:32px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--accent-v);animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-size:13px;color:var(--text3)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.guide-card:nth-child(1){animation-delay:0.02s}
+.guide-card:nth-child(2){animation-delay:0.04s}
+.guide-card:nth-child(3){animation-delay:0.06s}
+.guide-card:nth-child(4){animation-delay:0.08s}
+table.doc-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+table.doc-table th,table.doc-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+table.doc-table th{font-weight:600;color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:0.8px;background:var(--surface)}
+table.doc-table td{color:var(--text2)}
+table.doc-table tr:hover td{background:var(--surface-hover)}
+.gd-section{margin-bottom:28px}
+.gd-section h3{font-size:16px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.gd-section h3 .h-icon{font-size:18px}
+.gd-section p,.gd-section li{font-size:13px;color:var(--text2);line-height:1.7}
+.gd-section ul,.gd-section ol{padding-left:18px;margin-bottom:10px}
+.gd-section li{margin-bottom:4px}
+ul.agent-list{list-style:none;padding:0}
+ul.agent-list li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);margin-bottom:8px;transition:0.2s}
+ul.agent-list li:hover{border-color:var(--border-hover)}
+.agent-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
+.agent-info{flex:1}
+.agent-name{font-size:14px;font-weight:600}
+.agent-role{font-size:11px;color:var(--text3)}
+@media(max-width:768px){.sidebar{width:100%}.sidebar.hidden{transform:translateX(-100%)}.main{margin-left:0}.dashboard{padding:16px}.guide-detail{padding:16px}.dash-title{font-size:22px}.card-grid{grid-template-columns:1fr}.topbar{padding:10px 16px}.sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none}.sb-overlay.show{display:block}.stat-card{flex:1;min-width:100px}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+<div class="sb-header"><a class="sb-logo" href="#" onclick="showDashboard()"><div class="sb-logo-icon">O</div><div><div class="sb-logo-text">OpenClaw 操作中心</div><div class="sb-logo-sub">YYC³ · AI 智能体运行时</div></div></a></div>
+<div class="sb-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="sbSearchInput" placeholder="搜索文档..." oninput="filterSidebar(this.value)"/></div>
+<div class="sb-progress" id="sbProgress"><div class="sb-progress-header"><span class="sb-progress-label">总览</span><span class="sb-progress-pct" id="sbProgressPct">36</span></div><div class="sb-progress-bar"><div class="sb-progress-fill" id="sbProgressFill" style="width:100%"></div></div><div class="sb-progress-count">36 篇文档</div></div>
+<nav class="sb-nav" id="sbNav"></nav>
+</aside>
+<div class="main" id="main">
+<div class="topbar">
+<button class="btn-menu" onclick="toggleSidebar()" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+<div><div class="topbar-title" id="topbarTitle">OpenClaw 操作中心</div><div class="topbar-subtitle" id="topbarSubtitle">AI 智能体运行时文档中心</div></div>
+<div class="topbar-search"><span class="ts-icon">🔍</span><input type="text" id="topbarSearchInput" placeholder="搜索文档…" oninput="topbarSearch(this.value)"/></div>
+<div class="topbar-spacer"></div>
+<div class="topbar-time" id="topbarClock"><span class="tt-dot"></span><span id="clockDisplay">--:--:--</span></div>
+<div class="topbar-actions">
+<button class="btn-share" onclick="sharePage()" title="分享当前页面"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+<button class="btn-action" onclick="downloadPage()" title="下载页面"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+<button class="btn-theme" onclick="toggleTheme()" aria-label="切换主题"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+</div>
+</div>
+<div class="dashboard" id="dashboardView">
+<div class="dash-header"><div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>OpenClaw v1.0 · 36 篇文档</span></div><h1 class="dash-title">OpenClaw 操作中心</h1><p class="dash-desc">开源 AI 智能体运行时完整文档 — 从入门配置到高级开发，涵盖 Gateway 网关、工具系统、技能系统、插件生态、节点系统、语音媒体与自动化。</p><div class="dash-stats" id="dashStats"></div></div>
+<div class="filter-bar" id="filterBar"></div>
+<div id="dashboardContent"><div class="loading"><div class="spinner"></div><p>加载文档数据...</p></div></div>
+</div>
+<div class="guide-detail" id="guideDetail"></div>
+</div>
+</div>
+<script>
+const GUIDES=[
+{id:'oc01',order:1,cat:'getting-started',title:'OpenClaw 快速开始',icon:'🚀',color:'#22c55e',desc:'安装部署、系统要求、验证安装 — 从零到一的完整入门指南。',tags:['安装','CLI','验证'],prereq:['Node.js 22.22.3+','curl 或 PowerShell'],content:'<div class="gd-section"><h3><span class="h-icon">📦</span>安装方法</h3><table class="doc-table"><tr><th>方法</th><th>命令</th></tr><tr><td>安装脚本（推荐）</td><td><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></td></tr><tr><td>npm 全局安装</td><td><code>npm install -g openclaw@latest && openclaw onboard --install-daemon</code></td></tr><tr><td>从源码安装</td><td><code>git clone https://github.com/openclaw/openclaw.git && pnpm install && pnpm build</code></td></tr></table></div><div class="gd-section"><h3><span class="h-icon">✅</span>验证安装</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw --version      # 确认 CLI 可用\nopenclaw doctor         # 检查配置问题\nopenclaw gateway status # 验证 Gateway 运行</pre></div></div><div class="gd-section"><h3><span class="h-icon">📋</span>系统要求</h3><table class="doc-table"><tr><th>环境</th><th>版本要求</th></tr><tr><td>Node.js</td><td>22.22.3+ / 24.15+ / 25.9+</td></tr><tr><td>Python</td><td>3.10+（部分技能需要）</td></tr><tr><td>操作系统</td><td>macOS / Linux / Windows</td></tr></table></div>'},
+{id:'oc02',order:2,cat:'getting-started',title:'安装指南',icon:'📦',color:'#22c55e',desc:'多种安装方式详解 — 安装脚本、npm、pnpm、源码构建、Windows 原生安装。',tags:['安装','跨平台','Docker'],prereq:['操作系统支持'],content:'<div class="gd-section"><h3><span class="h-icon">📥</span>安装方式总览</h3><table class="doc-table"><tr><th>方式</th><th>命令</th><th>适用场景</th></tr><tr><td>安装脚本</td><td><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></td><td>macOS/Linux 快速安装</td></tr><tr><td>PowerShell</td><td><code>iwr -useb https://openclaw.ai/install.ps1 | iex</code></td><td>Windows 原生</td></tr><tr><td>npm</td><td><code>npm install -g openclaw@latest</code></td><td>已有 Node 环境</td></tr><tr><td>pnpm</td><td><code>pnpm add -g openclaw@latest</code></td><td>Monorepo 项目</td></tr><tr><td>bun</td><td><code>bun add -g openclaw@latest</code></td><td>Bun 运行时</td></tr><tr><td>源码</td><td><code>git clone + pnpm install + pnpm build</code></td><td>开发者 / 贡献者</td></tr></table></div><div class="gd-section"><h3><span class="h-icon">☁️</span>托管部署</h3><p>支持 DigitalOcean、Hetzner(Docker)、Fly.io、GCP、Azure、Raspberry Pi 等平台。</p></div>'},
+{id:'oc03',order:3,cat:'core',title:'核心架构',icon:'🏛️',color:'#8b5cf6',desc:'Gateway 架构详解 — 守护进程、客户端、节点、插件四层架构体系。',tags:['架构','Gateway','WebSocket'],prereq:['了解基本网络概念'],content:'<div class="gd-section"><h3><span class="h-icon">🏛️</span>架构概览</h3><p>OpenClaw 采用 Gateway 网关架构，一个长期运行的守护进程负责所有消息传递界面：</p><div class="code-block"><div class="code-hdr"><span>text</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>Gateway 网关（守护进程）\n├── WhatsApp / Telegram / Discord / iMessage\n├── 模型提供商（Anthropic / OpenAI / Google / xAI）\n├── 工具系统（exec / browser / web_search）\n├── 技能系统（SKILL.md 指令包）\n├── 插件系统（渠道 / 提供商 / 工具）\n└── 节点系统（macOS / iOS / Android）</pre></div></div><div class="gd-section"><h3><span class="h-icon">🔗</span>连接生命周期</h3><div class="code-block"><div class="code-hdr"><span>text</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>客户端 → Gateway: connect (设备身份 + 令牌)\nGateway → 客户端: hello-ok (健康/状态快照)\n客户端 → Gateway: req:agent (智能体请求)\nGateway → 客户端: event:agent (流式响应)\nGateway → 客户端: res:agent (完成结果)</pre></div></div>'},
+{id:'oc04',order:4,cat:'core',title:'Gateway 网关',icon:'🔗',color:'#8b5cf6',desc:'核心守护进程运行手册 — 启动、健康检查、OpenAI 兼容端点、端口绑定、远程访问。',tags:['Gateway','运维','端口'],prereq:['Node.js 环境'],content:'<div class="gd-section"><h3><span class="h-icon">▶️</span>启动 Gateway</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw gateway --port 18789          # 前台启动\nopenclaw gateway --port 18789 --verbose # 调试模式\nopenclaw gateway --force                # 强制启动</pre></div></div><div class="gd-section"><h3><span class="h-icon">✅</span>健康检查</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw gateway status\nopenclaw gateway status --deep\nopenclaw status\nopenclaw logs --follow</pre></div></div><div class="gd-section"><h3><span class="h-icon">🔌</span>OpenAI 兼容端点</h3><table class="doc-table"><tr><th>端点</th><th>用途</th></tr><tr><td><code>GET /v1/models</code></td><td>以智能体为中心列出模型</td></tr><tr><td><code>POST /v1/chat/completions</code></td><td>聊天补全</td></tr><tr><td><code>POST /v1/embeddings</code></td><td>嵌入向量</td></tr></table></div>'},
+{id:'oc05',order:5,cat:'core',title:'CLI 参考',icon:'⌨️',color:'#8b5cf6',desc:'完整 CLI 命令索引 — 设置引导、消息智能体、健康状态、网络节点、自动化等。',tags:['CLI','命令','终端'],prereq:['已安装 OpenClaw'],content:'<div class="gd-section"><h3><span class="h-icon">📋</span>核心命令领域</h3><table class="doc-table"><tr><th>领域</th><th>命令</th></tr><tr><td>设置与引导</td><td><code>setup</code>·<code>onboard</code>·<code>configure</code>·<code>doctor</code></td></tr><tr><td>消息与智能体</td><td><code>message</code>·<code>agent</code>·<code>agents</code>·<code>mcp</code></td></tr><tr><td>健康与会话</td><td><code>status</code>·<code>health</code>·<code>sessions</code></td></tr><tr><td>网络与节点</td><td><code>nodes</code>·<code>devices</code>·<code>node</code></td></tr><tr><td>自动化</td><td><code>cron</code>·<code>tasks</code>·<code>hooks</code></td></tr><tr><td>安全与插件</td><td><code>plugins</code>·<code>skills</code>·<code>secrets</code></td></tr><tr><td>渠道</td><td><code>channels</code>·<code>pairing</code>·<code>qr</code></td></tr></table></div><div class="gd-section"><h3><span class="h-icon">⚙️</span>全局标志</h3><table class="doc-table"><tr><th>标志</th><th>用途</th></tr><tr><td><code>--dev</code></td><td>隔离状态，端口 19001</td></tr><tr><td><code>--profile &lt;name&gt;</code></td><td>隔离配置档案</td></tr><tr><td><code>--json</code></td><td>JSON 格式输出</td></tr><tr><td><code>--log-level</code></td><td>覆盖日志级别</td></tr></table></div>'},
+{id:'oc06',order:6,cat:'core',title:'安全模型',icon:'🛡️',color:'#8b5cf6',desc:'设备配对、本地信任、挑战签名、身份验证模式 — Gateway 安全体系。',tags:['安全','认证','配对'],prereq:['了解 Gateway 架构'],content:'<div class="gd-section"><h3><span class="h-icon">🛡️</span>安全机制</h3><ul><li><strong>设备配对</strong> — 新设备需配对批准，Gateway 签发令牌</li><li><strong>本地信任</strong> — Loopback 连接可自动获批</li><li><strong>挑战签名</strong> — v3 签名绑定 platform 和 deviceFamily</li><li><strong>身份验证模式</strong> — token / password / trusted-proxy / none</li></ul></div>'},
+{id:'oc07',order:7,cat:'tools',title:'工具概览',icon:'🛠️',color:'#06b6d4',desc:'智能体可调用的类型化函数 — exec、browser、web_search 等内置工具类别。',tags:['工具','exec','browser'],prereq:['了解 OpenClaw 基础'],content:'<div class="gd-section"><h3><span class="h-icon">📋</span>内置工具类别</h3><table class="doc-table"><tr><th>类别</th><th>代表性工具</th><th>用途</th></tr><tr><td>⚡ 运行时</td><td><code>exec</code>·<code>process</code></td><td>运行命令、管理进程</td></tr><tr><td>📁 文件</td><td><code>read</code>·<code>write</code>·<code>edit</code></td><td>读取和更改文件</td></tr><tr><td>🌐 Web</td><td><code>web_search</code>·<code>web_fetch</code></td><td>搜索和获取网页</td></tr><tr><td>🧭 浏览器</td><td><code>browser</code></td><td>操作浏览器会话</td></tr><tr><td>🧠 会话</td><td><code>sessions_*</code>·<code>subagents</code></td><td>委派工作、检查会话</td></tr><tr><td>⏰ 自动化</td><td><code>cron</code>·<code>heartbeat</code></td><td>调度工作</td></tr><tr><td>🎨 媒体</td><td><code>image</code>·<code>tts</code></td><td>分析、生成媒体</td></tr></table></div>'},
+{id:'oc08',order:8,cat:'tools',title:'思考级别',icon:'🧠',color:'#06b6d4',desc:'智能体推理强度控制 — off/minimal/low/medium/high/xhigh/adaptive/max/ultra。',tags:['推理','思考','AI'],prereq:['推理模型'],content:'<div class="gd-section"><h3><span class="h-icon">🧠</span>思考级别</h3><table class="doc-table"><tr><th>级别</th><th>说明</th><th>适用模型</th></tr><tr><td><code>off</code></td><td>关闭思考</td><td>所有模型</td></tr><tr><td><code>medium</code></td><td>中等强度（默认）</td><td>推理模型</td></tr><tr><td><code>high</code></td><td>高强度思考</td><td>推理模型</td></tr><tr><td><code>xhigh</code></td><td>额外高强度</td><td>GPT-5.2+ / Claude Opus 4.7+</td></tr><tr><td><code>adaptive</code></td><td>自适应</td><td>Claude 4.6+ / Gemini</td></tr><tr><td><code>ultra</code></td><td>极致强度</td><td>GPT-5.6 Sol/Terra</td></tr></table></div><div class="gd-section"><h3><span class="h-icon">⚡</span>快速模式</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>/fast auto    # 自动模式（60秒内优先级处理）\n/fast on      # 启用优先级处理\n/fast off     # 禁用优先级处理</pre></div></div>'},
+{id:'oc09',order:9,cat:'tools',title:'子智能体',icon:'🧬',color:'#06b6d4',desc:'后台智能体运行 — 并行执行研究、长时间任务，非阻塞完成通知。',tags:['子智能体','并行','委派'],prereq:['了解智能体概念'],content:'<div class="gd-section"><h3><span class="h-icon">🧬</span>子智能体特性</h3><table class="doc-table"><tr><th>特性</th><th>说明</th></tr><tr><td>隔离运行</td><td>默认在独立会话中运行</td></tr><tr><td>上下文模式</td><td><code>isolated</code>（默认）/ <code>fork</code>（分叉当前对话）</td></tr><tr><td>完成通知</td><td>基于推送，自动通知请求者</td></tr><tr><td>成本控制</td><td>可为子智能体设置更低成本模型</td></tr></table></div><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre># 生成子智能体\nopenclaw agent --agent main --message "sessions_spawn: research topic X"\n\n# 检查子智能体状态\n/subagents list\n/subagents log &lt;id&gt;</pre></div></div>'},
+{id:'oc10',order:10,cat:'tools',title:'提升权限',icon:'🔑',color:'#06b6d4',desc:'沙箱内智能体突破限制在主机上执行命令 — on/ask/full/off 四级控制。',tags:['权限','沙箱','安全'],prereq:['沙箱已配置'],content:'<div class="gd-section"><h3><span class="h-icon">🔑</span>提升权限指令</h3><table class="doc-table"><tr><th>指令</th><th>作用</th></tr><tr><td><code>/elevated on</code></td><td>在主机路径上于沙箱外运行，保留审批</td></tr><tr><td><code>/elevated full</code></td><td>跳过审批（策略已允许时）</td></tr><tr><td><code>/elevated off</code></td><td>恢复为仅限沙箱内执行</td></tr></table></div>'},
+{id:'oc11',order:11,cat:'tools',title:'LLM 任务',icon:'🤖',color:'#06b6d4',desc:'可选插件工具，执行仅 JSON 的 LLM 调用并返回结构化输出。',tags:['LLM','JSON','工作流'],prereq:['插件系统已配置'],content:'<div class="gd-section"><h3><span class="h-icon">⚙️</span>启用</h3><div class="code-block"><div class="code-hdr"><span>json</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>{\n  "plugins": { "entries": { "llm-task": { "enabled": true } } },\n  "tools": { "alsoAllow": ["llm-task"] }\n}</pre></div></div><div class="gd-section"><h3><span class="h-icon">📋</span>参数</h3><table class="doc-table"><tr><th>参数</th><th>类型</th><th>说明</th></tr><tr><td><code>prompt</code></td><td>string</td><td>必填。任务指令</td></tr><tr><td><code>schema</code></td><td>object</td><td>可选 JSON Schema 验证</td></tr><tr><td><code>provider</code></td><td>string</td><td>覆盖默认提供商</td></tr></table></div>'},
+{id:'oc12',order:12,cat:'tools',title:'Lobster 工作流',icon:'🦞',color:'#06b6d4',desc:'类型化多步骤工具流水线 — 审批检查点、可恢复、确定性运行。',tags:['工作流','审批','自动化'],prereq:['工具系统已配置'],content:'<div class="gd-section"><h3><span class="h-icon">🦞</span>启用</h3><div class="code-block"><div class="code-hdr"><span>json</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>{\n  "tools": { "alsoAllow": ["lobster"] }\n}</pre></div></div>'},
+{id:'oc13',order:13,cat:'tools',title:'Agent 发送',icon:'📨',color:'#06b6d4',desc:'从 CLI 运行智能体轮次 — 脚本化工作流、测试、程序化交付。',tags:['Agent','CLI','消息'],prereq:['Gateway 运行中'],content:'<div class="gd-section"><h3><span class="h-icon">📨</span>快速开始</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre># 运行简单轮次\nopenclaw agent --agent main --message "What is the weather today?"\n\n# 从文件读取\nopenclaw agent --agent ops --message-file ./task.md\n\n# 指定智能体\nopenclaw agent --agent ops --message "Summarize logs"</pre></div></div>'},
+{id:'oc14',order:14,cat:'tools',title:'Firecrawl 搜索',icon:'🔥',color:'#06b6d4',desc:'高级 Web 搜索与抓取 — 托管式提取/搜索，支持 JS 渲染页面。',tags:['搜索','Web','抓取'],prereq:['插件系统'],content:'<div class="gd-section"><h3><span class="h-icon">📦</span>安装</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw plugins install @openclaw/firecrawl-plugin\nopenclaw gateway restart</pre></div></div><p>作为 <code>web_search</code> 提供商、显式插件工具或 <code>web_fetch</code> 备用提取器。</p>'},
+{id:'oc15',order:15,cat:'channels',title:'聊天渠道',icon:'💬',color:'#f59e0b',desc:'支持 WhatsApp、Telegram、Discord、iMessage、Signal 等 20+ 聊天渠道。',tags:['渠道','消息','多平台'],prereq:['Gateway 已配置'],content:'<div class="gd-section"><h3><span class="h-icon">💬</span>支持的渠道</h3><table class="doc-table"><tr><th>渠道</th><th>类型</th><th>说明</th></tr><tr><td>Telegram</td><td>核心内置</td><td>Bot API，通过 grammY</td></tr><tr><td>WhatsApp</td><td>官方插件</td><td>使用 Baileys，需二维码配对</td></tr><tr><td>Discord</td><td>官方插件</td><td>Bot API + Gateway</td></tr><tr><td>iMessage</td><td>核心内置</td><td>macOS 原生集成</td></tr><tr><td>Signal</td><td>官方插件</td><td>signal-cli，注重隐私</td></tr><tr><td>Slack</td><td>官方插件</td><td>Bolt SDK</td></tr><tr><td>飞书</td><td>官方插件</td><td>Feishu/Lark 机器人</td></tr><tr><td>QQ Bot</td><td>官方插件</td><td>QQ Bot API</td></tr><tr><td>Zalo</td><td>官方插件</td><td>Zalo Bot API</td></tr><tr><td>语音通话</td><td>官方插件</td><td>Plivo/Telnyx/Twilio</td></tr></table></div>'},
+{id:'oc16',order:16,cat:'channels',title:'Web-OpenClaw 浏览器',icon:'🧭',color:'#f59e0b',desc:'专用 Chrome 配置文件用于智能体浏览器自动化 — 隔离安全、确定性控制。',tags:['浏览器','Chrome','自动化'],prereq:['Chrome/Chromium'],content:'<div class="gd-section"><h3><span class="h-icon">🧭</span>快速开始</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw browser --browser-profile openclaw doctor\nopenclaw browser --browser-profile openclaw start\nopenclaw browser --browser-profile openclaw open https://example.com\nopenclaw browser --browser-profile openclaw snapshot</pre></div></div>'},
+{id:'oc17',order:17,cat:'channels',title:'Zalo Personal 插件',icon:'💚',color:'#f59e0b',desc:'通过 zca-js 实现 Zalo 个人账号自动化 — 官方 Bot API 之外的替代方案。',tags:['Zalo','插件','消息'],prereq:['插件系统'],content:'<div class="gd-section"><h3><span class="h-icon">⚠️</span>注意</h3><p>非官方自动化可能导致账号被停用。使用风险由你自行承担。</p><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw plugins install @openclaw/zalouser\nopenclaw gateway restart</pre></div></div>'},
+{id:'oc18',order:18,cat:'channels',title:'斜杠命令',icon:'/',color:'#f59e0b',desc:'Gateway 处理的独立聊天命令 — 三种类型：命令、指令、内联快捷方式。',tags:['命令','聊天','快捷'],prereq:['渠道已连接'],content:'<div class="gd-section"><h3><span class="h-icon">📋</span>命令类型</h3><table class="doc-table"><tr><th>类型</th><th>示例</th><th>说明</th></tr><tr><td>命令</td><td><code>/new</code>·<code>/reset</code></td><td>Gateway 处理</td></tr><tr><td>指令</td><td><code>/think</code>·<code>/fast</code>·<code>/elevated</code></td><td>会话设置持久化</td></tr><tr><td>快捷方式</td><td><code>/help</code>·<code>/status</code>·<code>/whoami</code></td><td>立即运行</td></tr></table></div>'},
+{id:'oc19',order:19,cat:'plugins',title:'插件生态',icon:'🔌',color:'#ec4899',desc:'插件安装、管理、开发 — ClawHub/npm/git 多来源支持。',tags:['插件','扩展','安装'],prereq:['Gateway 已配置'],content:'<div class="gd-section"><h3><span class="h-icon">📦</span>安装插件</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre># 从 ClawHub\nopenclaw plugins install clawhub:&lt;package&gt;\n\n# 从 npm\nopenclaw plugins install npm:&lt;package&gt;\n\n# 从 git\nopenclaw plugins install git:github.com/&lt;owner&gt;/&lt;repo&gt;@&lt;ref&gt;</pre></div></div><div class="gd-section"><h3><span class="h-icon">🔧</span>管理命令</h3><table class="doc-table"><tr><th>命令</th><th>说明</th></tr><tr><td><code>openclaw plugins list</code></td><td>列出已安装插件</td></tr><tr><td><code>openclaw plugins search</code></td><td>搜索插件</td></tr><tr><td><code>openclaw plugins inspect &lt;id&gt;</code></td><td>查看插件详情</td></tr><tr><td><code>openclaw plugins enable|disable &lt;id&gt;</code></td><td>启用/禁用插件</td></tr></table></div>'},
+{id:'oc20',order:20,cat:'plugins',title:'插件清单',icon:'📋',color:'#ec4899',desc:'openclaw.plugin.json 清单文件 — 元数据、配置 Schema、能力快照。',tags:['插件','清单','元数据'],prereq:['了解插件机制'],content:'<div class="gd-section"><h3><span class="h-icon">📋</span>最小示例</h3><div class="code-block"><div class="code-hdr"><span>json</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>{\n  "id": "voice-call",\n  "configSchema": {\n    "type": "object",\n    "properties": {}\n  }\n}</pre></div></div>'},
+{id:'oc21',order:21,cat:'plugins',title:'语音通话插件',icon:'📞',color:'#ec4899',desc:'Plivo/Telnyx/Twilio 语音通话 — 出站通知、全双工实时语音、流式转写。',tags:['语音','通话','插件'],prereq:['插件系统'],content:'<div class="gd-section"><h3><span class="h-icon">📦</span>安装</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw plugins install @openclaw/voice-call\nopenclaw gateway restart</pre></div></div><div class="gd-section"><h3><span class="h-icon">✅</span>验证</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw voicecall setup\nopenclaw voicecall smoke --to "+15555550123"</pre></div></div>'},
+{id:'oc22',order:22,cat:'plugins',title:'OpenProse 工作流',icon:'📜',color:'#ec4899',desc:'可移植 Markdown 工作流格式 — 编排 AI 会话，多智能体并行步骤。',tags:['工作流','Markdown','AI'],prereq:['插件系统'],content:'<div class="gd-section"><h3><span class="h-icon">📦</span>启用</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw plugins enable open-prose\nopenclaw gateway restart</pre></div></div>'},
+{id:'oc23',order:23,cat:'plugins',title:'Hooks 系统',icon:'🪝',color:'#ec4899',desc:'智能体事件触发的小型脚本 — /new、/reset、会话压缩、Gateway 生命周期。',tags:['Hooks','事件','自动化'],prereq:['Gateway 已配置'],content:'<div class="gd-section"><h3><span class="h-icon">🪝</span>管理命令</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw hooks list          # 列出可用 Hooks\nopenclaw hooks enable &lt;name&gt; # 启用 Hook\nopenclaw hooks check         # 检查状态\nopenclaw hooks info &lt;name&gt;   # 详细信息</pre></div></div>'},
+{id:'oc24',order:24,cat:'nodes',title:'节点系统',icon:'📡',color:'#22c55e',desc:'配套设备连接 Gateway — macOS/iOS/Android/无头设备。',tags:['节点','设备','远程'],prereq:['Gateway 运行中'],content:'<div class="gd-section"><h3><span class="h-icon">📡</span>节点管理</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw nodes status              # 查看节点状态\nopenclaw nodes describe --node &lt;id&gt; # 查看详情\nopenclaw devices list              # 查看配对设备\nopenclaw devices approve &lt;id&gt;      # 批准配对</pre></div></div><div class="gd-section"><h3><span class="h-icon">🗺️</span>节点命令集</h3><table class="doc-table"><tr><th>能力</th><th>iOS</th><th>Android</th><th>macOS</th></tr><tr><td><code>camera.snap</code></td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td><code>screen.record</code></td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td><code>computer.act</code></td><td>❌</td><td>❌</td><td>✅</td></tr><tr><td><code>location.get</code></td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td><code>system.run</code></td><td>❌</td><td>❌</td><td>✅</td></tr></table></div>'},
+{id:'oc25',order:25,cat:'nodes',title:'节点主机',icon:'🖥️',color:'#22c55e',desc:'远程命令执行 — Gateway 转发 exec 调用到远程节点。',tags:['节点','远程','exec'],prereq:['节点已配对'],content:'<div class="gd-section"><h3><span class="h-icon">🚀</span>启动节点主机</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre># 前台启动\nopenclaw node run --host &lt;gateway-host&gt; --port 18789 --display-name "Build Node"\n\n# 安装为服务\nopenclaw node install --host &lt;gateway-host&gt; --port 18789 --display-name "Build Node"\nopenclaw node start</pre></div></div>'},
+{id:'oc26',order:26,cat:'nodes',title:'浏览器登录',icon:'🔐',color:'#22c55e',desc:'智能体浏览器登录流程 — 手动登录避免反机器人防护。',tags:['浏览器','登录','安全'],prereq:['浏览器插件'],content:'<div class="gd-section"><h3><span class="h-icon">🔐</span>手动登录（推荐）</h3><p>使用 <code>openclaw</code> 配置文件的独立 Chrome 实例手动登录，不要将凭据提供给模型。</p><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw browser start\nopenclaw browser open https://x.com</pre></div></div>'},
+{id:'oc27',order:27,cat:'nodes',title:'节点故障排查',icon:'🔧',color:'#22c55e',desc:'节点工具不可用时的排查顺序 — 命令、权限矩阵、常见错误代码。',tags:['故障排查','节点','调试'],prereq:['节点已配置'],content:'<div class="gd-section"><h3><span class="h-icon">🔧</span>排查顺序</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw status\nopenclaw gateway status\nopenclaw logs --follow\nopenclaw doctor\nopenclaw nodes status\nopenclaw nodes describe --node &lt;idOrNameOrIp&gt;</pre></div></div>'},
+{id:'oc28',order:28,cat:'nodes',title:'位置命令',icon:'📍',color:'#22c55e',desc:'location.get 节点命令 — 获取设备 GPS/网络定位信息。',tags:['位置','GPS','节点'],prereq:['节点已配对'],content:'<div class="gd-section"><h3><span class="h-icon">📍</span>设置模型</h3><p><code>location.enabledMode</code>: <code>off | whileUsing | always</code> · <code>location.preciseEnabled</code>: bool</p><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw nodes location get --node &lt;id&gt;\nopenclaw nodes location get --node &lt;id&gt; --accuracy precise --max-age 15000</pre></div></div>'},
+{id:'oc29',order:29,cat:'nodes',title:'相机拍摄',icon:'📷',color:'#22c55e',desc:'iOS/Android/macOS 节点相机拍摄 — 照片和短视频。',tags:['相机','拍摄','媒体'],prereq:['节点已配对'],content:'<div class="gd-section"><h3><span class="h-icon">📷</span>CLI 辅助工具</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>openclaw nodes camera snap --node &lt;id&gt;\nopenclaw nodes camera snap --node &lt;id&gt; --facing front\nopenclaw nodes camera clip --node &lt;id&gt; --duration 3000</pre></div></div>'},
+{id:'oc30',order:30,cat:'media',title:'Talk 模式',icon:'🎤',color:'#8b5cf6',desc:'五种运行时形态 — 原生语音、实时全双工、仅转录。',tags:['语音','TTS','实时'],prereq:['麦克风权限'],content:'<div class="gd-section"><h3><span class="h-icon">🎤</span>模式对比</h3><table class="doc-table"><tr><th>模式</th><th>说明</th></tr><tr><td>原生 macOS/iOS/Android Talk</td><td>本地语音识别 + TTS</td></tr><tr><td>iOS Talk（实时）</td><td>WebRTC 传输</td></tr><tr><td>浏览器 Talk</td><td>客户端负责的 WebRTC</td></tr><tr><td>Android Talk（实时）</td><td>Gateway 中继</td></tr><tr><td>仅转录客户端</td><td>字幕或听写</td></tr></table></div>'},
+{id:'oc31',order:31,cat:'media',title:'语音唤醒',icon:'🗣️',color:'#8b5cf6',desc:'Gateway 管理的全局唤醒词列表 — 自定义触发词和路由。',tags:['唤醒','语音','命令'],prereq:['Talk 已启用'],content:'<div class="gd-section"><h3><span class="h-icon">🗣️</span>唤醒词管理</h3><p>默认唤醒词：<code>openclaw</code>、<code>claude</code>、<code>computer</code>。最多 32 个触发词。</p></div>'},
+{id:'oc32',order:32,cat:'media',title:'媒体理解',icon:'🎨',color:'#8b5cf6',desc:'自动汇总图像/音频/视频 — 在回复前理解传入媒体内容。',tags:['媒体','图像','音频'],prereq:['模型支持'],content:'<div class="gd-section"><h3><span class="h-icon">🎨</span>能力对比</h3><table class="doc-table"><tr><th>能力</th><th>默认模型</th><th>最大字节</th></tr><tr><td>图像</td><td>自动检测</td><td>10MB</td></tr><tr><td>音频</td><td>自动检测</td><td>20MB</td></tr><tr><td>视频</td><td>自动检测</td><td>50MB</td></tr></table></div>'},
+{id:'oc33',order:33,cat:'media',title:'音频和语音消息',icon:'🔊',color:'#8b5cf6',desc:'音频理解与转录 — 自动检测提供商或本地 CLI 进行语音转文字。',tags:['音频','转录','语音'],prereq:['媒体理解已配置'],content:'<div class="gd-section"><h3><span class="h-icon">🔊</span>自动检测顺序</h3><ol><li>当前回复模型（支持音频时）</li><li>已配置的提供商身份验证</li><li>本地 CLI（whisper-cli / sherpa-onnx / parakeet-mlx）</li></ol></div>'},
+{id:'oc34',order:34,cat:'media',title:'图像和媒体支持',icon:'🖼️',color:'#8b5cf6',desc:'WhatsApp 图像/音频/视频/文档媒体处理 — 自动优化与转码。',tags:['媒体','WhatsApp','图像'],prereq:['WhatsApp 渠道'],content:'<div class="gd-section"><h3><span class="h-icon">🖼️</span>媒体处理</h3><table class="doc-table"><tr><th>类型</th><th>大小限制</th><th>处理方式</th></tr><tr><td>图像</td><td>50MB</td><td>重新压缩为 JPEG/PNG</td></tr><tr><td>音频</td><td>16MB</td><td>转码为 Opus/OGG</td></tr><tr><td>视频</td><td>16MB</td><td>直接传递</td></tr><tr><td>文档</td><td>100MB</td><td>保留文件名</td></tr></table></div>'},
+{id:'oc35',order:35,cat:'automation',title:'定时任务 Cron',icon:'⏰',color:'#ef4444',desc:'Gateway 内置调度器 — 一次性、固定间隔、cron 表达式。',tags:['定时','Cron','自动化'],prereq:['Gateway 运行中'],content:'<div class="gd-section"><h3><span class="h-icon">⏰</span>调度类型</h3><table class="doc-table"><tr><th>类型</th><th>标志</th><th>说明</th></tr><tr><td><code>at</code></td><td><code>--at</code></td><td>一次性时间戳</td></tr><tr><td><code>every</code></td><td><code>--every</code></td><td>固定间隔（10m/1h/1d）</td></tr><tr><td><code>cron</code></td><td><code>--cron</code></td><td>5/6 字段 cron 表达式</td></tr><tr><td><code>on-exit</code></td><td><code>--on-exit</code></td><td>命令退出时触发</td></tr></table></div><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre># 一次性任务\nopenclaw cron create "2027-02-01T16:00:00Z" \\\n  --name "Reminder" --session main --delete-after-run\n\n# 定期任务\nopenclaw cron create --every 1h --name "Hourly Check" --session main</pre></div></div>'},
+{id:'oc36',order:36,cat:'automation',title:'Skills 配置',icon:'🎯',color:'#ef4444',desc:'技能系统配置 — skills.load、skills.install、操作员安装策略。',tags:['Skills','配置','加载'],prereq:['技能系统'],content:'<div class="gd-section"><h3><span class="h-icon">⚙️</span>配置示例</h3><div class="code-block"><div class="code-hdr"><span>json5</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div><pre>{\n  skills: {\n    allowBundled: ["gemini"],\n    load: {\n      extraDirs: ["~/Projects/agent-scripts/skills"],\n      watch: true,\n    },\n    install: { preferBrew: true },\n  },\n}</pre></div></div>'}
+];
+const CATS={'getting-started':'🚀 入门','core':'🏛️ 核心','tools':'🛠️ 工具','channels':'💬 渠道','plugins':'🔌 插件','nodes':'📡 节点','media':'🎤 语音与媒体','automation':'⏰ 自动化'};
+const CAT_ICONS={'getting-started':'🚀','core':'🏛️','tools':'🛠️','channels':'💬','plugins':'🔌','nodes':'📡','media':'🎤','automation':'⏰'};
+const CAT_COLORS={'getting-started':'#22c55e','core':'#8b5cf6','tools':'#06b6d4','channels':'#f59e0b','plugins':'#ec4899','nodes':'#22c55e','media':'#8b5cf6','automation':'#ef4444'};
+const CAT_COUNTS={getting_started:2,core:5,tools:7,channels:4,plugins:5,nodes:6,media:5,automation:2};
+let doneSet=new Set();
+try{const d=JSON.parse(localStorage.getItem('oc_done'));if(d)doneSet=new Set(d)}catch(e){}
+function saveDone(){localStorage.setItem('oc_done',JSON.stringify([...doneSet]))}
+function renderSidebar(){
+const nav=document.getElementById('sbNav');
+let html='';
+for(const[cat,label]of Object.entries(CATS)){
+const items=GUIDES.filter(g=>g.cat===cat);
+html+=`<div class="sb-group"><div class="sb-group-title">${label}</div>`;
+items.forEach(g=>{const a=g.id;html+=`<a class="sb-item${doneSet.has(a)?' active':''}" href="#" onclick="showGuide('${a}')"><span class="sb-dot${doneSet.has(a)?' done':''}"></span><span class="sb-label">${g.title}</span></a>`});
+html+=`</div>`}
+nav.innerHTML=html;
+}
+function renderDashboard(filter='all'){
+const content=document.getElementById('dashboardContent');
+const cats=[...new Set(GUIDES.map(g=>g.cat))];
+let html='';
+cats.forEach(cat=>{
+const items=filter==='all'?GUIDES.filter(g=>g.cat===cat):GUIDES.filter(g=>g.cat===cat&&g.title.toLowerCase().includes(filter));
+if(items.length===0)return;
+html+=`<div class="cat-section"><div class="cat-header"><span class="cat-icon">${CAT_ICONS[cat]}</span><span class="cat-name">${CATS[cat]||cat}</span><span class="cat-count">${items.length}</span><div class="cat-line"></div></div><div class="card-grid">`;
+items.forEach(g=>{
+const pct=doneSet.has(g.id)?100:0;
+html+=`<a class="guide-card" href="#" onclick="showGuide('${g.id}')"><div class="gc-bar" style="background:${CAT_COLORS[g.cat]||'#666'}"></div><div class="gc-head"><div class="gc-icon" style="background:${g.color}22;color:${g.color}">${g.icon}</div><div class="gc-info"><div class="gc-title">${g.title}</div><div class="gc-meta"><span class="gc-tag ${g.cat}">${CATS[g.cat]||g.cat}</span><span class="gc-time">${g.tags.slice(0,2).join('·')}</span></div></div></div><div class="gc-desc">${g.desc}</div><div class="gc-tags">${g.tags.slice(0,3).map(t=>`<span>${t}</span>`).join('')}</div></a>`});
+html+=`</div></div>`});
+content.innerHTML=html;
+renderFilterBar();
+renderStats();
+}
+function renderFilterBar(){
+const bar=document.getElementById('filterBar');
+let html='<button class="filter-btn active" data-cat="all" onclick="filterGuides(\'all\',this)">📋 全部</button>';
+for(const[cat,label]of Object.entries(CATS)){
+html+=`<button class="filter-btn" data-cat="${cat}" onclick="filterGuides('${cat}',this)">${CAT_ICONS[cat]} ${label}</button>`}
+bar.innerHTML=html;
+}
+function filterGuides(cat,btn){
+document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+document.querySelectorAll('.guide-card').forEach(c=>{
+if(cat==='all'||c.closest('.cat-section').querySelector('.cat-name').textContent===CATS[cat])c.classList.remove('hidden');
+else c.classList.add('hidden')});
+document.querySelectorAll('.cat-section').forEach(s=>{
+const v=[...s.querySelectorAll('.guide-card')].some(c=>!c.classList.contains('hidden'));
+s.style.display=v?'':'none'});
+}
+function renderStats(){
+const stats=document.getElementById('dashStats');
+const total=GUIDES.length;const done=doneSet.size;
+stats.innerHTML=`<div class="stat-card"><span class="stat-num">${total}</span><span class="stat-label">总文档</span></div><div class="stat-card"><span class="stat-num">${done}</span><span class="stat-label">已读</span></div><div class="stat-card"><span class="stat-num">${Object.keys(CATS).length}</span><span class="stat-label">分类</span></div>`;
+}
+function showGuide(id){
+const g=GUIDES.find(x=>x.id===id);if(!g)return;
+const detail=document.getElementById('guideDetail');
+const dash=document.getElementById('dashboardView');
+dash.style.display='none';detail.classList.add('active');
+document.getElementById('topbarTitle').textContent=g.title;
+document.getElementById('topbarSubtitle').textContent=g.desc;
+let html=`<button class="gd-back" onclick="showDashboard()">← 返回文档中心</button><div class="gd-hero"><div class="gd-hero-top"><div class="gd-hero-icon" style="background:${g.color}22;color:${g.color}">${g.icon}</div><div class="gd-hero-info"><div class="gd-hero-title">${g.title}</div><div class="gd-hero-desc">${g.desc}</div><div class="gd-hero-meta"><span>🏷️ ${g.tags.join(' · ')}</span><span>📂 ${CATS[g.cat]||g.cat}</span></div></div></div></div>`;
+if(g.prereq&&g.prereq.length){html+=`<div class="gd-prereq"><div class="gd-prereq-title">前置要求</div><ul>${g.prereq.map(p=>`<li>${p}</li>`).join('')}</ul></div>`}
+html+=`<div class="gd-prereq"><div class="gd-prereq-title">操作状态</div><p><label><input type="checkbox" id="doneCheck" onchange="toggleDone('${g.id}')"${doneSet.has(g.id)?' checked':''}> 标记为已读</label></p></div>`;
+html+=g.content||'<p>内容加载中...</p>';
+detail.innerHTML=html;
+renderSidebar();
+}
+function showDashboard(){
+document.getElementById('dashboardView').style.display='block';
+document.getElementById('guideDetail').classList.remove('active');
+document.getElementById('topbarTitle').textContent='OpenClaw 操作中心';
+document.getElementById('topbarSubtitle').textContent='AI 智能体运行时文档中心';
+renderDashboard();
+renderSidebar();
+}
+function toggleDone(id){if(doneSet.has(id))doneSet.delete(id);else doneSet.add(id);saveDone();renderSidebar();renderStats();}
+function toggleTheme(){document.body.classList.toggle('light');const i=document.getElementById('themeIcon');i.innerHTML=document.body.classList.contains('light')?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('hidden');document.getElementById('main').classList.toggle('expanded');document.getElementById('sbOverlay').classList.toggle('show')}
+function filterSidebar(v){const l=v.toLowerCase();document.querySelectorAll('.sb-item').forEach(i=>{i.style.display=i.textContent.toLowerCase().includes(l)?'':'none'})}
+function topbarSearch(v){filterSidebar(v)}
+function sharePage(){const t=document.getElementById('topbarTitle').textContent;if(navigator.share)navigator.share({title:t,text:t,url:location.href}).catch(()=>{});else navigator.clipboard.writeText(location.href).then(()=>alert('链接已复制！'))}
+function downloadPage(){const b=new Blob([document.documentElement.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='OpenClaw-操作中心.html';a.click();URL.revokeObjectURL(a.href)}
+function copyCode(btn){const code=btn.closest('.code-block').querySelector('pre').textContent;navigator.clipboard.writeText(code).then(()=>{btn.textContent='已复制';btn.classList.add('copied');setTimeout(()=>{btn.textContent='复制';btn.classList.remove('copied')},2000)})}
+function updateClock(){const d=new Date();document.getElementById('clockDisplay').textContent=d.toLocaleTimeString('zh-CN',{hour12:false})}
+setInterval(updateClock,1000);updateClock();
+renderSidebar();renderDashboard();renderStats();
+</script>
+</body>
+</html>

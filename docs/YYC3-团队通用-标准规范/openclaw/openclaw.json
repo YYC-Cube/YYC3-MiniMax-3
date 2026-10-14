@@ -1,0 +1,181 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "zai-coding-cn/glm-5v-turbo"
+      },
+      "models": {
+        "zai-coding-cn/glm-4.7-flash": {},
+        "zai-coding-cn/glm-4.7-flashx": {},
+        "zai-coding-cn/glm-5": {},
+        "zai-coding-cn/glm-5-turbo": {},
+        "zai-coding-cn/glm-5.1": {},
+        "zai-coding-cn/glm-5v-turbo": {}
+      },
+      "workspace": "/Volume3/OpenClaw/home/.openclaw/workspace"
+    }
+  },
+  "gateway": {
+    "auth": {
+      "mode": "token",
+      "token": "My1210"
+    },
+    "bind": "loopback",
+    "controlUi": {
+      "allowInsecureAuth": true,
+      "allowedOrigins": [
+        "*"
+      ],
+      "dangerouslyDisableDeviceAuth": true
+    },
+    "mode": "local",
+    "port": 18789,
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "meta": {
+    "lastTouchedAt": "2026-07-24T07:27:13.814Z",
+    "lastTouchedVersion": "2026.6.5"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "zai-coding-cn": {
+        "api": "openai-completions",
+        "apiKey": "e70a33d8a5b8426f9ac52920954a7d7f.ivUvBLewOENdVW2r",
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "models": [
+          {
+            "contextWindow": 200000,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "glm-4.7-flash",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 4096,
+            "name": "glm-4.7-flash (Z.AI Coding (CN))",
+            "reasoning": true
+          },
+          {
+            "contextWindow": 200000,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "glm-4.7-flashx",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 4096,
+            "name": "glm-4.7-flashx (Z.AI Coding (CN))",
+            "reasoning": true
+          },
+          {
+            "contextWindow": 202800,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "glm-5",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 4096,
+            "name": "glm-5 (Z.AI Coding (CN))",
+            "reasoning": true
+          },
+          {
+            "contextWindow": 202800,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "glm-5-turbo",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 4096,
+            "name": "glm-5-turbo (Z.AI Coding (CN))",
+            "reasoning": true
+          },
+          {
+            "contextWindow": 202800,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "glm-5.1",
+            "input": [
+              "text"
+            ],
+            "maxTokens": 4096,
+            "name": "glm-5.1 (Z.AI Coding (CN))",
+            "reasoning": true
+          },
+          {
+            "contextWindow": 202800,
+            "cost": {
+              "cacheRead": 0,
+              "cacheWrite": 0,
+              "input": 0,
+              "output": 0
+            },
+            "id": "glm-5v-turbo",
+            "input": [
+              "text",
+              "image"
+            ],
+            "maxTokens": 4096,
+            "name": "glm-5v-turbo (Z.AI Coding (CN))",
+            "reasoning": true
+          }
+        ]
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "tos-assist-plugin": {
+        "enabled": true
+      }
+    }
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "tools": {
+    "profile": "full"
+  },
+  "update": {
+    "auto": {
+      "enabled": false
+    },
+    "checkOnStart": false
+  },
+  "wizard": {
+    "lastRunAt": "2026-07-24T07:26:13.164Z",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local",
+    "lastRunVersion": "2026.6.5"
+  }
+}

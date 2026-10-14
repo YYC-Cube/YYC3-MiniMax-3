@@ -1,0 +1,538 @@
+{
+  "generated_at": "2026-10-11T07:15:01.326Z",
+  "standard": "YYC3-团队规范-文档闭环 v3.1.0 标准化升级",
+  "dry_run": false,
+  "code": [
+    {
+      "path": "scripts/apply-yyc3-headers.mjs",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/App.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/__tests__/client.test.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/__tests__/index.test.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/__tests__/services.test.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/__tests__/useApiData.test.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/client.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/index.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/services.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/api/useApiData.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/auth/AuthBrandClock.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/AgentAvatar.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/BatchActionBar.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/ConfidenceBadge.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/ConfirmSheet.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/DevModeDrawer.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/DriveModeSwitch.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/GateBadge.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/MetricCard.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/States.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/common/StatusDot.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/counsel/AgentCounselModal.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/layout/AppSidebar.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/layout/GlobalCommandMenu.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/layout/TopNav.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/prototype/InteractivePrototypeRunner.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/widgets/W1AIFamilyWidget.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/components/widgets/W2CognitionWidget.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/data/__tests__/mockData.test.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/data/mockData.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/main.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/AccountLockedPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/ForgotPasswordPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/InviteLandingPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/LoginPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/MfaPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/OnboardingPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/RegisterPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/ResetPasswordPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/auth/SessionExpiredAndForbiddenPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/editing/MusicLibraryPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/editing/TimelineEditorPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/editing/VideoAdPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/editing/VideoComparePage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/editing/VideoExportsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/editing/VideoTemplatesPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/AdminAgentsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/AdminCompliancePage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/AdminPermissionPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/AdminRagPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/AnalyticsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/CollabCommentsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/CostCenterPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/ProjectLorePage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/management/ProjectSeriesPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/AssetsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/BatchProductionPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/ConsistencyTrainingPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/DashboardPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/LibraryPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/QualityAssurancePage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/ScriptDetailPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/ScriptListPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/Storyboard3DPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/StoryboardPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/TasksPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/production/VoiceStudioPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/publishing/PublishAccountsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/publishing/PublishBoardPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/publishing/PublishWizardPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/special/ClockHubPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/special/FigmaComponentsPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/pages/special/FigmaTokensPage.tsx",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/tokens/__tests__/tokens.test.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/tokens/index.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/types/index.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "src/vite-env.d.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "vite.config.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    },
+    {
+      "path": "vitest.config.ts",
+      "action": "meta-normalized",
+      "changed": true,
+      "normalized": true
+    }
+  ],
+  "markdown": [
+    {
+      "path": "AGENTS.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "CLAUDE.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "Family-README.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "README.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "SECURITY.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "docs/YYC3-MiniMax-3-minimax-20261011/00-项目现状审核报告.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "docs/YYC3-MiniMax-3-minimax-20261011/01-任务规划与节点目标.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "docs/YYC3-MiniMax-3-minimax-20261011/02-执行日志与进度跟踪.md",
+      "action": "compliant",
+      "changed": false
+    },
+    {
+      "path": "docs/YYC3-MiniMax-3-minimax-20261011/03-总结文档与状态同步.md",
+      "action": "compliant",
+      "changed": false
+    }
+  ]
+}

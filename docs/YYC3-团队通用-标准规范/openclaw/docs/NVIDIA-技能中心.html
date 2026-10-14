@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>NVIDIA 技能中心 · YYC³</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2376b900'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EN%3C/text%3E%3C/svg%3E"/>
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a2e;--surface:rgba(255,255,255,0.03);--surface-hover:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--text:#f1f1f6;--text2:rgba(255,255,255,0.65);--text3:rgba(255,255,255,0.35);--accent-v:#76b900;--accent-c:#06b6d4;--accent-e:#22c55e;--accent-r:#ef4444;--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,0.3);--font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;--font-mono:'SF Mono','Fira Code','Cascadia Code','JetBrains Mono','Consolas',monospace}
+.light{--bg:#f5f5f0;--bg2:#e8e8e3;--bg3:#ddd;--surface:rgba(0,0,0,0.02);--surface-hover:rgba(0,0,0,0.05);--border:rgba(0,0,0,0.08);--border-hover:rgba(0,0,0,0.15);--text:#1a1a2e;--text2:rgba(0,0,0,0.55);--text3:rgba(0,0,0,0.3);--shadow:0 4px 24px rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+::selection{background:rgba(118,185,0,0.3);color:#fff}
+.app{display:flex;min-height:100vh}
+.sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform 0.3s}
+.sidebar.hidden{transform:translateX(-100%)}
+.sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.sb-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent-v),var(--accent-c));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff}
+.sb-logo-text{font-size:15px;font-weight:700;color:var(--text)}
+.sb-logo-sub{font-size:10px;color:var(--text3);letter-spacing:1px}
+.sb-search{margin:12px 16px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;gap:8px}
+.sb-search:focus-within{border-color:var(--accent-v)}
+.sb-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13px;font-family:inherit}
+.sb-search input::placeholder{color:var(--text3)}
+.sb-search svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
+.sb-progress{margin:0 16px 12px;padding:10px 12px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border)}
+.sb-progress-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sb-progress-label{font-size:10px;font-weight:600;letter-spacing:0.8px;color:var(--text3)}
+.sb-progress-pct{font-size:11px;font-weight:700;color:var(--accent-v)}
+.sb-progress-bar{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+.sb-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-v),var(--accent-c));transition:width 0.6s;border-radius:2px}
+.sb-progress-count{font-size:10px;color:var(--text3);margin-top:4px}
+.sb-nav{padding:8px 12px 80px;overflow-y:auto;flex:1}
+.sb-nav::-webkit-scrollbar{width:3px}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-group{margin-bottom:16px}
+.sb-group-title{font-size:10px;font-weight:600;letter-spacing:1.2px;color:var(--text3);padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;color:var(--text2);font-size:12px;cursor:pointer;transition:0.15s;text-decoration:none}
+.sb-item:hover{background:var(--surface-hover);color:var(--text)}
+.sb-item.active{background:rgba(118,185,0,0.12);color:var(--accent-v)}
+.sb-item .sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--text3);transition:0.3s}
+.sb-item .sb-dot.done{background:var(--accent-e);box-shadow:0 0 6px rgba(34,197,94,0.4)}
+.sb-item .sb-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.main{flex:1;margin-left:280px;min-height:100vh;transition:margin-left 0.3s}
+.main.expanded{margin-left:0}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 24px;background:rgba(10,10,15,0.8);border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
+.light .topbar{background:rgba(245,245,240,0.8)}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-subtitle{font-size:12px;color:var(--text3)}
+.topbar-spacer{flex:1}
+.topbar-search{display:none;flex:1;max-width:320px;position:relative}
+.main.expanded .topbar-search{display:block}
+.topbar-search input{width:100%;padding:6px 12px 6px 32px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;font-family:inherit}
+.topbar-search input:focus{border-color:var(--accent-v);background:var(--bg2)}
+.topbar-search input::placeholder{color:var(--text3)}
+.topbar-search .ts-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none}
+.topbar-time{display:none;align-items:center;gap:5px;font-size:12px;color:var(--text2);font-family:var(--font-mono);padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border)}
+.main.expanded .topbar-time{display:flex}
+.topbar-time .tt-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-e);animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+.btn-share,.btn-theme,.btn-menu,.btn-download{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+.btn-share:hover,.btn-theme:hover,.btn-menu:hover,.btn-download:hover{background:var(--surface-hover);color:var(--accent-v);border-color:rgba(118,185,0,0.3)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.dashboard{padding:24px;max-width:1400px;margin:0 auto}
+.dash-header{margin-bottom:32px}
+.dash-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(118,185,0,0.12);color:var(--accent-v);font-size:11px;font-weight:600;margin-bottom:8px}
+.dash-title{font-size:28px;font-weight:700;margin-bottom:6px;line-height:1.2}
+.dash-desc{font-size:14px;color:var(--text2);max-width:700px;line-height:1.5}
+.dash-stats{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap}
+.stat-card{padding:12px 18px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.stat-num{font-size:22px;font-weight:700}
+.stat-label{font-size:11px;color:var(--text2)}
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;transition:0.2s;font-weight:500}
+.filter-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.cat-section{margin-bottom:36px}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.cat-icon{font-size:20px}
+.cat-name{font-size:16px;font-weight:600}
+.cat-count{font-size:12px;color:var(--text3)}
+.cat-line{flex:1;height:1px;background:var(--border)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--sk-color,#76b900);border-radius:var(--radius-sm);padding:12px 14px;cursor:default;transition:0.2s}
+.skill-card:hover{border-color:var(--border-hover);background:var(--surface-hover)}
+.skill-card .sk-head{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.skill-card .sk-name{font-size:13px;font-weight:600;color:var(--text)}
+.skill-card .sk-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.skill-card .sk-cmd{padding:3px 6px;background:rgba(0,0,0,0.2);border-radius:3px;font-family:var(--font-mono);font-size:10px;color:var(--accent-c);cursor:pointer;user-select:all;display:inline-block;transition:0.15s}
+.skill-card .sk-cmd:hover{background:rgba(0,0,0,0.35)}
+.skill-card .sk-tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.skill-card .sk-tags span{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--surface);color:var(--text3);border:1px solid var(--border)}
+.list-section{margin-bottom:32px}
+.list-section h3{font-size:15px;font-weight:600;margin-bottom:10px;padding:8px 12px;border-radius:6px;background:var(--surface);border-left:3px solid var(--accent-v)}
+.skill-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+.skill-item{padding:6px 10px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:11px;color:var(--text2);transition:0.15s;font-family:var(--font-mono)}
+.skill-item:hover{border-color:var(--border-hover);color:var(--text)}
+.gd-back{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-size:12px;transition:0.2s;margin-bottom:20px;text-decoration:none}
+.gd-back:hover{background:var(--surface-hover);color:var(--text)}
+@media(max-width:768px){.sidebar{width:100%}.sidebar.hidden{transform:translateX(-100%)}.main{margin-left:0}.dashboard{padding:16px}.topbar{padding:10px 16px}.skills-grid{grid-template-columns:1fr}.skill-list{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<div class="sb-overlay" id="sbOverlay" onclick="togS()"></div>
+<aside class="sidebar" id="sidebar">
+<div class="sb-header"><a class="sb-logo" href="#" onclick="showDash()"><div class="sb-logo-icon">N</div><div><div class="sb-logo-text">NVIDIA 技能中心</div><div class="sb-logo-sub">YYC³ · 202 官方技能</div></div></a></div>
+<div class="sb-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="sbSearch" placeholder="搜索技能..." oninput="fS(this.value)"/></div>
+<div class="sb-progress"><div class="sb-progress-header"><span class="sb-progress-label">技能总数</span><span class="sb-progress-pct">202</span></div><div class="sb-progress-bar"><div class="sb-progress-fill" style="width:100%"></div></div><div class="sb-progress-count">8 分类 · NVIDIA 官方验证</div></div>
+<nav class="sb-nav" id="sbNav"></nav>
+</aside>
+<div class="main" id="main">
+<div class="topbar">
+<button class="btn-menu" onclick="togS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+<div><div class="topbar-title" id="tbT">NVIDIA 技能中心</div><div class="topbar-subtitle" id="tbS">NVIDIA 官方验证的 AI 智能体技能集合</div></div>
+<div class="topbar-search"><span class="ts-icon">🔍</span><input type="text" placeholder="搜索技能…" oninput="topbarSearch(this.value)"/></div>
+<div class="topbar-spacer"></div>
+<div class="topbar-time" id="tbClock"><span class="tt-dot"></span><span id="clockD">--:--:--</span></div>
+<div class="topbar-actions">
+<button class="btn-share" onclick="sharePg()" title="分享"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+<button class="btn-download" onclick="downloadPg()" title="下载"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+<button class="btn-theme" onclick="togT()"><svg id="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+</div></div>
+<div class="dashboard" id="dashV">
+<div class="dash-header"><div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>NVIDIA Verified · 202 Skills</span></div>
+<h1 class="dash-title">NVIDIA 智能体技能库</h1>
+<p class="dash-desc">NVIDIA 官方验证的 AI 智能体技能集合。涵盖 AI 推理、量子计算、医疗健康、物理 AI、机器人仿真、视频分析等 8 大领域。<br/><br/><strong>快速安装：</strong> <code style="padding:2px 8px;border-radius:4px;background:var(--surface);font-family:var(--font-mono);font-size:12px">npx skills add nvidia/skills</code></p>
+<div class="dash-stats" id="dashS"></div></div>
+<div class="filter-bar" id="fBar"></div>
+<div id="dashC"><div class="loading"><div class="spinner"></div><p>加载技能数据...</p></div></div></div>
+</div></div>
+<script>
+const CATS={aiq:'🎯 AI 推理',cudaq:'⚛️ 量子计算',cuopt:'📊 数学优化',holoscan:'🔬 医疗健康',earth2:'🌍 地球科学',tao:'🧠 视觉 AI',nemo:'🤖 NeMo 框架',vss:'🎥 视频分析',dali:'⚡ 加速计算',phys:'🔧 物理 AI',other:'📦 其他工具'};
+const CATI={aiq:'🎯',cudaq:'⚛️',cuopt:'📊',holoscan:'🔬',earth2:'🌍',tao:'🧠',nemo:'🤖',vss:'🎥',dali:'⚡',phys:'🔧',other:'📦'};
+const CATC={aiq:'#76b900',cudaq:'#8b5cf6',cuopt:'#f59e0b',holoscan:'#06b6d4',earth2:'#22c55e',tao:'#ec4899',nemo:'#6366f1',vss:'#ef4444',dali:'#ff8c00',phys:'#14b8a6',other:'#a855f7'};
+// ═══ NVIDIA 202 Skills — 完整数据 ═══
+const SKILLS={
+aiq:[{n:'aiq-deploy',d:'部署 AI 推理模型到生产环境，支持配置管理、本地部署和关闭流程。',t:['推理','部署']},{n:'aiq-research',d:'AI 推理研究与实验，提供 Python 脚本工具进行模型分析和评估。',t:['研究','推理']}],
+cudaq:[{n:'cudaq-guide',d:'CUDA-Q 量子计算编程指南，指导智能体使用 CUDA-Q 框架开发量子算法。',t:['量子','CUDA']}],
+cuopt:[{n:'cuopt-developer',d:'cuOpt 优化求解器开发者指南，涵盖问题建模、求解和结果分析。',t:['优化','求解器']},{n:'cuopt-install',d:'cuOpt 安装与配置指南，支持多种部署方式和环境检查。',t:['安装','配置']},{n:'cuopt-numerical-optimization-api-cli',d:'cuOpt 数值优化 API 的命令行接口使用指南。',t:['CLI','优化']},{n:'cuopt-numerical-optimization-api-python',d:'cuOpt 数值优化 API 的 Python 接口使用指南。',t:['Python','优化']},{n:'cuopt-routing-api-python',d:'cuOpt 路径优化 API 的 Python 接口，解决 VRP 问题。',t:['路由','VRP']},{n:'cuopt-routing-formulation',d:'cuOpt 路径优化问题建模指南，构建约束和目标函数。',t:['建模','路由']},{n:'cuopt-server-api-python',d:'cuOpt 服务器 Python API 指南，管理远程求解任务。',t:['服务器','API']},{n:'cuopt-server-common',d:'cuOpt 服务器通用配置和管理操作指南。',t:['服务器','管理']},{n:'cuopt-skill-evolution',d:'cuOpt 技能演进指南，帮助优化 cuOpt 使用工作流。',t:['演进','优化']},{n:'cuopt-user-rules',d:'cuOpt 用户自定义规，扩展优化求解能力。',t:['规则','自定义']}],
+holoscan:[{n:'holoscan-install-conda',d:'通过 Conda 安装 Holoscan SDK 的指南。',t:['Conda','安装']},{n:'holoscan-install-container',d:'通过容器方式安装 Holoscan SDK。',t:['容器','Docker']},{n:'holoscan-install-debian',d:'在 Debian 系统上安装 Holoscan SDK。',t:['Debian','安装']},{n:'holoscan-install-source',d:'从源码编译安装 Holoscan SDK。',t:['源码','编译']},{n:'holoscan-install-wheel',d:'通过 Python Wheel 安装 Holoscan SDK。',t:['Python','Wheel']},{n:'holoscan-setup',d:'Holoscan SDK 开发环境设置与验证。',t:['设置','环境']},{n:'hsb-app',d:'Holoscan Sensor Bridge 应用开发与运行指南。',t:['传感器','应用']},{n:'hsb-flash',d:'Holoscan Sensor Bridge 固件刷新指南。',t:['固件','刷新']},{n:'hsb-setup',d:'Holoscan Sensor Bridge 硬件设置与环境配置。',t:['设置','硬件']},{n:'hsb-test',d:'Holoscan Sensor Bridge 测试验证指南。',t:['测试','验证']},{n:'dicom-metadata-extract',d:'DICOM 医学影像元数据提取技能。',t:['DICOM','医疗']},{n:'dicom-series-preflight',d:'DICOM 序列预处理检查，验证影像数据完整性。',t:['DICOM','预处理']},{n:'dicom-series-to-volume',d:'DICOM 序列转 3D 体数据，用于医学影像分析。',t:['DICOM','3D']},{n:'digital-health-clinical-asr-eval',d:'医疗临床 ASR 评估，测试语音识别准确率。',t:['医疗','ASR']},{n:'digital-health-clinical-asr-finetune',d:'医疗临床 ASR 微调，优化领域语音识别。',t:['医疗','微调']},{n:'nv-generate-mr-brain',d:'生成脑部 MR 影像，用于医学研究和模型训练。',t:['MRI','医疗']},{n:'nv-reason-cxr',d:'胸部 X 光影像推理分析，辅助诊断决策。',t:['X光','诊断']},{n:'nv-segment-ctmr',d:'CT/MR 影像分割，用于医学图像分析。',t:['CT','分割']}],
+earth2:[{n:'earth2studio-data-fetch',d:'Earth-2 气象数据获取，支持全球气候数据集。',t:['气象','数据']},{n:'earth2studio-deterministic-forecast',d:'Earth-2 确定性天气预报，基于 AI 的精准预测。',t:['预报','天气']},{n:'earth2studio-discover',d:'Earth-2 Studio 功能发现与浏览工具。',t:['探索','文档']},{n:'earth2studio-install',d:'Earth-2 Studio 安装与环境配置指南。',t:['安装','配置']}],
+tao:[{n:'tao-analyze-changenet-rca',d:'TAO ChangeNet 模型根因分析，诊断变更检测问题。',t:['变更检测','分析']},{n:'tao-analyze-gaps-visual-changenet',d:'TAO 视觉 ChangeNet 差距分析，评估模型性能。',t:['差距','分析']},{n:'tao-convert-dataset-format',d:'TAO 数据集格式转换，支持多种标注格式互转。',t:['数据','转换']},{n:'tao-finetune-clip',d:'微调 CLIP 多模态模型，提升特定领域理解能力。',t:['CLIP','微调']},{n:'tao-finetune-huggingface-model',d:'微调 HuggingFace 预训练模型，适配自定义任务。',t:['HuggingFace','微调']},{n:'tao-generate-video-reasoning-annotations',d:'生成视频推理标注，用于视频理解模型训练。',t:['视频','标注']},{n:'tao-launch-workflow',d:'启动 TAO 训练工作流，管理端到端训练流程。',t:['工作流','训练']},{n:'tao-list-capabilities',d:'列出 TAO 工具包可用功能和能力。',t:['功能','列表']},{n:'tao-mine-aoi-images',d:'TAO AOI 图像挖掘，从大规模数据中筛选相关图像。',t:['挖掘','AOI']},{n:'tao-run-deft-aoi',d:'运行 DEFT AOI 检测流程，自动光学检测推理。',t:['AOI','检测']},{n:'tao-run-on-lepton',d:'在 Lepton 平台上运行 TAO 训练任务。',t:['Lepton','部署']},{n:'tao-run-on-slurm',d:'在 Slurm 集群上运行 TAO 训练任务。',t:['Slurm','HPC']},{n:'tao-route-visual-changenet-samples',d:'TAO 视觉 ChangeNet 样本路由，管理训练样本。',t:['路由','样本']},{n:'tao-setup-nvidia-gpu-host',d:'配置 NVIDIA GPU 主机环境用于 TAO 训练。',t:['GPU','设置']},{n:'tao-train-bevfusion',d:'训练 BEVFusion 多传感器融合模型（鸟瞰图）。',t:['BEV','融合']},{n:'tao-train-deformable-detr',d:'训练 Deformable DETR 目标检测模型。',t:['DETR','检测']},{n:'tao-train-depth-anything-v2',d:'训练 Depth Anything V2 深度估计模型。',t:['深度','估计']},{n:'tao-train-dino',d:'训练 DINO 自监督视觉模型。',t:['DINO','自监督']},{n:'tao-train-foundation-stereo',d:'训练基础立体匹配模型。',t:['立体','匹配']},{n:'tao-train-image-classification',d:'训练图像分类模型，支持多种主干网络。',t:['分类','图像']},{n:'tao-train-mask-auto-encoder',d:'训练 Mask Auto-Encoder 掩码自编码器。',t:['MAE','自编码']},{n:'tao-train-mask-auto-label',d:'训练自动标注掩码模型，减少人工标注。',t:['自动','标注']},{n:'tao-train-mask-grounding-dino',d:'训练 Grounding DINO 开放词汇目标检测。',t:['检测','开放']},{n:'tao-train-nvdinov2',d:'训练 NVIDIA DINOv2 自监督视觉模型。',t:['DINOv2','NVIDIA']},{n:'tao-train-ocdnet',d:'训练 OCDNet 光学字符检测网络。',t:['OCR','检测']},{n:'tao-train-ocrnet',d:'训练 OCRNet 光学字符识别网络。',t:['OCR','识别']},{n:'tao-train-oneformer',d:'训练 OneFormer 统一分割模型。',t:['分割','统一']},{n:'tao-train-optical-inspection',d:'训练光学检测模型，用于工业质检。',t:['质检','光学']},{n:'tao-train-pointpillars',d:'训练 PointPillars 3D 目标检测模型。',t:['3D','检测']},{n:'tao-train-pose-classification',d:'训练姿态分类模型。',t:['姿态','分类']},{n:'tao-train-reid',d:'训练行人重识别 ReID 模型。',t:['ReID','行人']},{n:'tao-train-rtdetr',d:'训练 RT-DETR 实时目标检测模型。',t:['RT-DETR','实时']},{n:'tao-train-visual-changenet',d:'训练视觉 ChangeNet 变更检测模型。',t:['变更','检测']}],
+nemo:[{n:'launch-nemo-rl',d:'启动 NeMo RL 强化学习训练任务。',t:['RL','训练']},{n:'nemoclaw-user-configure-inference',d:'NeMo Claw 推理配置管理。',t:['推理','配置']},{n:'nemoclaw-user-manage-policy',d:'NeMo Claw 策略管理，定义推理规则。',t:['策略','管理']},{n:'nemoclaw-user-monitor-sandbox',d:'NeMo Claw 沙箱监控，确保安全运行。',t:['沙箱','监控']},{n:'nemo-automodel-model-onboarding',d:'NeMo AutoModel 模型接入指南。',t:['AutoModel','接入']},{n:'nemo-data-designer-plugin',d:'NeMo Data Designer 插件，可视化数据设计。',t:['数据','设计']},{n:'nemo-evaluator-plugin',d:'NeMo Evaluator 评估插件，模型性能评估。',t:['评估','插件']},{n:'nemo-mbridge-mlm-bridge-training',d:'NeMo MBridge MLM 桥接训练配置。',t:['MBridge','训练']},{n:'nemo-mbridge-perf-cpu-offloading',d:'NeMo MBridge CPU 卸载性能优化。',t:['性能','CPU']},{n:'nemo-mbridge-perf-megatron-fsdp',d:'NeMo MBridge Megatron-FSDP 性能调优。',t:['Megatron','FSDP']},{n:'nemo-mbridge-perf-memory-tuning',d:'NeMo MBridge 内存调优指南。',t:['内存','调优']},{n:'nemo-mbridge-perf-moe-hardware-configs',d:'NeMo MBridge MoE 硬件配置优化。',t:['MoE','硬件']},{n:'nemo-mbridge-perf-moe-vlm-training',d:'NeMo MBridge MoE VLM 训练性能。',t:['VLM','MoE']},{n:'nemo-mbridge-perf-sequence-packing',d:'NeMo MBridge 序列打包性能优化。',t:['序列','打包']},{n:'nemo-mbridge-recipe-recommender',d:'NeMo MBridge 配方推荐，优化训练配置。',t:['推荐','配方']},{n:'nemo-retriever',d:'NeMo Retriever 知识检索技能。',t:['检索','RAG']},{n:'nemo-rl-auto-research',d:'NeMo RL 自动研究，探索训练策略。',t:['RL','研究']},{n:'nemo-rl-brev-etiquette',d:'NeMo RL 训练规范与最佳实践。',t:['规范','实践']},{n:'nemo-rl-docs',d:'NeMo RL 文档指南，查阅训练参考。',t:['文档','RL']}],
+vss:[{n:'vss-deploy-dense-captioning',d:'VSS 密集描述模型部署，视频内容理解。',t:['视频','描述']},{n:'vss-deploy-detection-tracking-3d',d:'VSS 3D 检测跟踪部署，空间视频分析。',t:['3D','跟踪']},{n:'vss-deploy-video-embedding',d:'VSS 视频嵌入部署，特征提取。',t:['嵌入','视频']},{n:'vss-generate-video-report',d:'VSS 视频分析报告生成。',t:['报告','视频']},{n:'vss-manage-alerts',d:'VSS 告警管理，实时视频监控。',t:['告警','监控']},{n:'vss-manage-video-io-storage',d:'VSS 视频 IO 存储管理。',t:['存储','IO']},{n:'vss-search-archive',d:'VSS 视频归档搜索。',t:['搜索','归档']},{n:'vss-setup-video-analytics-api',d:'VSS 视频分析 API 设置。',t:['API','设置']}],
+dali:[{n:'dali-dynamic-mode',d:'DALI 动态模式数据加载，优化训练管道。',t:['DALI','加速']},{n:'accelerated-computing-cudf',d:'cuDF 加速计算，GPU DataFrame 处理。',t:['cuDF','GPU']},{n:'cufolio',d:'cuFolio 投资组合优化，金融计算加速。',t:['金融','优化']},{n:'cupynumeric-hdf5',d:'cuPyNumerical HDF5 数据加载加速。',t:['HDF5','加速']},{n:'cupynumeric-install',d:'cuPyNumerical 安装配置指南。',t:['安装','配置']},{n:'cupynumeric-migration-readiness',d:'cuPyNumerical 迁移就绪检查。',t:['迁移','检查']}],
+phys:[{n:'omniverse-cad-to-simready',d:'Omniverse CAD 转仿真就绪模型，工业数字化。',t:['Omniverse','仿真']},{n:'physical-ai-data-factory',d:'物理 AI 数据工厂，合成训练数据生成。',t:['数据','合成']},{n:'physical-ai-defect-image-generation',d:'物理 AI 缺陷图像生成，训练质检模型。',t:['缺陷','生成']},{n:'physical-ai-neural-reconstruction',d:'物理 AI 神经重建，3D 场景重建。',t:['重建','3D']},{n:'physicsnemo-discover',d:'PhysicsNeMo 科学发现，AI 驱动物理模拟。',t:['物理','模拟']},{n:'tilegym-cutile-autotuning',d:'TileGym cuTile 自动调优，GPU 内核优化。',t:['调优','GPU']},{n:'tilegym-cutile-python',d:'TileGym cuTile Python 接口使用。',t:['Python','Tile']},{n:'tilegym-improve-cutile-kernel-perf',d:'TileGym cuTile 内核性能优化。',t:['性能','内核']}],
+other:[{n:'data-designer',d:'数据设计师工具，可视化数据管道设计。',t:['数据','设计']},{n:'deepstream-dev',d:'DeepStream SDK 开发指南，视频分析管道。',t:['DeepStream','视频']},{n:'deepstream-import-vision-model',d:'DeepStream 视觉模型导入与部署。',t:['模型','导入']},{n:'dynamo-interconnect-check',d:'Dynamo 互联检查，验证 InfiniBand 网络。',t:['网络','检查']},{n:'dynamo-recipe-runner',d:'Dynamo 配方运行器，AI 工作流执行。',t:['工作流','Dynamo']},{n:'dynamo-router-starter',d:'Dynamo 路由启动器，AI 推理路由。',t:['路由','推理']},{n:'dynamo-troubleshoot',d:'Dynamo 故障排查，诊断 AI 推理问题。',t:['故障','排查']},{n:'mcore-create-issue',d:'Megatron-Core Issue 创建，报告框架问题。',t:['Megatron','Issue']},{n:'mcore-run-on-slurm',d:'Megatron-Core Slurm 集群运行。',t:['Slurm','HPC']},{n:'mcore-split-pr',d:'Megatron-Core PR 拆分，代码审查优化。',t:['PR','拆分']},{n:'mcore-testing',d:'Megatron-Core 测试指南。',t:['测试','Megatron']},{n:'rag-blueprint',d:'RAG Blueprint 检索增强生成架构。',t:['RAG','蓝图']},{n:'rag-eval',d:'RAG 评估，检索增强生成绩效评测。',t:['评估','RAG']},{n:'rag-perf',d:'RAG 性能优化，提升检索效率。',t:['性能','RAG']}]
+};
+let done=new Set();try{const d=JSON.parse(localStorage.getItem('nvidia_done'));if(d)done=new Set(d)}catch(e){}
+function svD(){localStorage.setItem('nvidia_done',JSON.stringify([...done]))}
+let allSkills=[];for(const[k,v]of Object.entries(SKILLS)){v.forEach(s=>{allSkills.push({...s,cat:k})})}
+function renderSB(){
+const n=document.getElementById('sbNav');let h='';
+for(const[cat,lb]of Object.entries(CATS)){
+const its=SKILLS[cat]||[];if(!its.length)continue;
+h+=`<div class="sb-group"><div class="sb-group-title">${lb}</div>`;
+its.forEach(s=>{h+=`<a class="sb-item" href="#" onclick="scrollTo('sk-${s.n}')"><span class="sb-dot${done.has(s.n)?' done':''}"></span><span class="sb-label">${s.n}</span></a>`});
+h+=`</div>`}
+n.innerHTML=h;
+}
+function renderD(f){
+const c=document.getElementById('dashC');let h='';
+for(const[cat,lb]of Object.entries(CATS)){
+const its=SKILLS[cat]||[];if(!its.length)continue;
+if(f&&f!=='all'){const filtered=its.filter(s=>s.n.includes(f)||s.d.includes(f)||s.t.some(t=>t.includes(f)));if(!filtered.length)continue}
+h+=`<div class="list-section" id="sec-${cat}"><h3 style="border-color:${CATC[cat]}"><span>${CATI[cat]} ${lb}</span><span style="margin-left:auto;font-weight:400;font-size:12px;color:var(--text3)">${its.length} 技能</span></h3><div class="skill-list">`;
+(f?its.filter(s=>s.n.includes(f)||s.d.includes(f)||s.t.some(t=>t.includes(f))):its).forEach(s=>{
+const p=done.has(s.n);h+=`<div class="skill-card" id="sk-${s.n}" style="border-left-color:${CATC[cat]}"><div class="sk-head"><span class="sk-name">${s.n}</span><label style="margin-left:auto;width:16px;height:16px;border-radius:3px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;background:${p?'var(--accent-e)':'transparent'}" onclick="event.stopPropagation();togD('${s.n}')">${p?'✓':''}</label></div><div class="sk-desc">${s.d}</div><div class="sk-tags">${s.t.map(t=>`<span>${t}</span>`).join('')}</div></div>`});
+h+=`</div></div>`}
+c.innerHTML=h;
+document.querySelectorAll('.skill-card').forEach(el=>{el.addEventListener('click',function(){const id=this.id.replace('sk-','');togD(id)})});
+rFB();rSt();
+}
+function rFB(){
+const b=document.getElementById('fBar');
+let h='<button class="filter-btn active" data-c="all" onclick="fG(\'all\',this)">📋 全部 (202)</button>';
+for(const[cat,lb]of Object.entries(CATS)){const its=SKILLS[cat]||[];if(its.length){h+=`<button class="filter-btn" data-c="${cat}" onclick="fG('${cat}',this)">${CATI[cat]} ${lb} (${its.length})</button>`}}
+b.innerHTML=h;
+}
+function fG(c,btn){
+document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+document.querySelectorAll('.list-section').forEach(s=>{s.style.display=(c==='all'||s.id==='sec-'+c)?'':'none'});
+}
+function rSt(){const s=document.getElementById('dashS');let t=allSkills.length,d=done.size;s.innerHTML=`<div class="stat-card"><span class="stat-num">${t}</span><span class="stat-label">总技能</span></div><div class="stat-card"><span class="stat-num">${Object.keys(SKILLS).length}</span><span class="stat-label">分类</span></div><div class="stat-card"><span class="stat-num">${d}</span><span class="stat-label">已读</span></div>`}
+function togD(id){if(done.has(id))done.delete(id);else done.add(id);svD();renderSB();rSt();const el=document.getElementById('sk-'+id);if(el){const lb=el.querySelector('label');if(lb){lb.style.background=done.has(id)?'var(--accent-e)':'transparent';lb.textContent=done.has(id)?'✓':''}}}
+function scrollTo(id){const el=document.getElementById(id);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.borderColor='var(--accent-v)';setTimeout(()=>{el.style.borderColor=''},2000)}}
+function togT(){document.body.classList.toggle('light');const i=document.getElementById('ti');i.innerHTML=document.body.classList.contains('light')?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
+function togS(){document.getElementById('sidebar').classList.toggle('hidden');document.getElementById('main').classList.toggle('expanded')}
+function fS(v){const l=v.toLowerCase();document.querySelectorAll('.sb-item').forEach(i=>{i.style.display=i.textContent.toLowerCase().includes(l)?'':'none'})}
+function topbarSearch(v){fS(v);renderD(v)}
+function sharePg(){const t=document.getElementById('tbT').textContent;if(navigator.share)navigator.share({title:t,text:t,url:location.href}).catch(()=>{});else navigator.clipboard.writeText(location.href).then(()=>alert('链接已复制！'))}
+function downloadPg(){const b=new Blob([document.documentElement.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='NVIDIA-技能中心.html';a.click();URL.revokeObjectURL(a.href)}
+function updClock(){const d=new Date();document.getElementById('clockD').textContent=d.toLocaleTimeString('zh-CN',{hour12:false})}
+setInterval(updClock,1000);updClock();
+renderSB();renderD('all');rSt();
+</script>
+</body>
+</html>

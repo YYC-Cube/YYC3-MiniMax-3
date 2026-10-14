@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>YYC³ 智能体中心 · 总览</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EY%3C/text%3E%3C/svg%3E"/>
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a2e;--surface:rgba(255,255,255,0.03);--surface-hover:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--text:#f1f1f6;--text2:rgba(255,255,255,0.65);--text3:rgba(255,255,255,0.35);--accent-v:#8b5cf6;--accent-c:#06b6d4;--accent-e:#22c55e;--accent-r:#ef4444;--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,0.3);--font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;--font-mono:'SF Mono','Fira Code','Cascadia Code','JetBrains Mono','Consolas',monospace}
+.light{--bg:#f5f5f0;--bg2:#e8e8e3;--bg3:#ddd;--surface:rgba(0,0,0,0.02);--surface-hover:rgba(0,0,0,0.05);--border:rgba(0,0,0,0.08);--border-hover:rgba(0,0,0,0.15);--text:#1a1a2e;--text2:rgba(0,0,0,0.55);--text3:rgba(0,0,0,0.3);--shadow:0 4px 24px rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+::selection{background:rgba(139,92,246,0.3);color:#fff}
+.app{display:flex;min-height:100vh}
+.sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform 0.3s}
+.sidebar.hidden{transform:translateX(-100%)}
+.sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer}
+.sb-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent-v),var(--accent-c));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff}
+.sb-logo-text{font-size:14px;font-weight:700;color:var(--text)}
+.sb-logo-sub{font-size:9px;color:var(--text3);letter-spacing:1px}
+.sb-search{margin:12px 16px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;gap:8px}
+.sb-search:focus-within{border-color:var(--accent-v)}
+.sb-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13px;font-family:inherit}
+.sb-search input::placeholder{color:var(--text3)}
+.sb-search svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
+.sb-nav{padding:8px 12px 80px;overflow-y:auto;flex:1}
+.sb-nav::-webkit-scrollbar{width:3px}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-group{margin-bottom:12px}
+.sb-group-title{font-size:10px;font-weight:600;letter-spacing:1.2px;color:var(--text3);padding:0 8px;margin-bottom:4px}
+.sb-page-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;color:var(--text2);font-size:12px;cursor:pointer;transition:0.15s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sb-page-btn:hover{background:var(--surface-hover);color:var(--text)}
+.sb-page-btn.active{background:rgba(139,92,246,0.12);color:var(--accent-v)}
+.sb-page-btn .pb-icon{font-size:16px;width:24px;text-align:center}
+.main{flex:1;margin-left:280px;min-height:100vh;transition:margin-left 0.3s}
+.main.expanded{margin-left:0}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 24px;background:rgba(10,10,15,0.8);border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
+.light .topbar{background:rgba(245,245,240,0.8)}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-subtitle{font-size:12px;color:var(--text3)}
+.topbar-spacer{flex:1}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.btn-share,.btn-theme,.btn-menu,.btn-download{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+.btn-share:hover,.btn-theme:hover,.btn-menu:hover,.btn-download:hover{background:var(--surface-hover);color:var(--accent-v)}
+.page{display:none;padding:24px;max-width:1400px;margin:0 auto}
+.page.active{display:block}
+.dash-header{margin-bottom:32px}
+.dash-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(139,92,246,0.12);color:var(--accent-v);font-size:11px;font-weight:600;margin-bottom:8px}
+.dash-title{font-size:28px;font-weight:700;margin-bottom:6px;line-height:1.2}
+.dash-desc{font-size:14px;color:var(--text2);max-width:700px;line-height:1.5}
+.dash-stats{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap}
+.stat-card{padding:12px 18px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.stat-num{font-size:22px;font-weight:700}
+.stat-label{font-size:11px;color:var(--text2)}
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;cursor:pointer;transition:0.2s;font-weight:500}
+.filter-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.filter-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.cat-section{margin-bottom:36px}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.cat-icon{font-size:20px}
+.cat-name{font-size:16px;font-weight:600}
+.cat-count{font-size:12px;color:var(--text3)}
+.cat-line{flex:1;height:1px;background:var(--border)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.guide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all 0.25s;display:block;color:inherit;position:relative;overflow:hidden;animation:fadeUp 0.4s both;padding:0}
+.guide-card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:var(--shadow)}
+.guide-card .gc-bar{height:3px;width:100%}
+.guide-card .gc-body{padding:16px}
+.guide-card.hidden{display:none}
+.gc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.gc-icon{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+.gc-info{flex:1;min-width:0}
+.gc-title{font-size:14px;font-weight:600;margin-bottom:2px;line-height:1.3}
+.gc-title-en{font-size:10px;color:var(--text3);font-weight:400}
+.gc-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px}
+.gc-tag{font-size:10px;padding:1px 7px;border-radius:4px;font-weight:600}
+.gc-tag.agents{background:rgba(139,92,246,0.12);color:#8b5cf6}
+.gc-tag.skills{background:rgba(6,182,212,0.12);color:#06b6d4}
+.gc-tag.plugins{background:rgba(236,72,153,0.12);color:#ec4899}
+.gc-tag.tools{background:rgba(245,158,11,0.12);color:#f59e0b}
+.gc-tag.core{background:rgba(34,197,94,0.12);color:#22c55e}
+.gc-desc{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gc-cmd{margin-top:8px;padding:5px 8px;background:rgba(0,0,0,0.2);border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--accent-c);display:flex;align-items:center;gap:6px;cursor:pointer;user-select:all}
+.gc-cmd:hover{background:rgba(0,0,0,0.35)}
+.gc-cmd .cmd-copy{margin-left:auto;font-size:12px;opacity:0.5}
+.gc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.gc-tags span{font-size:9px;padding:2px 6px;border-radius:4px;background:var(--surface);color:var(--text3);border:1px solid var(--border)}
+.guide-detail{display:none;padding:24px;max-width:960px;margin:0 auto}
+.guide-detail.active{display:block}
+.gd-back{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-size:12px;transition:0.2s;margin-bottom:20px}
+.gd-back:hover{background:var(--surface-hover);color:var(--text)}
+.gd-hero{padding:24px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);margin-bottom:24px}
+.gd-hero-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.gd-hero-icon{width:48px;height:48px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px}
+.gd-hero-info{flex:1}
+.gd-hero-title{font-size:22px;font-weight:700;margin-bottom:4px}
+.gd-hero-desc{font-size:13px;color:var(--text2);line-height:1.5}
+.gd-hero-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.gd-hero-meta span{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.gd-section{margin-bottom:28px}
+.gd-section h3{font-size:16px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.gd-section h3 .h-icon{font-size:18px}
+.gd-section p,.gd-section li{font-size:13px;color:var(--text2);line-height:1.7}
+.gd-section ul,.gd-section ol{padding-left:18px;margin-bottom:10px}
+table.doc-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+table.doc-table th,table.doc-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+table.doc-table th{font-weight:600;color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:0.8px;background:var(--surface)}
+table.doc-table td{color:var(--text2)}
+table.doc-table tr:hover td{background:var(--surface-hover)}
+.code-block{border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);margin-bottom:10px}
+.code-hdr{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.code-hdr span{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.copy-btn{padding:3px 10px;border-radius:4px;border:none;cursor:pointer;font-size:11px;transition:0.2s;background:var(--surface);color:var(--text2)}
+.copy-btn:hover{background:var(--surface-hover);color:var(--text)}
+.copy-btn.copied{background:rgba(34,197,94,0.15);color:#22c55e}
+.code-block pre{padding:12px 14px;overflow-x:auto;font-family:var(--font-mono);font-size:12px;line-height:1.6;color:var(--text);tab-size:2;background:var(--bg)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--sk-color,#76b900);border-radius:var(--radius-sm);padding:12px 14px;transition:0.2s}
+.skill-card:hover{border-color:var(--border-hover)}
+.skill-card .sk-head{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.skill-card .sk-name{font-size:13px;font-weight:600;color:var(--text)}
+.skill-card .sk-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.skill-card .sk-tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.skill-card .sk-tags span{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--surface);color:var(--text3);border:1px solid var(--border)}
+.skill-card .sk-cmd{padding:3px 6px;background:rgba(0,0,0,0.2);border-radius:3px;font-family:var(--font-mono);font-size:10px;color:var(--accent-c);cursor:pointer;user-select:all;display:inline-block}
+.list-section{margin-bottom:28px}
+.list-section h3{font-size:15px;font-weight:600;margin-bottom:10px;padding:8px 14px;border-radius:6px;background:var(--surface);border-left:3px solid var(--sl-color,#f59e0b);display:flex;align-items:center;gap:8px}
+.list-section h3 .sl-count{margin-left:auto;font-weight:400;font-size:11px;color:var(--text3)}
+.skill-grid-sm{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px}
+.skill-tag{padding:4px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:11px;color:var(--text2);font-family:var(--font-mono);transition:0.15s;cursor:default}
+.skill-tag:hover{border-color:var(--border-hover);color:var(--text)}
+.skill-tag.featured{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.2);color:#f59e0b}
+.skills-count{font-size:13px;color:var(--text3);text-align:center;padding:20px;border:1px dashed var(--border);border-radius:var(--radius-sm);margin-bottom:24px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:16px}
+.spinner{width:32px;height:32px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--accent-v);animation:spin 0.8s infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+ul.agent-list{list-style:none;padding:0}
+ul.agent-list li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);margin-bottom:8px}
+.agent-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
+.agent-info{flex:1}
+.agent-name{font-size:14px;font-weight:600}
+.agent-role{font-size:11px;color:var(--text3)}
+.plugin-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--pc-color,#666);border-radius:var(--radius-sm);padding:12px 14px;transition:0.2s}
+.plugin-card:hover{border-color:var(--border-hover)}
+.plugin-card .pc-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.plugin-card .pc-icon{font-size:16px}
+.plugin-card .pc-name{font-size:13px;font-weight:600}
+.plugin-card .pc-type{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--surface);color:var(--text3);border:1px solid var(--border)}
+.plugin-card .pc-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.plugin-card .pc-cmd{padding:3px 6px;background:rgba(0,0,0,0.2);border-radius:3px;font-family:var(--font-mono);font-size:10px;color:var(--accent-c);cursor:pointer;user-select:all;display:inline-block}
+@media(max-width:768px){.sidebar{width:100%}.sidebar.hidden{transform:translateX(-100%)}.main{margin-left:0}.page{padding:16px}.dash-title{font-size:22px}.card-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}.skill-grid-sm{grid-template-columns:1fr 1fr}.topbar{padding:10px 16px}}
+</style>
+</head>
+<body><div class="app">
+<div class="sb-overlay" onclick="togS()" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none" id="sbo"></div>
+<aside class="sidebar" id="sidebar">
+<div class="sb-header"><div class="sb-logo" onclick="switchPage('hub')"><div class="sb-logo-icon">Y</div><div><div class="sb-logo-text">YYC³ 智能体中心</div><div class="sb-logo-sub">AI Family · 614+ 资产</div></div></div></div>
+<div class="sb-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="sbSearch" placeholder="搜索..." oninput="gSearch(this.value)"/></div>
+<nav class="sb-nav" id="sbNav">
+<div class="sb-group"><div class="sb-group-title">📌 导航</div>
+<button class="sb-page-btn active" data-page="hub" onclick="switchPage('hub')"><span class="pb-icon">🏠</span> 智能体中心总览</button>
+<button class="sb-page-btn" data-page="openclaw" onclick="switchPage('openclaw')"><span class="pb-icon">⚡</span> OpenClaw 操作中心</button>
+<button class="sb-page-btn" data-page="nvidia" onclick="switchPage('nvidia')"><span class="pb-icon">💚</span> NVIDIA 技能中心</button>
+<button class="sb-page-btn" data-page="community" onclick="switchPage('community')"><span class="pb-icon">🌍</span> 社区技能中心</button>
+</div></nav></aside>
+<div class="main" id="main">
+<div class="topbar">
+<button class="btn-menu" onclick="togS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+<div><div class="topbar-title" id="tbT">YYC³ 智能体中心</div><div class="topbar-subtitle" id="tbS">AI Family · 智能体资产矩阵</div></div>
+<div class="topbar-spacer"></div>
+<div class="topbar-actions">
+<button class="btn-share" onclick="sharePg()" title="分享"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+<button class="btn-download" onclick="downloadPg()" title="下载"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+<button class="btn-theme" onclick="togT()"><svg id="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+</div></div>
+<!-- ═══ PAGE 1: YYC³ Agent Hub ═══ -->
+<div class="page active" id="page-hub"><div class="dash-header"><div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>YYC³ v1.4.0 · 614+ 资产</span></div><h1 class="dash-title">YYC³ AI Agent Archive</h1><p class="dash-desc">Monorepo 架构聚合 <strong>7 个核心包</strong>、<strong>8 位 AI Family 智能体</strong>、<strong>600+ 技能</strong>、<strong>200+ 插件</strong> 及多智能体协同体系。</p><div class="dash-stats" id="hubStats"></div></div><div class="filter-bar" id="hubFilter"></div><div id="hubContent"><div class="loading"><div class="spinner"></div><p>加载数据...</p></div></div><div class="guide-detail" id="hubDetail"></div></div>
+<!-- ═══ PAGE 2: OpenClaw 操作中心 ═══ -->
+<div class="page" id="page-openclaw"><div class="dash-header"><div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>OpenClaw · 36 篇文档</span></div><h1 class="dash-title">OpenClaw 操作中心</h1><p class="dash-desc">开源 AI 智能体运行时完整文档 — 覆盖 Gateway 网关、工具系统、技能系统、插件生态、节点系统、语音媒体与自动化。</p><div class="dash-stats" id="ocStats"></div></div><div class="filter-bar" id="ocFilter"></div><div id="ocContent"><div class="loading"><div class="spinner"></div><p>加载文档...</p></div></div><div class="guide-detail" id="ocDetail"></div></div>
+<!-- ═══ PAGE 3: NVIDIA 技能中心 ═══ -->
+<div class="page" id="page-nvidia"><div class="dash-header"><div class="dash-badge" style="background:rgba(118,185,0,0.12);color:#76b900"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>NVIDIA Verified · 202 Skills</span></div><h1 class="dash-title">NVIDIA 智能体技能库</h1><p class="dash-desc">NVIDIA 官方验证的 AI 智能体技能，涵盖 AI 推理、量子计算、医疗健康、物理 AI、视频分析等 8 大领域。<br/><strong>安装：</strong><code style="padding:2px 8px;border-radius:4px;background:var(--surface);font-family:var(--font-mono);font-size:12px">npx skills add nvidia/skills</code></p><div class="dash-stats" id="nvStats"></div></div><div class="filter-bar" id="nvFilter"></div><div id="nvContent"><div class="loading"><div class="spinner"></div><p>加载技能数据...</p></div></div></div>
+<!-- ═══ PAGE 4: 社区技能中心 ═══ -->
+<div class="page" id="page-community"><div class="dash-header"><div class="dash-badge" style="background:rgba(245,158,11,0.12);color:#f59e0b"><span>Community Skills · 283 Skills</span></div><h1 class="dash-title">YYC³ 社区技能库</h1><p class="dash-desc">全球开发者贡献的 <strong>283 个社区技能</strong>，覆盖 15 大分类。每个技能即一个可复用的 AI 智能体指令包。</p><div class="dash-stats" id="comStats"></div></div><div id="comContent"><div class="loading"><div class="spinner"></div><p>加载技能数据...</p></div></div></div>
+</div></div>
+<script>
+// ══════════════════════════════════════════════
+// DATA: YYC³ Agent Hub
+// ══════════════════════════════════════════════
+const AGENTS=[
+{id:'a01',cat:'agents',icon:'🧭',color:'#0088cc',title:'言启·千行',en:'QianHang',role:'首席导航员 · 意图之门',desc:'代码生成与架构设计。以一言启千行，连接人与AI。',tags:['全栈','架构','代码'],cmd:'pnpm yyc3 skills:build'},
+{id:'a02',cat:'agents',icon:'🤔',color:'#c0c0c0',title:'语枢·万物',en:'Thinker',role:'首席思考者 · 洞察之源',desc:'语言理解与知识管理。化数据为洞察，化洞察为真理。',tags:['NLP','知识图谱','分析'],cmd:'pnpm yyc3 skills:validate'},
+{id:'a03',cat:'agents',icon:'🔮',color:'#4b0082',title:'预见·先知',en:'Oracle',role:'首席预言家 · 趋势之眼',desc:'数据分析与趋势预测。见微知著，防患未然。',tags:['ML','预测','数据'],cmd:'pnpm yyc3 skills:stats'},
+{id:'a04',cat:'agents',icon:'🎯',color:'#dc143c',title:'千里·伯乐',en:'Bole',role:'首席推荐官 · 知遇之人',desc:'人才评估与团队建设。识人之慧眼，知遇之伯乐。',tags:['评估','匹配','团队'],cmd:'pnpm doctor'},
+{id:'a05',cat:'agents',icon:'🧠',color:'#5e2c8a',title:'元启·天枢',en:'TianShu',role:'总指挥 · 决策中枢',desc:'系统架构与技术决策。运筹帷幄之中，决胜千里之外。',tags:['架构','决策','规划'],cmd:'pnpm build'},
+{id:'a06',cat:'agents',icon:'🛡️',color:'#333',title:'智云·守护',en:'Guardian',role:'首席安全官 · 免疫系统',desc:'安全审计与风险管控。以智能为甲，以数据为盾。',tags:['安全','审计','合规'],cmd:'pnpm typecheck'},
+{id:'a07',cat:'agents',icon:'📚',color:'#2e8b57',title:'格物·宗师',en:'Master',role:'首席质量官 · 进化导师',desc:'领域知识与专业指导。格物致知，知行合一。',tags:['教育','质量','知识'],cmd:'pnpm test'},
+{id:'a08',cat:'agents',icon:'🎨',color:'#ff8c00',title:'创想·灵韵',en:'Creator',role:'首席创意官 · 灵感之源',desc:'创意设计与多媒体。破旧立新，敢为人先。',tags:['UI/UX','创意','媒体'],cmd:'pnpm dev'}];
+const HUB_SKILLS=[
+{id:'s01',cat:'skills',icon:'🏪',title:'Anthropic 技能包',en:'Claude API/Canvas/MCP',desc:'Anthropic 官方技能，Claude API 多语言 SDK、Canvas、PDF/PPTX。',tags:['Anthropic','Claude'],cmd:'openclaw plugins install clawhub:anthropic-skills',color:'#d97706'},
+{id:'s02',cat:'skills',icon:'🧭',title:'Browser 浏览器',en:'Web Automation',desc:'Playwright 驱动浏览器控制：打开标签页、点击、截图。',tags:['浏览器','Playwright'],cmd:'openclaw plugins enable browser',color:'#06b6d4'},
+{id:'s03',cat:'skills',icon:'✈️',title:'12306 火车票',en:'Train Query',desc:'中国铁路12306余票查询、车次信息、票价查询。',tags:['交通','12306'],cmd:'openclaw skills install 12306',color:'#ef4444'},
+{id:'s04',cat:'skills',icon:'📧',title:'Gmail 邮件',en:'Gmail',desc:'Gmail邮件收发、搜索、标签管理、自动回复。',tags:['邮件','Gmail'],cmd:'openclaw skills install gmail',color:'#ea4335'},
+{id:'s05',cat:'skills',icon:'📊',title:'股票数据',en:'A-Stock',desc:'A股实时数据、历史K线、财务指标查询。',tags:['股票','金融'],cmd:'openclaw skills install a-stock-data',color:'#22c55e'},
+{id:'s06',cat:'skills',icon:'🎵',title:'QQ 音乐',en:'QQ Music',desc:'QQ音乐搜索、播放、歌单管理、排行榜。',tags:['音乐','QQ'],cmd:'openclaw skills install qqmusic',color:'#f59e0b'},
+{id:'s07',cat:'skills',icon:'📝',title:'飞书/钉钉',en:'Lark & DingTalk',desc:'飞书Lark和钉钉统一消息API集成。',tags:['飞书','钉钉'],cmd:'openclaw skills install lark-unified',color:'#3370ff'},
+{id:'s08',cat:'skills',icon:'🌐',title:'Web 搜索',en:'Tavily',desc:'AI优化Web搜索，搜索深度/主题筛选/内容提取。',tags:['搜索','Tavily'],cmd:'openclaw skills install tavily',color:'#8b5cf6'},
+{id:'s09',cat:'skills',icon:'📰',title:'arXiv 论文',en:'arXiv Reader',desc:'arXiv论文搜索、摘要提取、PDF下载、关键词监控。',tags:['学术','arXiv'],cmd:'openclaw skills install arxiv-reader',color:'#6366f1'},
+{id:'s10',cat:'skills',icon:'🎨',title:'Excalidraw',en:'Diagram',desc:'描述图表AI自动生成Excalidraw草图。',tags:['图表','白板'],cmd:'openclaw skills install excalidraw-diagram',color:'#6965db'},
+{id:'s11',cat:'skills',icon:'🏠',title:'Airbnb 搜索',en:'Airbnb',desc:'Airbnb房源搜索、价格比较、区域分析。',tags:['旅行','住宿'],cmd:'openclaw skills install airbnb',color:'#ff5a5f'},
+{id:'s12',cat:'skills',icon:'👨‍💻',title:'FullStack 开发',en:'FullStack Dev',desc:'全栈Web开发：前后端框架、数据库、部署。',tags:['全栈','Web'],cmd:'openclaw skills install fullstack-dev',color:'#3178c6'},
+{id:'s13',cat:'skills',icon:'📚',title:'学术翻译',en:'Academic',desc:'学术论文中英互译，保持学术格式和术语准确。',tags:['翻译','学术'],cmd:'openclaw skills install academic-translation',color:'#ec4899'},
+{id:'s14',cat:'skills',icon:'📱',title:'React Native',en:'React Native Dev',desc:'React Native跨平台移动应用开发。',tags:['React Native','移动'],cmd:'openclaw skills install react-native-dev',color:'#61dafb'},
+{id:'s15',cat:'skills',icon:'☁️',title:'Cloudflare',en:'Cloudflare',desc:'Cloudflare Workers/Pages部署、DNS、CDN管理。',tags:['Cloudflare','部署'],cmd:'openclaw skills install cloudflare',color:'#f38020'}];
+const HUB_PLUGINS=[
+{id:'p01',cat:'plugins',icon:'📞',title:'语音通话',type:'官方',desc:'Plivo/Telnyx/Twilio语音，出站通知，全双工实时。',cmd:'openclaw plugins install @openclaw/voice-call',color:'#22c55e'},
+{id:'p02',cat:'plugins',icon:'💚',title:'Zalo Personal',type:'官方',desc:'zca-js实现Zalo个人账号自动化。',cmd:'openclaw plugins install @openclaw/zalouser',color:'#0068ff'},
+{id:'p03',cat:'plugins',icon:'🔥',title:'Firecrawl',type:'官方',desc:'高级Web搜索与抓取，支持JS渲染页面。',cmd:'openclaw plugins install @openclaw/firecrawl-plugin',color:'#ff6b35'},
+{id:'p04',cat:'plugins',icon:'🤖',title:'LLM 任务',type:'内置',desc:'仅JSON的LLM调用，JSON Schema验证。',cmd:'tools.alsoAllow: ["llm-task"]',color:'#8b5cf6'},
+{id:'p05',cat:'plugins',icon:'🦞',title:'Lobster',type:'内置',desc:'类型化多步骤工具流水线，审批检查点。',cmd:'tools.alsoAllow: ["lobster"]',color:'#06b6d4'},
+{id:'p06',cat:'plugins',icon:'📜',title:'OpenProse',type:'内置',desc:'可移植Markdown工作流格式。',cmd:'openclaw plugins enable open-prose',color:'#f59e0b'},
+{id:'p07',cat:'plugins',icon:'💬',title:'Discord',type:'官方',desc:'Discord Bot API + Gateway。',cmd:'openclaw plugins install @openclaw/discord',color:'#5865f2'},
+{id:'p08',cat:'plugins',icon:'💬',title:'WhatsApp',type:'官方',desc:'Baileys WhatsApp Web集成，二维码配对。',cmd:'openclaw plugins install @openclaw/whatsapp',color:'#25d366'},
+{id:'p09',cat:'plugins',icon:'💬',title:'Telegram',type:'核心',desc:'grammY Bot API，群组和内联模式。',cmd:'openclaw channels add telegram',color:'#26a5e4'},
+{id:'p10',cat:'plugins',icon:'💬',title:'飞书 Feishu',type:'官方',desc:'飞书/Lark机器人WebSocket集成。',cmd:'openclaw plugins install @openclaw/feishu',color:'#3370ff'},
+{id:'p11',cat:'plugins',icon:'💬',title:'Slack',type:'官方',desc:'Bolt SDK工作区应用集成。',cmd:'openclaw plugins install @openclaw/slack',color:'#4a154b'},
+{id:'p12',cat:'plugins',icon:'💬',title:'Signal',type:'官方',desc:'signal-cli隐私优先消息集成。',cmd:'openclaw plugins install @openclaw/signal',color:'#3b5cf7'},
+{id:'p13',cat:'plugins',icon:'💬',title:'微信',type:'外部',desc:'腾讯iLink机器人，二维码登录。',cmd:'openclaw plugins install wechat',color:'#07c160'},
+{id:'p14',cat:'plugins',icon:'🔧',title:'浏览器',type:'内置',desc:'独立Chrome配置文件，智能体浏览器自动化。',cmd:'plugins.entries.browser.enabled: true',color:'#4285f4'}];
+const HUB_TOOLS=[
+{id:'t01',cat:'tools',icon:'🔤',title:'Autocomplete CLI',lang:'TS',desc:'CLI自动补全规范引擎（Fig格式）。',tags:['CLI','补全'],path:'tools-hub/autocomplete/'},
+{id:'t02',cat:'tools',icon:'🌐',title:'Browser Agent',lang:'Rust',desc:'浏览器自动化CLI，CDP/WebDriver双驱动。',tags:['Rust','浏览器'],path:'tools-hub/browser-agent/'},
+{id:'t03',cat:'tools',icon:'🔄',title:'Workflow Builder',lang:'TS',desc:'AI工作流可视化构建器，Next.js+ReactFlow。',tags:['工作流','Next.js'],path:'tools-hub/workflow-builder/'},
+{id:'t04',cat:'tools',icon:'🎼',title:'Conductor',lang:'TS',desc:'任务编排与执行引擎。',tags:['编排','任务'],path:'tools-hub/conductor/'},
+{id:'t05',cat:'tools',icon:'🔧',title:'Code IDE',lang:'Config',desc:'IDE集成配置与插件市场。',tags:['IDE','配置'],path:'tools-hub/code-ide/'},
+{id:'t06',cat:'tools',icon:'🐹',title:'Go Tools',lang:'Go',desc:'Go标准工具集benchcmp/bisect等。',tags:['Go','工具'],path:'tools-hub/golang-tools/'}];
+const HUB_CORES=[
+{id:'c01',cat:'core',icon:'📦',title:'@yyc3/skill-registry',v:'1.0.0',desc:'统一Skill注册中心',status:'✅ Active',cmd:'cd packages/skill-registry && pnpm build'},
+{id:'c02',cat:'core',icon:'📦',title:'@yyc3/mcp-runtime',v:'1.0.0',desc:'统一MCP运行时',status:'✅ Active',cmd:'cd packages/mcp-runtime && pnpm build'},
+{id:'c03',cat:'core',icon:'📦',title:'@yyc3/i18n-core',v:'2.4.0',desc:'生产级国际化框架',status:'✅ Active',cmd:'cd packages/yyc3-i18n && pnpm build'},
+{id:'c04',cat:'core',icon:'📦',title:'yyc3-cli',v:'2.0.0',desc:'命令行界面',status:'✅ Active',cmd:'pnpm yyc3 --help'},
+{id:'c05',cat:'core',icon:'📦',title:'@yyc3/icons',v:'1k+',desc:'Lucide图标库1000+',status:'✅ Active',cmd:'ls packages/@yyc3/icons/*.svg | wc -l'},
+{id:'c06',cat:'core',icon:'📦',title:'@yyc3/skills',v:'1.0.0',desc:'旧技能系统(已弃用)',status:'⚠️ Deprecated',cmd:'pnpm skills:dedup'}];
+const HUB_ALL=[...AGENTS,...HUB_SKILLS,...HUB_PLUGINS,...HUB_TOOLS,...HUB_CORES];
+const HUB_CATS={agents:'🤖 AI Family',skills:'🛠️ 技能',plugins:'🔌 插件',tools:'🧰 工具',core:'📦 核心包'};
+const HUB_CATI={agents:'🤖',skills:'🛠️',plugins:'🔌',tools:'🧰',core:'📦'};
+const HUB_CATC={agents:'#8b5cf6',skills:'#06b6d4',plugins:'#ec4899',tools:'#f59e0b',core:'#22c55e'};
+// ══════════════════════════════════════════════
+// DATA: OpenClaw 操作中心 (36 docs from oc-docs.js)
+// ══════════════════════════════════════════════
+const OC_CATS={'getting-started':'🚀 入门','core':'🏛️ 核心','tools':'🛠️ 工具','channels':'💬 渠道','plugins':'🔌 插件','nodes':'📡 节点','media':'🎤 语音与媒体','automation':'⏰ 自动化'};
+const OC_CATICON={'getting-started':'🚀','core':'🏛️','tools':'🛠️','channels':'💬','plugins':'🔌','nodes':'📡','media':'🎤','automation':'⏰'};
+const OC_CATCOLOR={'getting-started':'#22c55e','core':'#8b5cf6','tools':'#06b6d4','channels':'#f59e0b','plugins':'#ec4899','nodes':'#22c55e','media':'#8b5cf6','automation':'#ef4444'};
+const OC_GUIDES=[
+{id:'oc01',cat:'getting-started',title:'OpenClaw 快速开始',icon:'🚀',color:'#22c55e',desc:'安装部署、系统要求、验证安装。',tags:['安装','CLI'],content:'<div class="gd-section"><h3><span class="h-icon">📦</span>安装方法</h3><table class="doc-table"><tr><th>方法</th><th>命令</th></tr><tr><td>安装脚本</td><td><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></td></tr><tr><td>npm</td><td><code>npm install -g openclaw@latest</code></td></tr></table></div>'},
+{id:'oc02',cat:'getting-started',title:'安装指南',icon:'📦',color:'#22c55e',desc:'多种安装方式详解。',tags:['安装','跨平台'],content:'<div class="gd-section"><p>支持安装脚本、npm、pnpm、bun、源码六种安装方式。</p><table class="doc-table"><tr><th>方式</th><th>命令</th></tr><tr><td>安装脚本</td><td><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></td></tr><tr><td>PowerShell</td><td><code>iwr -useb https://openclaw.ai/install.ps1 | iex</code></td></tr><tr><td>npm</td><td><code>npm install -g openclaw@latest</code></td></tr></table></div>'},
+{id:'oc03',cat:'core',title:'核心架构',icon:'🏛️',color:'#8b5cf6',desc:'Gateway 架构详解。',tags:['架构','Gateway'],content:'<div class="gd-section"><p>OpenClaw 采用 Gateway 网关架构：Gateway（守护进程）→ 客户端/节点/插件。</p><div class="code-block"><div class="code-hdr"><span>text</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>Gateway 网关（守护进程）\n├── 渠道（WhatsApp/Telegram/Discord）\n├── 模型提供商\n├── 工具系统\n├── 技能系统\n└── 节点系统</pre></div></div>'},
+{id:'oc04',cat:'core',title:'Gateway 网关',icon:'🔗',color:'#8b5cf6',desc:'核心守护进程运行手册。',tags:['Gateway','端口'],content:'<div class="gd-section"><h3>启动</h3><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw gateway --port 18789\nopenclaw gateway status\nopenclaw logs --follow</pre></div></div>'},
+{id:'oc05',cat:'core',title:'CLI 参考',icon:'⌨️',color:'#8b5cf6',desc:'CLI 命令索引。',tags:['CLI','命令'],content:'<div class="gd-section"><table class="doc-table"><tr><th>领域</th><th>命令</th></tr><tr><td>设置</td><td><code>setup</code>·<code>onboard</code>·<code>doctor</code></td></tr><tr><td>消息</td><td><code>message</code>·<code>agent</code>·<code>mcp</code></td></tr><tr><td>节点</td><td><code>nodes</code>·<code>devices</code></td></tr><tr><td>自动化</td><td><code>cron</code>·<code>tasks</code>·<code>hooks</code></td></tr></table></div>'},
+{id:'oc06',cat:'core',title:'安全模型',icon:'🛡️',color:'#8b5cf6',desc:'设备配对、身份验证。',tags:['安全','认证'],content:'<div class="gd-section"><ul><li>设备配对—新设备需批准</li><li>本地信任—Loopback自动获批</li><li>挑战签名—v3绑定platform</li><li>身份验证—token/password/proxy</li></ul></div>'},
+{id:'oc07',cat:'tools',title:'工具概览',icon:'🛠️',color:'#06b6d4',desc:'内置工具类别。',tags:['工具','exec'],content:'<div class="gd-section"><table class="doc-table"><tr><th>类别</th><th>工具</th></tr><tr><td>⚡运行时</td><td><code>exec</code>·<code>process</code></td></tr><tr><td>📁文件</td><td><code>read</code>·<code>write</code>·<code>edit</code></td></tr><tr><td>🌐Web</td><td><code>web_search</code>·<code>web_fetch</code></td></tr><tr><td>🧭浏览器</td><td><code>browser</code></td></tr><tr><td>⏰自动化</td><td><code>cron</code>·<code>heartbeat</code></td></tr></table></div>'},
+{id:'oc08',cat:'tools',title:'思考级别',icon:'🧠',color:'#06b6d4',desc:'推理强度控制。',tags:['推理','AI'],content:'<div class="gd-section"><table class="doc-table"><tr><th>级别</th><th>说明</th></tr><tr><td>off</td><td>关闭</td></tr><tr><td>medium</td><td>中等(默认)</td></tr><tr><td>high</td><td>高强度</td></tr><tr><td>adaptive</td><td>自适应</td></tr><tr><td>ultra</td><td>极致</td></tr></table></div>'},
+{id:'oc09',cat:'tools',title:'子智能体',icon:'🧬',color:'#06b6d4',desc:'后台智能体运行。',tags:['子智能体','并行'],content:'<div class="gd-section"><p>子智能体从现有运行中生成后台任务，默认隔离运行，完成时推送通知。</p><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>/subagents list\n/subagents log &lt;id&gt;</pre></div></div>'},
+{id:'oc10',cat:'tools',title:'提升权限',icon:'🔑',color:'#06b6d4',desc:'沙箱外命令执行。',tags:['权限','沙箱'],content:'<div class="gd-section"><table class="doc-table"><tr><th>指令</th><th>效果</th></tr><tr><td><code>/elevated on</code></td><td>沙箱外运行，保留审批</td></tr><tr><td><code>/elevated full</code></td><td>跳过审批</td></tr><tr><td><code>/elevated off</code></td><td>恢复沙箱内</td></tr></table></div>'},
+{id:'oc11',cat:'tools',title:'LLM 任务',icon:'🤖',color:'#06b6d4',desc:'JSON LLM 调用。',tags:['LLM','JSON'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>json</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>{\n  "plugins": { "entries": { "llm-task": { "enabled": true } } },\n  "tools": { "alsoAllow": ["llm-task"] }\n}</pre></div></div>'},
+{id:'oc12',cat:'tools',title:'Lobster 工作流',icon:'🦞',color:'#06b6d4',desc:'多步骤工具流水线。',tags:['工作流','审批'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>json</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>{\n  "tools": { "alsoAllow": ["lobster"] }\n}</pre></div></div>'},
+{id:'oc13',cat:'tools',title:'Agent 发送',icon:'📨',color:'#06b6d4',desc:'CLI 运行智能体轮次。',tags:['Agent','CLI'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw agent --agent main --message "Hello"\nopenclaw agent --agent ops --message-file ./task.md</pre></div></div>'},
+{id:'oc14',cat:'tools',title:'Firecrawl 搜索',icon:'🔥',color:'#06b6d4',desc:'Web搜索与抓取。',tags:['搜索','抓取'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw plugins install @openclaw/firecrawl-plugin\nopenclaw gateway restart</pre></div></div>'},
+{id:'oc15',cat:'channels',title:'聊天渠道',icon:'💬',color:'#f59e0b',desc:'20+ 聊天渠道。',tags:['渠道','多平台'],content:'<div class="gd-section"><table class="doc-table"><tr><th>渠道</th><th>类型</th></tr><tr><td>Telegram</td><td>核心内置</td></tr><tr><td>WhatsApp</td><td>官方插件</td></tr><tr><td>Discord</td><td>官方插件</td></tr><tr><td>iMessage</td><td>核心内置</td></tr><tr><td>Signal</td><td>官方插件</td></tr><tr><td>Slack</td><td>官方插件</td></tr><tr><td>飞书</td><td>官方插件</td></tr><tr><td>QQ Bot</td><td>官方插件</td></tr><tr><td>微信</td><td>外部插件</td></tr><tr><td>语音通话</td><td>官方插件</td></tr></table></div>'},
+{id:'oc16',cat:'channels',title:'Web 浏览器',icon:'🧭',color:'#f59e0b',desc:'Chrome 配置文件自动化。',tags:['浏览器','Chrome'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw browser --browser-profile openclaw start\nopenclaw browser --browser-profile openclaw open https://example.com</pre></div></div>'},
+{id:'oc17',cat:'channels',title:'Zalo Personal',icon:'💚',color:'#f59e0b',desc:'Zalo个人账号自动化。',tags:['Zalo','插件'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw plugins install @openclaw/zalouser\nopenclaw gateway restart</pre></div></div>'},
+{id:'oc18',cat:'channels',title:'斜杠命令',icon:'/',color:'#f59e0b',desc:'聊天命令系统。',tags:['命令','快捷'],content:'<div class="gd-section"><table class="doc-table"><tr><th>类型</th><th>示例</th></tr><tr><td>命令</td><td><code>/new</code>·<code>/reset</code></td></tr><tr><td>指令</td><td><code>/think</code>·<code>/fast</code></td></tr><tr><td>快捷</td><td><code>/help</code>·<code>/status</code></td></tr></table></div>'},
+{id:'oc19',cat:'plugins',title:'插件生态',icon:'🔌',color:'#ec4899',desc:'插件安装管理。',tags:['插件','安装'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw plugins install clawhub:&lt;package&gt;\nopenclaw plugins list\nopenclaw plugins inspect &lt;id&gt;</pre></div></div>'},
+{id:'oc20',cat:'plugins',title:'插件清单',icon:'📋',color:'#ec4899',desc:'openclaw.plugin.json',tags:['清单','元数据'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>json</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>{\n  "id": "voice-call",\n  "configSchema": {\n    "type": "object",\n    "properties": {}\n  }\n}</pre></div></div>'},
+{id:'oc21',cat:'plugins',title:'语音通话插件',icon:'📞',color:'#ec4899',desc:'Plivo/Telnyx/Twilio语音。',tags:['语音','通话'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw plugins install @openclaw/voice-call\nopenclaw voicecall setup</pre></div></div>'},
+{id:'oc22',cat:'plugins',title:'OpenProse',icon:'📜',color:'#ec4899',desc:'Markdown工作流编排。',tags:['工作流','Markdown'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw plugins enable open-prose\nopenclaw gateway restart</pre></div></div>'},
+{id:'oc23',cat:'plugins',title:'Hooks 系统',icon:'🪝',color:'#ec4899',desc:'智能体事件钩子。',tags:['Hooks','事件'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw hooks list\nopenclaw hooks enable &lt;name&gt;</pre></div></div>'},
+{id:'oc24',cat:'nodes',title:'节点系统',icon:'📡',color:'#22c55e',desc:'设备连接Gateway。',tags:['节点','设备'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw nodes status\nopenclaw devices list\nopenclaw devices approve &lt;id&gt;</pre></div></div>'},
+{id:'oc25',cat:'nodes',title:'节点主机',icon:'🖥️',color:'#22c55e',desc:'远程命令执行。',tags:['节点','远程'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw node run --host &lt;host&gt; --port 18789\nopenclaw node install --host &lt;host&gt; --port 18789</pre></div></div>'},
+{id:'oc26',cat:'nodes',title:'浏览器登录',icon:'🔐',color:'#22c55e',desc:'智能体浏览器登录。',tags:['登录','安全'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw browser start\nopenclaw browser open https://x.com</pre></div></div>'},
+{id:'oc27',cat:'nodes',title:'节点故障排查',icon:'🔧',color:'#22c55e',desc:'节点工具不可用排查。',tags:['故障','节点'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw nodes status\nopenclaw nodes describe --node &lt;id&gt;</pre></div></div>'},
+{id:'oc28',cat:'nodes',title:'位置命令',icon:'📍',color:'#22c55e',desc:'GPS/网络定位。',tags:['位置','GPS'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw nodes location get --node &lt;id&gt;</pre></div></div>'},
+{id:'oc29',cat:'nodes',title:'相机拍摄',icon:'📷',color:'#22c55e',desc:'节点相机拍摄。',tags:['相机','拍摄'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw nodes camera snap --node &lt;id&gt;</pre></div></div>'},
+{id:'oc30',cat:'media',title:'Talk 模式',icon:'🎤',color:'#8b5cf6',desc:'五种语音形态。',tags:['语音','TTS'],content:'<div class="gd-section"><table class="doc-table"><tr><th>模式</th><th>说明</th></tr><tr><td>原生Talk</td><td>本地语音+TTS</td></tr><tr><td>iOS实时</td><td>WebRTC</td></tr><tr><td>浏览器</td><td>客户端WebRTC</td></tr><tr><td>仅转录</td><td>字幕/听写</td></tr></table></div>'},
+{id:'oc31',cat:'media',title:'语音唤醒',icon:'🗣️',color:'#8b5cf6',desc:'全局唤醒词。',tags:['唤醒','语音'],content:'<div class="gd-section"><p>默认唤醒词：<code>openclaw</code>、<code>claude</code>、<code>computer</code>。最多32个。</p></div>'},
+{id:'oc32',cat:'media',title:'媒体理解',icon:'🎨',color:'#8b5cf6',desc:'汇总图像/音频/视频。',tags:['媒体','图像'],content:'<div class="gd-section"><table class="doc-table"><tr><th>能力</th><th>最大</th></tr><tr><td>图像</td><td>10MB</td></tr><tr><td>音频</td><td>20MB</td></tr><tr><td>视频</td><td>50MB</td></tr></table></div>'},
+{id:'oc33',cat:'media',title:'音频和语音',icon:'🔊',color:'#8b5cf6',desc:'音频转录。',tags:['音频','转录'],content:'<div class="gd-section"><ol><li>当前回复模型</li><li>已配置提供商</li><li>本地CLI（whisper等）</li></ol></div>'},
+{id:'oc34',cat:'media',title:'图像和媒体',icon:'🖼️',color:'#8b5cf6',desc:'WhatsApp媒体处理。',tags:['媒体','图像'],content:'<div class="gd-section"><table class="doc-table"><tr><th>类型</th><th>限制</th></tr><tr><td>图像</td><td>50MB</td></tr><tr><td>音频</td><td>16MB</td></tr><tr><td>视频</td><td>16MB</td></tr><tr><td>文档</td><td>100MB</td></tr></table></div>'},
+{id:'oc35',cat:'automation',title:'Cron 定时任务',icon:'⏰',color:'#ef4444',desc:'Gateway调度器。',tags:['Cron','定时'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>openclaw cron create "2027-02-01T16:00:00Z" --name "Reminder"\nopenclaw cron create --every 1h --name "Hourly Check"</pre></div></div>'},
+{id:'oc36',cat:'automation',title:'Skills 配置',icon:'🎯',color:'#ef4444',desc:'技能系统配置。',tags:['Skills','配置'],content:'<div class="gd-section"><div class="code-block"><div class="code-hdr"><span>json5</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>{\n  skills: {\n    allowBundled: ["gemini"],\n    load: { extraDirs: ["~/scripts/skills"], watch: true },\n  },\n}</pre></div></div>'}];
+// ══════════════════════════════════════════════
+// DATA: NVIDIA 202 Skills
+// ══════════════════════════════════════════════
+const NV_CATS={aiq:'🎯 AI推理',cudaq:'⚛️ 量子计算',cuopt:'📊 数学优化',holoscan:'🔬 医疗健康',earth2:'🌍 地球科学',tao:'🧠 视觉AI',nemo:'🤖 NeMo框架',vss:'🎥 视频分析',dali:'⚡ 加速计算',phys:'🔧 物理AI',other:'📦 其他工具'};
+const NV_CATICON={aiq:'🎯',cudaq:'⚛️',cuopt:'📊',holoscan:'🔬',earth2:'🌍',tao:'🧠',nemo:'🤖',vss:'🎥',dali:'⚡',phys:'🔧',other:'📦'};
+const NV_CATCOLOR={aiq:'#76b900',cudaq:'#8b5cf6',cuopt:'#f59e0b',holoscan:'#06b6d4',earth2:'#22c55e',tao:'#ec4899',nemo:'#6366f1',vss:'#ef4444',dali:'#ff8c00',phys:'#14b8a6',other:'#a855f7'};
+const NV_SKILLS={
+aiq:[{n:'aiq-deploy',d:'部署AI推理模型到生产环境。',t:['推理','部署']},{n:'aiq-research',d:'AI推理研究与实验。',t:['研究','推理']}],
+cudaq:[{n:'cudaq-guide',d:'CUDA-Q量子计算编程指南。',t:['量子','CUDA']}],
+cuopt:[{n:'cuopt-developer',d:'cuOpt优化求解器指南。',t:['优化','求解器']},{n:'cuopt-install',d:'cuOpt安装配置。',t:['安装','配置']},{n:'cuopt-numerical-optimization-api-cli',d:'cuOpt CLI优化API。',t:['CLI','优化']},{n:'cuopt-numerical-optimization-api-python',d:'cuOpt Python优化API。',t:['Python','优化']},{n:'cuopt-routing-api-python',d:'cuOpt路径优化Python API。',t:['路由','VRP']},{n:'cuopt-routing-formulation',d:'cuOpt路径优化建模。',t:['建模','路由']},{n:'cuopt-server-api-python',d:'cuOpt服务器Python API。',t:['服务器','API']},{n:'cuopt-server-common',d:'cuOpt服务器通用管理。',t:['服务器','管理']},{n:'cuopt-skill-evolution',d:'cuOpt技能演进。',t:['演进','优化']},{n:'cuopt-user-rules',d:'cuOpt用户自定义规则。',t:['规则','自定义']}],
+holoscan:[{n:'holoscan-install-conda',d:'Conda安装Holoscan。',t:['Conda','安装']},{n:'holoscan-install-container',d:'容器安装Holoscan。',t:['容器','Docker']},{n:'holoscan-install-debian',d:'Debian安装Holoscan。',t:['Debian','安装']},{n:'holoscan-install-source',d:'源码编译Holoscan。',t:['源码','编译']},{n:'holoscan-install-wheel',d:'Python Wheel安装Holoscan。',t:['Python','Wheel']},{n:'holoscan-setup',d:'Holoscan开发环境设置。',t:['设置','环境']},{n:'hsb-app',d:'HSB应用开发。',t:['传感器','应用']},{n:'hsb-flash',d:'HSB固件刷新。',t:['固件','刷新']},{n:'hsb-setup',d:'HSB硬件设置。',t:['设置','硬件']},{n:'hsb-test',d:'HSB测试验证。',t:['测试','验证']},{n:'dicom-metadata-extract',d:'DICOM元数据提取。',t:['DICOM','医疗']},{n:'dicom-series-preflight',d:'DICOM序列预处理。',t:['DICOM','预处理']},{n:'dicom-series-to-volume',d:'DICOM转3D体数据。',t:['DICOM','3D']},{n:'digital-health-clinical-asr-eval',d:'医疗ASR评估。',t:['医疗','ASR']},{n:'digital-health-clinical-asr-finetune',d:'医疗ASR微调。',t:['医疗','微调']},{n:'nv-generate-mr-brain',d:'生成脑部MR影像。',t:['MRI','医疗']},{n:'nv-reason-cxr',d:'胸部X光推理分析。',t:['X光','诊断']},{n:'nv-segment-ctmr',d:'CT/MR影像分割。',t:['CT','分割']}],
+earth2:[{n:'earth2studio-data-fetch',d:'Earth-2气象数据获取。',t:['气象','数据']},{n:'earth2studio-deterministic-forecast',d:'Earth-2确定性天气预报。',t:['预报','天气']},{n:'earth2studio-discover',d:'Earth-2功能发现。',t:['探索','文档']},{n:'earth2studio-install',d:'Earth-2安装配置。',t:['安装','配置']}],
+tao:[{n:'tao-analyze-changenet-rca',d:'ChangeNet根因分析。',t:['变更','分析']},{n:'tao-analyze-gaps-visual-changenet',d:'视觉ChangeNet差距分析。',t:['差距','分析']},{n:'tao-convert-dataset-format',d:'数据集格式转换。',t:['数据','转换']},{n:'tao-finetune-clip',d:'微调CLIP模型。',t:['CLIP','微调']},{n:'tao-finetune-huggingface-model',d:'微调HuggingFace模型。',t:['HuggingFace','微调']},{n:'tao-generate-video-reasoning-annotations',d:'视频推理标注生成。',t:['视频','标注']},{n:'tao-launch-workflow',d:'启动TAO工作流。',t:['工作流','训练']},{n:'tao-list-capabilities',d:'TAO能力列表。',t:['功能','列表']},{n:'tao-mine-aoi-images',d:'TAO AOI图像挖掘。',t:['挖掘','AOI']},{n:'tao-run-deft-aoi',d:'DEFT AOI检测。',t:['AOI','检测']},{n:'tao-run-on-lepton',d:'Lepton平台运行。',t:['Lepton','部署']},{n:'tao-run-on-slurm',d:'Slurm集群运行。',t:['Slurm','HPC']},{n:'tao-route-visual-changenet-samples',d:'ChangeNet样本路由。',t:['路由','样本']},{n:'tao-setup-nvidia-gpu-host',d:'GPU主机配置。',t:['GPU','设置']},{n:'tao-train-bevfusion',d:'训练BEVFusion。',t:['BEV','融合']},{n:'tao-train-deformable-detr',d:'训练Deformable DETR。',t:['DETR','检测']},{n:'tao-train-depth-anything-v2',d:'训练Depth Anything V2。',t:['深度','估计']},{n:'tao-train-dino',d:'训练DINO。',t:['DINO','自监督']},{n:'tao-train-foundation-stereo',d:'训练立体匹配。',t:['立体','匹配']},{n:'tao-train-image-classification',d:'训练图像分类。',t:['分类','图像']},{n:'tao-train-mask-auto-encoder',d:'训练MAE。',t:['MAE','自编码']},{n:'tao-train-mask-auto-label',d:'训练自动标注。',t:['自动','标注']},{n:'tao-train-mask-grounding-dino',d:'训练Grounding DINO。',t:['检测','开放']},{n:'tao-train-nvdinov2',d:'训练NVIDIA DINOv2。',t:['DINOv2','NVIDIA']},{n:'tao-train-ocdnet',d:'训练OCDNet。',t:['OCR','检测']},{n:'tao-train-ocrnet',d:'训练OCRNet。',t:['OCR','识别']},{n:'tao-train-oneformer',d:'训练OneFormer。',t:['分割','统一']},{n:'tao-train-optical-inspection',d:'训练光学检测。',t:['质检','光学']},{n:'tao-train-pointpillars',d:'训练PointPillars 3D。',t:['3D','检测']},{n:'tao-train-pose-classification',d:'训练姿态分类。',t:['姿态','分类']},{n:'tao-train-reid',d:'训练ReID。',t:['ReID','行人']},{n:'tao-train-rtdetr',d:'训练RT-DETR。',t:['RT-DETR','实时']},{n:'tao-train-visual-changenet',d:'训练视觉ChangeNet。',t:['变更','检测']}],
+nemo:[{n:'launch-nemo-rl',d:'启动NeMo RL训练。',t:['RL','训练']},{n:'nemoclaw-user-configure-inference',d:'NeMo Claw推理配置。',t:['推理','配置']},{n:'nemoclaw-user-manage-policy',d:'NeMo Claw策略管理。',t:['策略','管理']},{n:'nemoclaw-user-monitor-sandbox',d:'NeMo Claw沙箱监控。',t:['沙箱','监控']},{n:'nemo-automodel-model-onboarding',d:'NeMo AutoModel接入。',t:['AutoModel','接入']},{n:'nemo-data-designer-plugin',d:'NeMo数据设计器。',t:['数据','设计']},{n:'nemo-evaluator-plugin',d:'NeMo评估插件。',t:['评估','插件']},{n:'nemo-mbridge-mlm-bridge-training',d:'NeMo MBridge训练。',t:['MBridge','训练']},{n:'nemo-mbridge-perf-cpu-offloading',d:'NeMo CPU卸载优化。',t:['性能','CPU']},{n:'nemo-mbridge-perf-megatron-fsdp',d:'NeMo Megatron-FSDP。',t:['Megatron','FSDP']},{n:'nemo-mbridge-perf-memory-tuning',d:'NeMo内存调优。',t:['内存','调优']},{n:'nemo-mbridge-perf-moe-hardware-configs',d:'NeMo MoE硬件配置。',t:['MoE','硬件']},{n:'nemo-mbridge-perf-moe-vlm-training',d:'NeMo MoE VLM训练。',t:['VLM','MoE']},{n:'nemo-mbridge-perf-sequence-packing',d:'NeMo序列打包。',t:['序列','打包']},{n:'nemo-mbridge-recipe-recommender',d:'NeMo配方推荐。',t:['推荐','配方']},{n:'nemo-retriever',d:'NeMo知识检索。',t:['检索','RAG']},{n:'nemo-rl-auto-research',d:'NeMo RL自动研究。',t:['RL','研究']},{n:'nemo-rl-brev-etiquette',d:'NeMo RL规范实践。',t:['规范','实践']},{n:'nemo-rl-docs',d:'NeMo RL文档。',t:['文档','RL']}],
+vss:[{n:'vss-deploy-dense-captioning',d:'VSS密集描述部署。',t:['视频','描述']},{n:'vss-deploy-detection-tracking-3d',d:'VSS 3D检测跟踪。',t:['3D','跟踪']},{n:'vss-deploy-video-embedding',d:'VSS视频嵌入。',t:['嵌入','视频']},{n:'vss-generate-video-report',d:'VSS视频报告生成。',t:['报告','视频']},{n:'vss-manage-alerts',d:'VSS告警管理。',t:['告警','监控']},{n:'vss-manage-video-io-storage',d:'VSS视频IO存储。',t:['存储','IO']},{n:'vss-search-archive',d:'VSS视频归档搜索。',t:['搜索','归档']},{n:'vss-setup-video-analytics-api',d:'VSS视频分析API设置。',t:['API','设置']}],
+dali:[{n:'dali-dynamic-mode',d:'DALI动态数据加载。',t:['DALI','加速']},{n:'accelerated-computing-cudf',d:'cuDF加速计算。',t:['cuDF','GPU']},{n:'cufolio',d:'cuFolio投资组合优化。',t:['金融','优化']},{n:'cupynumeric-hdf5',d:'cuPyNumerical HDF5加速。',t:['HDF5','加速']},{n:'cupynumeric-install',d:'cuPyNumerical安装。',t:['安装','配置']},{n:'cupynumeric-migration-readiness',d:'cuPyNumerical迁移检查。',t:['迁移','检查']}],
+phys:[{n:'omniverse-cad-to-simready',d:'Omniverse CAD转仿真。',t:['Omniverse','仿真']},{n:'physical-ai-defect-image-generation',d:'物理AI缺陷图像生成。',t:['缺陷','生成']},{n:'physical-ai-neural-reconstruction',d:'物理AI神经重建。',t:['重建','3D']},{n:'physicsnemo-discover',d:'PhysicsNeMo科学发现。',t:['物理','模拟']},{n:'tilegym-cutile-autotuning',d:'TileGym cuTile自动调优。',t:['调优','GPU']},{n:'tilegym-cutile-python',d:'TileGym cuTile Python。',t:['Python','Tile']},{n:'tilegym-improve-cutile-kernel-perf',d:'TileGym内核性能优化。',t:['性能','内核']}],
+other:[{n:'data-designer',d:'数据设计师工具。',t:['数据','设计']},{n:'deepstream-dev',d:'DeepStream SDK开发。',t:['DeepStream','视频']},{n:'deepstream-import-vision-model',d:'DeepStream模型导入。',t:['模型','导入']},{n:'dynamo-interconnect-check',d:'Dynamo互联检查。',t:['网络','检查']},{n:'dynamo-recipe-runner',d:'Dynamo配方运行器。',t:['工作流','Dynamo']},{n:'dynamo-router-starter',d:'Dynamo路由启动器。',t:['路由','推理']},{n:'dynamo-troubleshoot',d:'Dynamo故障排查。',t:['故障','排查']},{n:'mcore-create-issue',d:'Megatron-Core Issue创建。',t:['Megatron','Issue']},{n:'mcore-run-on-slurm',d:'Megatron-Core Slurm运行。',t:['Slurm','HPC']},{n:'mcore-split-pr',d:'Megatron-Core PR拆分。',t:['PR','拆分']},{n:'mcore-testing',d:'Megatron-Core测试。',t:['测试','Megatron']},{n:'rag-blueprint',d:'RAG检索增强生成架构。',t:['RAG','蓝图']},{n:'rag-eval',d:'RAG评估。',t:['评估','RAG']},{n:'rag-perf',d:'RAG性能优化。',t:['性能','RAG']}]
+};
+// ══════════════════════════════════════════════
+// DATA: 社区 283 Skills
+// ══════════════════════════════════════════════
+const COM_FEATURED=[{n:'12306',d:'中国铁路12306余票查询',e:'Train Query',i:'🚄',c:'#ef4444',cmd:'openclaw skills install 12306'},{n:'a-stock-data',d:'A股实时数据、历史K线',e:'A-Share Data',i:'📊',c:'#22c55e',cmd:'openclaw skills install a-stock-data'},{n:'gmail',d:'Gmail邮件收发、搜索',e:'Gmail',i:'📧',c:'#ea4335',cmd:'openclaw skills install gmail'},{n:'qqmusic',d:'QQ音乐搜索、播放',e:'QQ Music',i:'🎵',c:'#f59e0b',cmd:'openclaw skills install qqmusic'},{n:'lark-unified',d:'飞书Lark统一消息API',e:'Lark Unified',i:'📝',c:'#3370ff',cmd:'openclaw skills install lark-unified'},{n:'arxiv-reader',d:'arXiv论文搜索、摘要',e:'arXiv Reader',i:'📰',c:'#6366f1',cmd:'openclaw skills install arxiv-reader'},{n:'excalidraw-diagram',d:'描述图表AI自动生成',e:'Excalidraw',i:'🎨',c:'#6965db',cmd:'openclaw skills install excalidraw-diagram'},{n:'fullstack-dev',d:'全栈Web开发',e:'FullStack Dev',i:'👨‍💻',c:'#3178c6',cmd:'openclaw skills install fullstack-dev'},{n:'airbnb',d:'Airbnb房源搜索',e:'Airbnb',i:'🏠',c:'#ff5a5f',cmd:'openclaw skills install airbnb'},{n:'tavily',d:'AI优化Web搜索',e:'Tavily',i:'🌐',c:'#8b5cf6',cmd:'openclaw skills install tavily'},{n:'cloudflare',d:'Cloudflare部署DNS',e:'Cloudflare',i:'☁️',c:'#f38020',cmd:'openclaw skills install cloudflare'},{n:'deep-research',d:'深度研究分析',e:'Deep Research',i:'🔬',c:'#06b6d4',cmd:'openclaw skills install deep-research'}];
+const COM_CATEGORIES=[
+{id:'travel',icon:'🚄',name:'交通出行',color:'#ef4444',skills:'12306 flight-tracker flights-search trip-helper travel-cn aviation-weather'.split(' ')},
+{id:'finance',icon:'🏦',name:'金融股票',color:'#22c55e',skills:'a-stock-data stock-analysis stock-analyzer earnings-tracker finance-ops fintech-engineer futuapi macro-monitor'.split(' ')},
+{id:'email',icon:'📧',name:'邮件通信',color:'#ea4335',skills:'gmail imap-smtp-email email-skill email-daily-summary apple-notes apple-reminders'.split(' ')},
+{id:'music',icon:'🎵',name:'音乐娱乐',color:'#f59e0b',skills:'qqmusic himalaya novel novel-writer novel-writing gifgrep'.split(' ')},
+{id:'travel2',icon:'✈️',name:'旅行生活',color:'#06b6d4',skills:'airbnb ctrip-wendao didi-ride-skill boss-skills baidu-drive zhihu weibo'.split(' ')},
+{id:'dev',icon:'🧑‍💻',name:'开发工具',color:'#3178c6',skills:'fullstack-dev frontend-dev react-native-dev flutter-dev android-native-dev ios-application-dev browser browser-use browserwing clawbrowser stealth-browser smooth-browser cli-anything-hub tdd task-implement task-alignment diagnose setup-pre-commit shader-dev markitdown-skill'.split(' ')},
+{id:'office',icon:'📝',name:'办公协作',color:'#3370ff',skills:'lark-unified dingtalk-unified notion obsidian kdocs jinshuju tencent-docs ima-skills colleague-skill imsg handoff'.split(' ')},
+{id:'academic',icon:'📚',name:'学术教育',color:'#6366f1',skills:'arxiv-reader arxiv-watcher academic-translation academic-tutor paper-quick-reader education open-lesson study-planner university-applications citation-manager legal-logic-analysis'.split(' ')},
+{id:'cloud',icon:'☁️',name:'云服务',color:'#f38020',skills:'cloudflare cloudbase edgeone edgeone-pages-deploy html-deploy netlify-deploy static-app shippage md-to-pdf-cjk api-gateway cloudq'.split(' ')},
+{id:'search',icon:'🔍',name:'搜索数据',color:'#8b5cf6',skills:'tavily perplexity multi-search-engine aihot github-trending-cn news-summary blogwatcher model-usage skyline gog'.split(' ')},
+{id:'ai',icon:'🤖',name:'AI/ML',color:'#8b5cf6',skills:'deep-research agent-analytics autoresearch capability-evolver humanizer idea-validator content-factory content-ops market-researcher anti-distill flyai'.split(' ')},
+{id:'ecommerce',icon:'🛒',name:'电商购物',color:'#ec4899',skills:'taobao cn-ecommerce-search ecommerce-copywriter ecomseer ozon-1688-uploader gog'.split(' ')},
+{id:'media',icon:'🎨',name:'创意媒体',color:'#ff8c00',skills:'excalidraw-diagram deck-generator guizang-ppt-skill fbs-bookwriter infographic-maker pdfkit-py darwin-skill awesome-design-md'.split(' ')},
+{id:'health',icon:'❤️',name:'健康生活',color:'#22c55e',skills:'healthcheck goal-tracker habit-tracker grill-me impeccable plan-tracker'.split(' ')},
+{id:'other',icon:'📦',name:'其他工具',color:'#a855f7',skills:'handoff note-organizer material-organizer migraq mcporter oracle qcc-company cos-vectors fadada-document-sign andonq cnb-skill cangjie-skill libtv-skill crash-expert-skill'.split(' ')}
+];
+// ══════════════════════════════════════════════
+// SHARED FUNCTIONS
+// ══════════════════════════════════════════════
+function switchPage(name){['hub','openclaw','nvidia','community'].forEach(p=>{document.getElementById('page-'+p).classList.toggle('active',p===name);document.querySelectorAll('.sb-page-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===name))});const t={hub:'YYC³ 智能体中心',openclaw:'OpenClaw 操作中心',nvidia:'NVIDIA 技能中心',community:'社区技能中心'};const s={hub:'AI Family · 智能体资产矩阵',openclaw:'OpenClaw 运行时文档',nvidia:'NVIDIA 官方验证技能',community:'283 社区技能'};document.getElementById('tbT').textContent=t[name];document.getElementById('tbS').textContent=s[name];if(name==='hub')renderHub();else if(name==='openclaw')renderOC();else if(name==='nvidia')renderNV();else if(name==='community')renderCom()}
+function togT(){document.body.classList.toggle('light');const i=document.getElementById('ti');i.innerHTML=document.body.classList.contains('light')?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
+function togS(){document.getElementById('sidebar').classList.toggle('hidden');document.getElementById('main').classList.toggle('expanded');document.getElementById('sbo').style.display=document.getElementById('sidebar').classList.contains('hidden')?'none':'block'}
+function gSearch(v){const l=v.toLowerCase();document.querySelectorAll('.sb-item').forEach(i=>{i.style.display=i.textContent.toLowerCase().includes(l)?'':'none'})}
+function sharePg(){const t=document.getElementById('tbT').textContent;if(navigator.share)navigator.share({title:t,text:t,url:location.href}).catch(()=>{});else navigator.clipboard.writeText(location.href).then(()=>alert('链接已复制！'))}
+function downloadPg(){const b=new Blob([document.documentElement.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='YYC3-智能体中心.html';a.click();URL.revokeObjectURL(a.href)}
+function copyC(btn){const code=btn.closest('.code-block').querySelector('pre').textContent;navigator.clipboard.writeText(code).then(()=>{btn.textContent='已复制';btn.classList.add('copied');setTimeout(()=>{btn.textContent='复制';btn.classList.remove('copied')},2000)})}
+function updClock(){const d=new Date();document.getElementById('clockD').textContent=d.toLocaleTimeString('zh-CN',{hour12:false})}
+
+// ══════════════════════════════════════════════
+// HUB RENDER
+// ══════════════════════════════════════════════
+function renderHub(){const c=document.getElementById('hubContent');const cats=[...new Set(HUB_ALL.map(g=>g.cat))];let h='';cats.forEach(cat=>{const its=HUB_ALL.filter(g=>g.cat===cat);if(!its.length)return;h+=`<div class="cat-section"><div class="cat-header"><span class="cat-icon">${HUB_CATI[cat]}</span><span class="cat-name">${HUB_CATS[cat]}</span><span class="cat-count">${its.length}</span><div class="cat-line"></div></div><div class="card-grid">`;its.forEach(g=>{h+=`<div class="guide-card" onclick="showHubDetail('${g.id}')"><div class="gc-bar" style="background:${HUB_CATC[cat]}"></div><div class="gc-body"><div class="gc-head"><div class="gc-icon" style="background:${g.color||HUB_CATC[cat]}22;color:${g.color||HUB_CATC[cat]}">${g.icon}</div><div class="gc-info"><div class="gc-title">${g.title}${g.en?` <span class="gc-title-en">${g.en}</span>`:''}</div><div class="gc-meta"><span class="gc-tag ${g.cat}">${HUB_CATS[cat]}</span>${g.role?`<span class="gc-time">${g.role}</span>`:''}${g.v?`<span class="gc-time">v${g.v}</span>`:''}</div></div></div><div class="gc-desc">${g.desc}</div>`;if(g.tags){h+=`<div class="gc-tags">${g.tags.slice(0,3).map(t=>`<span>${t}</span>`).join('')}</div>`}if(g.cmd){h+=`<div class="gc-cmd">${g.cmd}<span class="cmd-copy">📋</span></div>`}h+=`</div></div>`});h+=`</div></div>`});c.innerHTML=h;document.getElementById('hubStats').innerHTML=`<div class="stat-card"><span class="stat-num">8</span><span class="stat-label">智能体</span></div><div class="stat-card"><span class="stat-num">15</span><span class="stat-label">技能</span></div><div class="stat-card"><span class="stat-num">14</span><span class="stat-label">插件</span></div><div class="stat-card"><span class="stat-num">6</span><span class="stat-label">工具</span></div><div class="stat-card"><span class="stat-num">6</span><span class="stat-label">核心包</span></div>`;document.querySelectorAll('.gc-cmd').forEach(el=>el.addEventListener('click',function(e){e.stopPropagation();const t=this.textContent.replace('📋','').trim();navigator.clipboard.writeText(t).then(()=>{const o=this.querySelector('.cmd-copy');o.textContent='✅';setTimeout(()=>o.textContent='📋',1500)})}))}
+function showHubDetail(id){const allItems=[...AGENTS,...HUB_SKILLS,...HUB_PLUGINS,...HUB_TOOLS,...HUB_CORES];const g=allItems.find(x=>x.id===id);if(!g)return;const d=document.getElementById('hubDetail');d.classList.add('active');document.getElementById('hubContent').style.display='none';let h=`<button class="gd-back" onclick="closeHubDetail()">← 返回</button><div class="gd-hero"><div class="gd-hero-top"><div class="gd-hero-icon" style="background:${g.color||HUB_CATC[g.cat]}22;color:${g.color||HUB_CATC[g.cat]}">${g.icon}</div><div class="gd-hero-info"><div class="gd-hero-title">${g.title}${g.en?` (${g.en})`:''}</div><div class="gd-hero-desc">${g.desc}</div></div></div></div>`;h+=`<div class="gd-prereq" style="padding:16px 20px;border-radius:8px;background:var(--surface);border:1px solid var(--border)"><div class="gd-prereq-title">详细信息</div><p>分类: ${HUB_CATS[g.cat]} ${g.role?'· 角色: '+g.role:''} ${g.v?'· 版本: v'+g.v:''}</p></div>`;if(g.cmd){h+=`<div style="margin-top:16px" class="code-block"><div class="code-hdr"><span>bash</span><button class="copy-btn" onclick="copyC(this)">复制</button></div><pre>${g.cmd}</pre></div>`}d.innerHTML=h}
+function closeHubDetail(){document.getElementById('hubDetail').classList.remove('active');document.getElementById('hubContent').style.display='block'}
+// ══════════════════════════════════════════════
+// OC RENDER (OpenClaw)
+// ══════════════════════════════════════════════
+let ocDone=new Set();try{const d=JSON.parse(localStorage.getItem('oc_done'));if(d)ocDone=new Set(d)}catch(e){}
+function saveOC(){localStorage.setItem('oc_done',JSON.stringify([...ocDone]))}
+function renderOC(f){const c=document.getElementById('ocContent');const cats=[...new Set(OC_GUIDES.map(g=>g.cat))];let h='';cats.forEach(cat=>{const its=OC_GUIDES.filter(g=>g.cat===cat);h+=`<div class="cat-section"><div class="cat-header"><span class="cat-icon">${OC_CATICON[cat]}</span><span class="cat-name">${OC_CATS[cat]}</span><span class="cat-count">${its.length}</span><div class="cat-line"></div></div><div class="card-grid">`;its.forEach(g=>{h+=`<div class="guide-card" onclick="showOCDetail('${g.id}')"><div class="gc-bar" style="background:${OC_CATCOLOR[cat]}"></div><div class="gc-body"><div class="gc-head"><div class="gc-icon" style="background:${g.color}22;color:${g.color}">${g.icon}</div><div class="gc-info"><div class="gc-title">${g.title}</div><div class="gc-meta"><span style="color:var(--text3);font-size:10px">${g.tags.join('·')}</span></div></div></div><div class="gc-desc">${g.desc}</div></div></div>`});h+=`</div></div>`});c.innerHTML=h;document.getElementById('ocStats').innerHTML=`<div class="stat-card"><span class="stat-num">${OC_GUIDES.length}</span><span class="stat-label">文档</span></div><div class="stat-card"><span class="stat-num">${cats.length}</span><span class="stat-label">分类</span></div>`;}
+function showOCDetail(id){const g=OC_GUIDES.find(x=>x.id===id);if(!g)return;const d=document.getElementById('ocDetail');d.classList.add('active');document.getElementById('ocContent').style.display='none';let h=`<button class="gd-back" onclick="closeOCDetail()">← 返回</button><div class="gd-hero"><div class="gd-hero-top"><div class="gd-hero-icon" style="background:${g.color}22;color:${g.color}">${g.icon}</div><div class="gd-hero-info"><div class="gd-hero-title">${g.title}</div><div class="gd-hero-desc">${g.desc}</div></div></div></div>`;h+=g.content||'<p>内容加载中...</p>';d.innerHTML=h}
+function closeOCDetail(){document.getElementById('ocDetail').classList.remove('active');document.getElementById('ocContent').style.display='block'}
+// ══════════════════════════════════════════════
+// NVIDIA RENDER
+// ══════════════════════════════════════════════
+let nvDone=new Set();try{const d=JSON.parse(localStorage.getItem('nv_done'));if(d)nvDone=new Set(d)}catch(e){}
+function saveNV(){localStorage.setItem('nv_done',JSON.stringify([...nvDone]))}
+function renderNV(f){const c=document.getElementById('nvContent');let h='';for(const[cat,lb]of Object.entries(NV_CATS)){const its=NV_SKILLS[cat]||[];if(!its.length)continue;h+=`<div class="list-section"><h3 style="border-color:${NV_CATCOLOR[cat]}"><span>${NV_CATICON[cat]} ${lb}</span><span class="sl-count">${its.length} 技能</span></h3><div class="skills-grid">`;its.forEach(s=>{const p=nvDone.has(s.n);h+=`<div class="skill-card" style="border-left-color:${NV_CATCOLOR[cat]}" onclick="togNV('${s.n}')"><div class="sk-head"><span class="sk-name">${s.n}</span><span style="margin-left:auto;width:16px;height:16px;border-radius:3px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:${p?'var(--accent-e)':'transparent'};font-size:10px;color:#fff">${p?'✓':''}</span></div><div class="sk-desc">${s.d}</div><div class="sk-tags">${s.t.map(t=>`<span>${t}</span>`).join('')}</div></div>`});h+=`</div></div>`}c.innerHTML=h;document.getElementById('nvStats').innerHTML=`<div class="stat-card"><span class="stat-num">202</span><span class="stat-label">技能</span></div><div class="stat-card"><span class="stat-num">${Object.keys(NV_CATS).length}</span><span class="stat-label">分类</span></div>`}
+function togNV(id){if(nvDone.has(id))nvDone.delete(id);else nvDone.add(id);saveNV();renderNV()}
+// ══════════════════════════════════════════════
+// COMMUNITY RENDER
+// ══════════════════════════════════════════════
+function renderCom(){const c=document.getElementById('comContent');let h='';h+=`<div class="skills-count">📌 精选技能 · 支持 <code style="padding:1px 6px;border-radius:3px;background:var(--surface);font-family:var(--font-mono)">openclaw skills install &lt;name&gt;</code></div><div class="card-grid">`;COM_FEATURED.forEach(s=>{h+=`<div class="guide-card"><div class="gc-bar" style="background:${s.c}"></div><div class="gc-body"><div class="gc-head"><div class="gc-icon" style="background:${s.c}22;color:${s.c}">${s.i}</div><div class="gc-info"><div class="gc-title">${s.n} <span class="gc-title-en">${s.e}</span></div></div></div><div class="gc-desc">${s.d}</div><div class="gc-cmd">${s.cmd}<span class="cmd-copy">📋</span></div></div></div>`});h+=`</div>`;COM_CATEGORIES.forEach(cat=>{h+=`<div class="list-section"><h3 style="border-color:${cat.color}"><span>${cat.icon} ${cat.name}</span><span class="sl-count">${cat.skills.length} 技能</span></h3><div class="skill-grid-sm">`;cat.skills.forEach(s=>{const f=COM_FEATURED.find(x=>x.n===s);h+=`<span class="skill-tag${f?' featured':''}">${s}</span>`});h+=`</div></div>`});c.innerHTML=h;document.getElementById('comStats').innerHTML=`<div class="stat-card"><span class="stat-num">283</span><span class="stat-label">总技能</span></div><div class="stat-card"><span class="stat-num">${COM_CATEGORIES.length}</span><span class="stat-label">分类</span></div><div class="stat-card"><span class="stat-num">${COM_FEATURED.length}</span><span class="stat-label">精选</span></div>`;document.querySelectorAll('#page-community .gc-cmd').forEach(el=>el.addEventListener('click',function(e){e.stopPropagation();const t=this.textContent.replace('📋','').trim();navigator.clipboard.writeText(t).then(()=>{const o=this.querySelector('.cmd-copy');o.textContent='✅';setTimeout(()=>o.textContent='📋',1500)})}))}
+// ═══ INIT ═══
+setInterval(updClock,1000);updClock();renderHub();renderOC();renderNV();renderCom();
+</script></body></html>

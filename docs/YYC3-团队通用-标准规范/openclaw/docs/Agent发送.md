@@ -1,0 +1,130 @@
+# Agent 发送
+
+`openclaw agent` 从命令行运行单个智能体轮次，无需接收入站聊天消息。它适用于脚本化工作流、测试和程序化交付。完整的标志和行为参考：
+[Agent CLI 参考](/zh-CN/cli/agent)。
+
+## 快速开始
+
+### 1. 运行简单的智能体轮次
+
+```bash
+openclaw agent --agent main --message "What is the weather today?"
+```
+
+通过 Gateway 网关发送消息并打印回复。
+
+### 2. 从文件发送多行提示词
+
+```bash
+openclaw agent --agent ops --message-file ./task.md
+```
+
+读取有效的 UTF-8 文件作为智能体消息正文。
+
+### 3. 指定智能体或会话
+
+```bash
+# Target a specific agent
+openclaw agent --agent ops --message "Summarize logs"
+
+# Target a phone number (derives session key)
+openclaw agent --to +15555550123 --message "Status update"
+
+# Reuse an existing session
+openclaw agent --session-id abc123 --message "Continue the task"
+
+# Target an exact session key
+openclaw agent --session-key agent:ops:incident-42 --message "Summarize status"
+```
+
+### 4. 将回复发送到渠道
+
+```bash
+# Deliver to WhatsApp (default channel)
+openclaw agent --to +15555550123 --message "Report ready" --deliver
+
+# Deliver to Slack
+openclaw agent --agent ops --message "Generate report" \
+      --deliver --reply-channel slack --reply-to "#reports"
+    ```
+
+</Steps>
+
+```
+
+## 标志
+
+| 标志                        | 说明                                                                 |
+| --------------------------- | -------------------------------------------------------------------- |
+| `--message <text>`          | 要发送的内联消息                                                     |
+| `--message-file <path>`     | 从有效的 UTF-8 文件读取消息                                          |
+| `--to <dest>`               | 根据目标（电话号码、聊天 ID）派生会话键                              |
+| `--session-key <key>`       | 使用显式会话键                                                       |
+| `--agent <id>`              | 指定已配置的智能体（使用其 `main` 会话）                             |
+| `--session-id <id>`         | 按 ID 复用现有会话                                                   |
+| `--model <id>`              | 覆盖本次运行的模型（`provider/model` 或模型 ID）                      |
+| `--local`                   | 强制使用本地嵌入式运行时（跳过 Gateway 网关）                        |
+| `--deliver`                 | 将回复发送到聊天渠道                                                 |
+| `--channel <name>`          | 交付渠道；与 `--agent` + `--to` 一起使用时，也会应用私信作用域       |
+| `--reply-to <target>`       | 覆盖交付目标                                                         |
+| `--reply-channel <name>`    | 覆盖交付渠道                                                         |
+| `--reply-account <id>`      | 覆盖交付账号 ID                                                      |
+| `--thinking <level>`        | 设置所选模型配置的思考级别                                           |
+| `--verbose <on\|full\|off>` | 为会话持久化详细程度（`full` 还会记录工具输出）                       |
+| `--timeout <seconds>`       | 覆盖智能体超时时间（默认为 600 秒，或使用配置值）                    |
+| `--json`                    | 输出结构化 JSON                                                      |
+
+## 行为
+
+- 默认情况下，CLI **通过 Gateway 网关**运行。添加 `--local` 可强制使用当前计算机上的嵌入式运行时。
+- `--message` 和 `--message-file` 必须且只能传入其中一个。移除可选的 UTF-8 BOM 后，文件消息会保留多行内容。
+- 如果 Gateway 网关请求失败，CLI 会**回退**到本地嵌入式运行；Gateway 网关超时时会使用新会话回退，而不是与原始对话记录并行竞争。
+- 会话选择：`--to` 会派生会话键（群组/渠道目标会保持隔离；直接聊天会归并到 `main`）。同时使用 `--agent`、`--channel` 和 `--to` 时，路由会遵循渠道的规范接收方和 `session.dmScope`。稳定的纯出站身份使用由提供商拥有的会话，与智能体的主会话隔离。
+- `--session-key` 选择显式键。带智能体前缀的键必须使用 `agent:<agent-id>:<session-key>`；同时提供 `--agent` 时，其值必须与该智能体 ID 匹配。提供 `--agent` 时，不带前缀且非哨兵值的键会限定到该智能体；例如，`--agent ops --session-key incident-42` 会路由到 `agent:ops:incident-42`。如果没有 `--agent`，不带前缀且非哨兵值的键会限定到已配置的默认智能体。只有未提供 `--agent` 时，字面值 `global` 和 `unknown` 才保持无作用域；嵌入式回退路径会将这些哨兵会话解析到已配置的默认智能体。
+- `--reply-channel` 和 `--reply-account` 仅影响交付。
+- 思考和详细程度标志会持久化到会话存储中。
+- 输出：默认为纯文本，也可使用 `--json` 输出结构化载荷和元数据。
+- 使用 `--json --deliver` 时，JSON 会包含已发送、已抑制、部分发送和发送失败的交付状态。请参阅
+  [JSON 交付状态](/zh-CN/cli/agent#json-delivery-status)。
+
+## 示例
+
+```bash
+# Simple turn with JSON output
+openclaw agent --to +15555550123 --message "Trace logs" --verbose on --json
+
+# Turn with a model override
+openclaw agent --agent ops --model openai/gpt-5.4 --message "Summarize logs"
+
+# Turn with thinking level
+openclaw agent --session-id 1234 --message "Summarize inbox" --thinking medium
+
+# Multiline prompt from a file
+openclaw agent --agent ops --message-file ./task.md
+
+# Exact session key
+openclaw agent --session-key agent:ops:incident-42 --message "Summarize status"
+
+# Legacy key scoped to an agent
+openclaw agent --agent ops --session-key incident-42 --message "Summarize status"
+
+# Deliver to a different channel than the session
+openclaw agent --agent ops --message "Alert" --deliver --reply-channel telegram --reply-to "@admin"
+```
+
+## 相关内容
+
+<CardGroup cols={2}>
+  <Card title="Agent CLI 参考" href="/zh-CN/cli/agent" icon="terminal">
+    `openclaw agent` 的完整标志和选项参考。
+  </Card>
+  <Card title="子智能体" href="/zh-CN/tools/subagents" icon="users">
+    在后台生成子智能体。
+  </Card>
+  <Card title="会话" href="/zh-CN/concepts/session" icon="comments">
+    会话键的工作方式，以及 `--to`、`--agent` 和 `--session-id` 如何解析会话键。
+  </Card>
+  <Card title="斜杠命令" href="/zh-CN/tools/slash-commands" icon="slash">
+    智能体会话中使用的原生命令目录。
+  </Card>
+</CardGroup>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>社区技能中心 · YYC³</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f59e0b'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EC%3C/text%3E%3C/svg%3E"/>
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a2e;--surface:rgba(255,255,255,0.03);--surface-hover:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--text:#f1f1f6;--text2:rgba(255,255,255,0.65);--text3:rgba(255,255,255,0.35);--accent-v:#f59e0b;--accent-c:#06b6d4;--accent-e:#22c55e;--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,0.3);--font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;--font-mono:'SF Mono','Fira Code','Cascadia Code','JetBrains Mono','Consolas',monospace}
+.light{--bg:#f5f5f0;--bg2:#e8e8e3;--bg3:#ddd;--surface:rgba(0,0,0,0.02);--surface-hover:rgba(0,0,0,0.05);--border:rgba(0,0,0,0.08);--border-hover:rgba(0,0,0,0.15);--text:#1a1a2e;--text2:rgba(0,0,0,0.55);--text3:rgba(0,0,0,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+::selection{background:rgba(245,158,11,0.3);color:#fff}
+.app{display:flex;min-height:100vh}
+.sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform 0.3s}
+.sidebar.hidden{transform:translateX(-100%)}
+.sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.sb-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent-v),var(--accent-c));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff}
+.sb-logo-text{font-size:14px;font-weight:700;color:var(--text)}
+.sb-logo-sub{font-size:9px;color:var(--text3);letter-spacing:1px}
+.sb-search{margin:12px 16px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;gap:8px}
+.sb-search:focus-within{border-color:var(--accent-v)}
+.sb-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13px;font-family:inherit}
+.sb-search input::placeholder{color:var(--text3)}
+.sb-search svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
+.sb-progress{margin:0 16px 12px;padding:10px 12px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border)}
+.sb-progress-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sb-progress-label{font-size:10px;font-weight:600;letter-spacing:0.8px;color:var(--text3)}
+.sb-progress-pct{font-size:11px;font-weight:700;color:var(--accent-v)}
+.sb-progress-bar{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+.sb-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent-v),var(--accent-c));transition:width 0.6s;border-radius:2px}
+.sb-progress-count{font-size:10px;color:var(--text3);margin-top:4px}
+.sb-nav{padding:8px 12px 80px;overflow-y:auto;flex:1}
+.sb-nav::-webkit-scrollbar{width:3px}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-group{margin-bottom:12px}
+.sb-group-title{font-size:10px;font-weight:600;letter-spacing:1.2px;color:var(--text3);padding:0 8px;margin-bottom:4px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;color:var(--text2);font-size:11px;cursor:pointer;transition:0.15s;text-decoration:none}
+.sb-item:hover{background:var(--surface-hover);color:var(--text)}
+.sb-item.active{background:rgba(245,158,11,0.12);color:var(--accent-v)}
+.sb-item .sb-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.main{flex:1;margin-left:280px;min-height:100vh;transition:margin-left 0.3s}
+.main.expanded{margin-left:0}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 24px;background:rgba(10,10,15,0.8);border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
+.light .topbar{background:rgba(245,245,240,0.8)}
+.topbar-title{font-size:16px;font-weight:600}
+.topbar-subtitle{font-size:12px;color:var(--text3)}
+.topbar-spacer{flex:1}
+.topbar-search{display:none;flex:1;max-width:320px;position:relative}
+.main.expanded .topbar-search{display:block}
+.topbar-search input{width:100%;padding:6px 12px 6px 32px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;outline:none;font-family:inherit}
+.topbar-search input:focus{border-color:var(--accent-v);background:var(--bg2)}
+.topbar-search input::placeholder{color:var(--text3)}
+.topbar-search .ts-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none}
+.topbar-time{display:none;align-items:center;gap:5px;font-size:12px;color:var(--text2);font-family:var(--font-mono);padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border)}
+.main.expanded .topbar-time{display:flex}
+.topbar-time .tt-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-e);animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+.btn-share,.btn-theme,.btn-menu,.btn-download{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+.btn-share:hover,.btn-theme:hover,.btn-menu:hover,.btn-download:hover{background:var(--surface-hover);color:var(--accent-v);border-color:rgba(245,158,11,0.3)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.dashboard{padding:24px;max-width:1400px;margin:0 auto}
+.dash-header{margin-bottom:32px}
+.dash-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(245,158,11,0.12);color:var(--accent-v);font-size:11px;font-weight:600;margin-bottom:8px}
+.dash-title{font-size:28px;font-weight:700;margin-bottom:6px;line-height:1.2}
+.dash-desc{font-size:14px;color:var(--text2);max-width:700px;line-height:1.5}
+.dash-stats{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap}
+.stat-card{padding:12px 18px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.stat-num{font-size:22px;font-weight:700}
+.stat-label{font-size:11px;color:var(--text2)}
+.list-section{margin-bottom:28px}
+.list-section h3{font-size:15px;font-weight:600;margin-bottom:10px;padding:8px 14px;border-radius:6px;background:var(--surface);border-left:3px solid var(--sl-color,#f59e0b);display:flex;align-items:center;gap:8px}
+.list-section h3 .sl-count{margin-left:auto;font-weight:400;font-size:11px;color:var(--text3)}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px}
+.skill-tag{padding:4px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:11px;color:var(--text2);font-family:var(--font-mono);transition:0.15s;cursor:default}
+.skill-tag:hover{border-color:var(--border-hover);color:var(--text);background:var(--surface-hover)}
+.skill-tag.featured{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.2);color:var(--accent-v)}
+.skill-tag.featured:hover{background:rgba(245,158,11,0.15);border-color:var(--accent-v)}
+.guide-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all 0.25s;display:block;color:inherit;position:relative;overflow:hidden;animation:fadeUp 0.4s both}
+.guide-card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:var(--shadow)}
+.guide-card .gc-bar{position:absolute;top:0;left:0;right:0;height:3px}
+.gc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+.gc-icon{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+.gc-info{flex:1;min-width:0}
+.gc-title{font-size:14px;font-weight:600;margin-bottom:2px}
+.gc-title-en{font-size:10px;color:var(--text3)}
+.gc-desc{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gc-cmd{margin-top:8px;padding:4px 8px;background:rgba(0,0,0,0.2);border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--accent-c);cursor:pointer;user-select:all;display:flex;align-items:center;gap:6px}
+.gc-cmd:hover{background:rgba(0,0,0,0.35)}
+.gc-cmd .cmd-copy{margin-left:auto;font-size:12px;opacity:0.5}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.gd-back{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-size:12px;transition:0.2s;margin-bottom:20px;text-decoration:none}
+.gd-back:hover{background:var(--surface-hover);color:var(--text)}
+.skills-count{font-size:13px;color:var(--text3);text-align:center;padding:20px;border:1px dashed var(--border);border-radius:var(--radius-sm);margin-bottom:24px}
+@media(max-width:768px){.sidebar{width:100%}.sidebar.hidden{transform:translateX(-100%)}.main{margin-left:0}.dashboard{padding:16px}.skill-grid{grid-template-columns:1fr 1fr}.card-grid{grid-template-columns:1fr}.topbar{padding:10px 16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="sb-overlay" onclick="togS()"></div>
+<aside class="sidebar" id="sidebar">
+<div class="sb-header"><a class="sb-logo" href="#" onclick="showDash()"><div class="sb-logo-icon">C</div><div><div class="sb-logo-text">社区技能中心</div><div class="sb-logo-sub">YYC³ · 283 社区技能</div></div></a></div>
+<div class="sb-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="sbSearch" placeholder="搜索技能..." oninput="fS(this.value)"/></div>
+<div class="sb-progress"><div class="sb-progress-header"><span class="sb-progress-label">技能总数</span><span class="sb-progress-pct">283</span></div><div class="sb-progress-bar"><div class="sb-progress-fill" style="width:100%"></div></div><div class="sb-progress-count">15 分类 · 社区贡献</div></div>
+<nav class="sb-nav" id="sbNav"></nav>
+</aside>
+<div class="main" id="main">
+<div class="topbar">
+<button class="btn-menu" onclick="togS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+<div><div class="topbar-title" id="tbT">社区技能中心</div><div class="topbar-subtitle" id="tbS">283 个社区贡献的 AI 智能体技能</div></div>
+<div class="topbar-search"><span class="ts-icon">🔍</span><input type="text" placeholder="搜索技能…" oninput="topbarSearch(this.value)"/></div>
+<div class="topbar-spacer"></div>
+<div class="topbar-time" id="tbClock"><span class="tt-dot"></span><span id="clockD">--:--:--</span></div>
+<div class="topbar-actions">
+<button class="btn-share" onclick="sharePg()" title="分享"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+<button class="btn-download" onclick="downloadPg()" title="下载"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+<button class="btn-theme" onclick="togT()"><svg id="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+</div></div>
+<div class="dashboard" id="dashV">
+<div class="dash-header"><div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>Community Skills · 283 Skills</span></div>
+<h1 class="dash-title">YYC³ 社区技能库</h1>
+<p class="dash-desc">由全球开发者贡献的 <strong>283 个社区技能</strong>，覆盖交通出行、金融股票、邮件通信、音乐娱乐、旅行住宿、开发工具、办公协作、学术教育、云服务等 <strong>15 大分类</strong>。每个技能即一个可复用的 AI 智能体指令包。</p>
+<div class="dash-stats" id="dashS"></div></div>
+<div id="dashC"><div class="loading"><div class="spinner"></div><p>加载技能数据...</p></div></div></div>
+</div></div>
+<script>
+// ═══ 283 Community Skills — 15 Categories ═══
+const FEATURED=[{n:'12306',d:'中国铁路12306余票查询、车次信息、票价查询',e:'Train Query',i:'🚄',c:'#ef4444',cmd:'openclaw skills install 12306'},{n:'a-stock-data',d:'A股实时数据、历史K线、财务指标查询',e:'A-Share Data',i:'📊',c:'#22c55e',cmd:'openclaw skills install a-stock-data'},{n:'gmail',d:'Gmail邮件收发、搜索、标签管理、自动回复',e:'Gmail',i:'📧',c:'#ea4335',cmd:'openclaw skills install gmail'},{n:'qqmusic',d:'QQ音乐搜索、播放、歌单管理、排行榜',e:'QQ Music',i:'🎵',c:'#f59e0b',cmd:'openclaw skills install qqmusic'},{n:'lark-unified',d:'飞书Lark统一消息API集成，群聊和机器人',e:'Lark Unified',i:'📝',c:'#3370ff',cmd:'openclaw skills install lark-unified'},{n:'arxiv-reader',d:'arXiv论文搜索、摘要提取、PDF下载、关键词监控',e:'arXiv Reader',i:'📰',c:'#6366f1',cmd:'openclaw skills install arxiv-reader'},{n:'excalidraw-diagram',d:'描述图表AI自动生成Excalidraw草图',e:'Excalidraw',i:'🎨',c:'#6965db',cmd:'openclaw skills install excalidraw-diagram'},{n:'fullstack-dev',d:'全栈Web开发：前后端框架、数据库、部署',e:'FullStack Dev',i:'👨‍💻',c:'#3178c6',cmd:'openclaw skills install fullstack-dev'},{n:'airbnb',d:'Airbnb房源搜索、价格比较、区域分析',e:'Airbnb Search',i:'🏠',c:'#ff5a5f',cmd:'openclaw skills install airbnb'},{n:'tavily',d:'AI优化Web搜索，搜索深度/主题筛选/内容提取',e:'Tavily Search',i:'🌐',c:'#8b5cf6',cmd:'openclaw skills install tavily'},{n:'cloudflare',d:'Cloudflare Workers/Pages部署、DNS、CDN管理',e:'Cloudflare',i:'☁️',c:'#f38020',cmd:'openclaw skills install cloudflare'},{n:'deep-research',d:'深度研究分析，多角度主题探索与报告生成',e:'Deep Research',i:'🔬',c:'#06b6d4',cmd:'openclaw skills install deep-research'}];
+const CATEGORIES=[
+{id:'travel',icon:'🚄',name:'交通出行',color:'#ef4444',skills:'12306 flight-tracker flights-search trip-helper travel-cn aviation-weather'.split(' ')},
+{id:'finance',icon:'🏦',name:'金融股票',color:'#22c55e',skills:'a-stock-data stock-analysis stock-analyzer earnings-tracker finance-ops fintech-engineer futuapi macro-monitor'.split(' ')},
+{id:'email',icon:'📧',name:'邮件通信',color:'#ea4335',skills:'gmail imap-smtp-email email-skill email-daily-summary apple-notes apple-reminders'.split(' ')},
+{id:'music',icon:'🎵',name:'音乐娱乐',color:'#f59e0b',skills:'qqmusic himalaya novel novel-writer novel-writing gifgrep music-generate'.split(' ')},
+{id:'travel2',icon:'✈️',name:'旅行生活',color:'#06b6d4',skills:'airbnb ctrip-wendao didi-ride-skill boss-skills baidu-drive zhihu weibo'.split(' ')},
+{id:'dev',icon:'🧑‍💻',name:'开发工具',color:'#3178c6',skills:'fullstack-dev frontend-dev react-native-dev flutter-dev android-native-dev ios-application-dev browser browser-use browserwing clawbrowser stealth-browser smooth-browser cli-anything-hub tdd task-implement task-alignment diagnose setup-pre-commit shader-dev markitdown-skill'.split(' ')},
+{id:'office',icon:'📝',name:'办公协作',color:'#3370ff',skills:'lark-unified dingtalk-unified notion obsidian kdocs jinshuju tencent-docs ima-skills colleague-skill imsg handoff'.split(' ')},
+{id:'academic',icon:'📚',name:'学术教育',color:'#6366f1',skills:'arxiv-reader arxiv-watcher academic-translation academic-tutor paper-quick-reader education open-lesson study-planner university-applications citation-manager legal-logic-analysis'.split(' ')},
+{id:'cloud',icon:'☁️',name:'云服务',color:'#f38020',skills:'cloudflare cloudbase edgeone edgeone-pages-deploy html-deploy netlify-deploy static-app shippage md-to-pdf-cjk api-gateway cloudq tencent-rumor-refuter'.split(' ')},
+{id:'search',icon:'🔍',name:'搜索数据',color:'#8b5cf6',skills:'tavily perplexity web-search multi-search-engine aihot github-trending-cn news-summary blogwatcher model-usage skyline gog'.split(' ')},
+{id:'ai',icon:'🤖',name:'AI/ML',color:'#8b5cf6',skills:'deep-research ai-agent-core agent-analytics autoresearch capability-evolver humanizer idea-validator content-factory content-ops market-researcher anti-distill flyai oai-image-gen oai-whisper'.split(' ')},
+{id:'ecommerce',icon:'🛒',name:'电商购物',color:'#ec4899',skills:'taobao cn-ecommerce-search ecommerce-copywriter ecomseer ozon-1688-uploader gog'.split(' ')},
+{id:'media',icon:'🎨',name:'创意媒体',color:'#ff8c00',skills:'excalidraw-diagram deck-generator guizang-ppt-skill fbs-bookwriter content-creator infographic-maker md-to-pdf-cjk pdfkit-py openai-image-gen openai-whisper darwin-skill awesome-design-md'.split(' ')},
+{id:'health',icon:'❤️',name:'健康生活',color:'#22c55e',skills:'healthcheck goal-tracker habit-tracker grill-me impeccable plan-tracker food-bayes'.split(' ')},
+{id:'other',icon:'📦',name:'其他工具',color:'#a855f7',skills:'handoff note-organizer material-organizer migraq mcporter oracle gnns-agent oracle qcc-company cos-vectors fadada-document-sign andonq cnb-skill cangjie-skill libtv-skill crash-expert-skill agnrs-agent ima-skills'.split(' ')}
+];
+const ALL_SKILLS=new Set();CATEGORIES.forEach(c=>c.skills.forEach(s=>ALL_SKILLS.add(s)));
+function renderSB(){
+const n=document.getElementById('sbNav');let h='';
+h+=`<div class="sb-group"><div class="sb-group-title">⭐ 精选</div>`;
+FEATURED.forEach(s=>{h+=`<a class="sb-item" href="#" onclick="scrollTo('sk-${s.n}')"><span class="sb-label">${s.n}</span></a>`});
+h+=`</div>`;
+CATEGORIES.forEach(c=>{
+h+=`<div class="sb-group"><div class="sb-group-title">${c.icon} ${c.name}</div>`;
+c.skills.forEach(s=>{h+=`<a class="sb-item" href="#" onclick="scrollTo('sk-${s}')"><span class="sb-label">${s}</span></a>`});
+h+=`</div>`});
+n.innerHTML=h;
+}
+function renderD(f){
+const c=document.getElementById('dashC');let h='';
+// Featured section
+h+=`<div class="skills-count">📌 精选技能 · 支持 <code style="padding:1px 6px;border-radius:3px;background:var(--surface);font-family:var(--font-mono)">openclaw skills install &lt;name&gt;</code> 安装</div>`;
+h+=`<div class="card-grid">`;
+FEATURED.forEach(s=>{
+if(f&&!s.n.includes(f)&&!s.d.includes(f))return;
+h+=`<a class="guide-card" href="skills-hub/community/${s.n}/" onclick="event.preventDefault()"><div class="gc-bar" style="background:${s.c}"></div><div class="gc-head"><div class="gc-icon" style="background:${s.c}22;color:${s.c}">${s.i}</div><div class="gc-info"><div class="gc-title">${s.n} <span class="gc-title-en">${s.e}</span></div></div></div><div class="gc-desc">${s.d}</div><div class="gc-cmd">${s.cmd}<span class="cmd-copy">📋</span></div></a>`});
+h+=`</div>`;
+h+=`<div style="margin:28px 0 16px;padding:12px 16px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border)"><strong style="font-size:14px">📋 完整技能列表 · ${ALL_SKILLS.size} 技能</strong><span style="margin-left:12px;font-size:12px;color:var(--text3)">按分类浏览全部社区贡献技能</span></div>`;
+CATEGORIES.forEach(cat=>{
+const its=f?cat.skills.filter(s=>s.includes(f)):cat.skills;
+if(!its.length)return;
+h+=`<div class="list-section" id="sec-${cat.id}"><h3 style="border-color:${cat.color}"><span>${cat.icon} ${cat.name}</span><span class="sl-count">${its.length} 技能</span></h3><div class="skill-grid">`;
+its.forEach(s=>{
+const isFeatured=FEATURED.find(f=>f.n===s);
+h+=`<span class="skill-tag${isFeatured?' featured':''}" id="sk-${s}">${s}</span>`});
+h+=`</div></div>`});
+c.innerHTML=h;rSt();
+document.querySelectorAll('.gc-cmd').forEach(el=>el.addEventListener('click',function(e){e.stopPropagation();const t=this.textContent.replace('📋','').trim();navigator.clipboard.writeText(t).then(()=>{const o=this.querySelector('.cmd-copy');o.textContent='✅';setTimeout(()=>o.textContent='📋',1500)})}));
+}
+function rSt(){const s=document.getElementById('dashS');s.innerHTML=`<div class="stat-card"><span class="stat-num">283</span><span class="stat-label">总技能</span></div><div class="stat-card"><span class="stat-num">${CATEGORIES.length}</span><span class="stat-label">分类</span></div><div class="stat-card"><span class="stat-num">12</span><span class="stat-label">精选</span></div><div class="stat-card"><span class="stat-num">283</span><span class="stat-label">可安装</span></div>`}
+function scrollTo(id){const el=document.getElementById(id);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.background='rgba(245,158,11,0.15)';setTimeout(()=>el.style.background='',2000)}}
+function showDash(){}
+function togT(){document.body.classList.toggle('light');const i=document.getElementById('ti');i.innerHTML=document.body.classList.contains('light')?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'}
+function togS(){document.getElementById('sidebar').classList.toggle('hidden');document.getElementById('main').classList.toggle('expanded')}
+function fS(v){const l=v.toLowerCase();document.querySelectorAll('.sb-item').forEach(i=>{i.style.display=i.textContent.toLowerCase().includes(l)?'':'none'});renderD(l)}
+function topbarSearch(v){fS(v)}
+function sharePg(){const t=document.getElementById('tbT').textContent;if(navigator.share)navigator.share({title:t,text:t,url:location.href}).catch(()=>{});else navigator.clipboard.writeText(location.href).then(()=>alert('链接已复制！'))}
+function downloadPg(){const b=new Blob([document.documentElement.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='社区-技能中心.html';a.click();URL.revokeObjectURL(a.href)}
+function updClock(){const d=new Date();document.getElementById('clockD').textContent=d.toLocaleTimeString('zh-CN',{hour12:false})}
+setInterval(updClock,1000);updClock();
+renderSB();renderD('');rSt();
+</script>
+</body>
+</html>
