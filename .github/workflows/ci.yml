@@ -1,0 +1,50 @@
+# .github/workflows/ci.yml
+# YYC³ 质量门禁流水线 — PR 与非 main 分支推送触发
+# 五道门禁：typecheck → test:coverage(≥80%) → check:arch → build → smoke:dist
+name: CI · Quality Gates
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality Gates (typecheck / coverage / arch / build / smoke)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck (tsc --noEmit)
+        run: pnpm typecheck
+
+      - name: Unit tests + coverage gate (≥ 80%)
+        run: pnpm test:coverage
+
+      - name: Architecture boundaries
+        run: pnpm check:arch
+
+      - name: Production build
+        run: pnpm build
+
+      - name: dist smoke test
+        run: pnpm smoke:dist

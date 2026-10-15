@@ -1,11 +1,13 @@
 {
-  "name": "figma-make-app",
+  "name": "yyc3-minimax-3",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
+  "packageManager": "pnpm@10.34.3",
   "description": "YYC³ AI Family · Comic Drama — AI 驱动的工业化漫剧生产平台：8 Agent 协同，小说到成片全链路闭环（React 19 + Vite 8 + Tailwind v4 + PWA）",
   "keywords": [
     "yyc3",
+    "yanyucloudcube",
     "ai-family",
     "comic-drama",
     "short-drama",
@@ -16,8 +18,20 @@
     "tailwindcss",
     "pwa",
     "figma-make",
-    "ai-production"
+    "ai-production",
+    "github-pages",
+    "quality-gates"
   ],
+  "homepage": "https://minimax-h3.yyc3.top",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-MiniMax-3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YYC-Cube/YYC3-MiniMax-3/issues"
+  },
+  "author": "YanYuCloudCube Team <admin@0379.email>",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

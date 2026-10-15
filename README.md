@@ -3,11 +3,13 @@ file: "README.md"
 title: "YYC³ AI Family · Comic Drama"
 description: "YYC³ AI Family · Comic Drama — AI 驱动的工业化漫剧生产平台（8 Agent 协同 · 小说到成片全链路）"
 author: "YanYuCloudCube Team <admin@0379.email>"
-version: "v1.1.0"
+version: "v1.2.0"
 created: "2026-10-11"
 updated: "2026-10-15"
 status: "stable"
 license: "MIT"
+homepage: "https://minimax-h3.yyc3.top"
+repository: "https://github.com/YYC-Cube/YYC3-MiniMax-3"
 keywords: ["YYC3", "AI Family", "Comic Drama", "短剧生产", "Multi-Agent", "ReAct-C", "React 19", "TypeScript", "Vite 8", "Tailwind CSS v4", "PWA", "Figma Make"]
 tags: ["react", "typescript", "vite", "tailwindcss", "pwa", "ai-agents", "comic-drama", "yyc3", "short-drama", "industrial-production"]
 category: "doc"
@@ -42,6 +44,8 @@ category: "doc"
   <a href="#-质量门禁"><img src="https://img.shields.io/badge/tested_with-Vitest_5-6E9F18?logo=vitest&logoColor=white" alt="Vitest" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-00e0b8" alt="License: MIT" /></a>
   <a href="./CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-FF7A5C" alt="PRs welcome" /></a>
+  <a href="https://github.com/YYC-Cube/YYC3-MiniMax-3/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/YYC-Cube/YYC3-MiniMax-3/ci.yml?branch=main&label=CI&logo=githubactions&logoColor=white" alt="CI Status" /></a>
+  <a href="https://minimax-h3.yyc3.top"><img src="https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E6%BC%94%E7%A4%BA-GitHub_Pages-00e0b8?logo=githubpages&logoColor=white" alt="Live Demo" /></a>
 </p>
 
 <p align="center">
@@ -157,6 +161,10 @@ category: "doc"
 ### 安装与启动
 
 ```bash
+# 0. 克隆仓库
+git clone https://github.com/YYC-Cube/YYC3-MiniMax-3.git
+cd YYC3-MiniMax-3
+
 # 1. 安装依赖
 pnpm install
 
@@ -197,6 +205,30 @@ VITE_API_BASE_URL=https://api.example.com
 import { scriptService } from '@/api';
 const scripts = await scriptService.list(); // 未配置后端时自动回退演示数据
 ```
+
+---
+
+## 🚢 部署与 CI/CD
+
+线上地址：**[https://minimax-h3.yyc3.top](https://minimax-h3.yyc3.top)**（GitHub Pages · 自定义域名 `public/CNAME`）
+
+### 双远程仓库体系
+
+| 远程 | 地址 | 用途 |
+| ---- | ---- | ---- |
+| `origin` | `http://192.168.3.45:8080/git/root/YYC3-MiniMax-3.git` | 自建 Git 服务（内网主源） |
+| `github` | `https://github.com/YYC-Cube/YYC3-MiniMax-3.git` | GitHub（开源镜像 + Pages + CI） |
+
+同步命令：`git push origin main && git push github main`
+
+### 自动化流水线（GitHub Actions）
+
+| 工作流 | 文件 | 触发 | 阶段 |
+| ------ | ---- | ---- | ---- |
+| **CI · Quality Gates** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | `pull_request` · 非 main 分支 push | typecheck → test:coverage → check:arch → build → smoke:dist |
+| **Deploy · GitHub Pages** | [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) | `push main` · 手动 | 全量质量门禁 → 构建 → 发布 Pages（仅门禁全绿才部署） |
+
+部署链路：`main` 分支推送 → 质量门禁（类型 / 覆盖率 ≥ 80% / 架构边界 / 产物烟囱）→ `vite build`（base `/`，适配自定义域名）→ `actions/deploy-pages` 原子发布。
 
 ---
 
@@ -300,7 +332,7 @@ YYC3-MiniMax-3/
 - [x] **P2** API 契约层抽象（`src/api/` 统一请求 + 域服务 + Mock 优先兜底）
 - [x] **P2** TopNav 弱类型修复（`pageId: any` → `PageId`）
 - [ ] **P1** 各页面视图从静态 mockData 迁移至 `src/api` 域服务
-- [ ] **P1** CI 流水线（typecheck + test + build + audit 全门禁自动化）
+- [x] **P1** CI 流水线（GitHub Actions：typecheck + test:coverage + 架构边界 + build + dist 烟囱全门禁自动化 + Pages 自动部署）
 - [ ] **P2** 8 Agent 时钟环 Canvas 渲染性能优化（60fps 全息粒子流）
 - [ ] **P2** 组件级测试扩展（@testing-library 渲染断言）
 
