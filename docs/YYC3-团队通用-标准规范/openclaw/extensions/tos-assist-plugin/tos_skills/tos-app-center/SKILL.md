@@ -1,8 +1,9 @@
 ---
-name: tos-app-center
-description: "TNAS App Center management, including app install, enable/disable, uninstall, and default install location settings. Use when user asks to install, enable/disable, uninstall apps on TerraMaster TOS, or change default app install location."
+name: "tos-app-center"
+description: "\"TNAS App Center management, including app install, enable/disable, uninstall, and default install location settings. Use when user asks to install, enable/disable, uninstall apps on TerraMaster TOS, or change default app install location.\""
 
 ---
+
 
 # TOS App Center
 
@@ -128,4 +129,3 @@ TNAS App Center management, including app install, enable/disable, uninstall, an
 3. Untriggered features must never participate in operations to avoid excessive token consumption.
 4. Cross-feature inference or chaining is prohibited.
 5. When no trigger condition is matched, no operation shall be executed.
-

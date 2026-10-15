@@ -1,14 +1,18 @@
 ---
-file: README.md
-description: YYC³ AI Family · Comic Drama — AI 驱动的工业化漫剧生产平台（8 Agent 协同 · 小说到成片全链路）
-author: YanYuCloudCube Team <admin@0379.email>
-version: v1.0.1
-created: 2026-10-11
-updated: 2026-10-11
-status: stable
-tags: [文档]
-category: doc
+file: "README.md"
+title: "YYC³ AI Family · Comic Drama"
+description: "YYC³ AI Family · Comic Drama — AI 驱动的工业化漫剧生产平台（8 Agent 协同 · 小说到成片全链路）"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v1.1.0"
+created: "2026-10-11"
+updated: "2026-10-15"
+status: "stable"
+license: "MIT"
+keywords: ["YYC3", "AI Family", "Comic Drama", "短剧生产", "Multi-Agent", "ReAct-C", "React 19", "TypeScript", "Vite 8", "Tailwind CSS v4", "PWA", "Figma Make"]
+tags: ["react", "typescript", "vite", "tailwindcss", "pwa", "ai-agents", "comic-drama", "yyc3", "short-drama", "industrial-production"]
+category: "doc"
 ---
+
 
 > ***YanYuCloudCube***
 > *言启象限 | 语枢未来*
@@ -33,7 +37,7 @@ category: doc
   <a href="#-技术栈"><img src="https://img.shields.io/badge/TypeScript-5.x%20Strict-00b4d8?logo=typescript&logoColor=white" alt="TypeScript" /></a>
   <a href="#-技术栈"><img src="https://img.shields.io/badge/Vite-8-9d7cd8?logo=vite&logoColor=white" alt="Vite 8" /></a>
   <a href="#-技术栈"><img src="https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?logo=tailwindcss&logoColor=white" alt="Tailwind v4" /></a>
-  <a href="#-快速开始"><img src="https://img.shields.io/badge/pnpm-11-F9A03C?logo=pnpm&logoColor=white" alt="pnpm 11" /></a>
+  <a href="#-快速开始"><img src="https://img.shields.io/badge/pnpm-10-F9A03C?logo=pnpm&logoColor=white" alt="pnpm 10" /></a>
   <a href="#-快速开始"><img src="https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white" alt="Node 22" /></a>
   <a href="#-质量门禁"><img src="https://img.shields.io/badge/tested_with-Vitest_5-6E9F18?logo=vitest&logoColor=white" alt="Vitest" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-00e0b8" alt="License: MIT" /></a>

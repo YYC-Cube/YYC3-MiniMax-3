@@ -1,8 +1,10 @@
 ---
-sidebar_position:  1
+sidebar_position: "1"
+
+---
+
 
 # tags: [TOS 桌面]
----
 
 # 桌面
 TOS (TerraMaster Operating System) 是专门为 TNAS 设备设计的基于网页界面的操作系统。通过 TOS 操作系统，您可以快速方便地完成修改系统设置、安装及打开应用程序、管理存储空间等任务。

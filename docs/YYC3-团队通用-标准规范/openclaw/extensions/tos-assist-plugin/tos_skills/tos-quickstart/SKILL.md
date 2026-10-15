@@ -1,7 +1,8 @@
 ---
-name: tos-quickstart
-description: TOS quickstart guide. Use this skill when the user is new to TOS, needs a quick overview of basic features, or wants to know "what can TOS do".
+name: "tos-quickstart"
+description: "TOS quickstart guide. Use this skill when the user is new to TOS, needs a quick overview of basic features, or wants to know \"what can TOS do\"."
 ---
+
 
 # TOS Quickstart Skill
 

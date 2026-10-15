@@ -1,17 +1,18 @@
 ---
-file: YYC3-多端适配-规范文档.md
-description: YYC3-多端适配-规范文档 — 涵盖文档规范、代码标准、项目规范、多端适配、质量保障的全量规范体系
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-01
-updated: 2026-07-06
-status: stable
-tags: [规范],[标准],[文档格式],[代码标准],[命名规范],[多端适配],[质量保障]
-category: policy
-language: zh-CN
-audience: developers,managers,stakeholders
-complexity: intermediate
+file: "YYC3-多端适配-规范文档.md"
+description: "YYC3-多端适配-规范文档 — 涵盖文档规范、代码标准、项目规范、多端适配、质量保障的全量规范体系"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-01"
+updated: "2026-07-06"
+status: "stable"
+tags: ["规范", "标准", "文档格式", "代码标准", "命名规范", "多端适配", "质量保障"]
+category: "policy"
+language: "zh-CN"
+audience: "developers,managers,stakeholders"
+complexity: "intermediate"
 ---
+
 > ***YanYuCloudCube***
 > *言启象限 | 语枢未来*
 > ***Words Initiate Quadrants, Language Serves as Core for Future***

@@ -1,14 +1,15 @@
 ---
-file: 17-R16dist烟囱与交互深度升级专项方案.md
-description: YYC3-MiniMax-3 R16 dist 烟囱测试脚本化 + 交互级测试深度升级专项方案与执行记录
-author: AI Tutor <minimax>
-version: v1.1.0
-created: 2026-10-12
-updated: 2026-10-12
-status: completed
-tags: [smoke],[dist],[jsdom],[rtl],[r16]
-category: plan
+file: "17-R16dist烟囱与交互深度升级专项方案.md"
+description: "YYC3-MiniMax-3 R16 dist 烟囱测试脚本化 + 交互级测试深度升级专项方案与执行记录"
+author: "AI Tutor <minimax>"
+version: "v1.1.0"
+created: "2026-10-12"
+updated: "2026-10-12"
+status: "completed"
+tags: ["smoke", "dist", "jsdom", "rtl", "r16"]
+category: "plan"
 ---
+
 
 # 🧪 R16 dist 烟囱脚本化 + 交互级测试深度升级专项方案
 

@@ -1,17 +1,18 @@
 ---
-file: YYC3-统一数据平台-架构方案.md
-description: YYC³ 验收系统 — 统一数据平台架构设计与实施方案
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-25
-updated: 2026-05-30
-status: draft
-tags: [数据平台],[架构设计],[数据联动],[可观测性]
-category: architecture
-language: zh-CN
-audience: architects,data-engineers,devops,platform-engineers
-complexity: advanced
+file: "YYC3-统一数据平台-架构方案.md"
+description: "YYC³ 验收系统 — 统一数据平台架构设计与实施方案"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-25"
+updated: "2026-05-30"
+status: "draft"
+tags: ["数据平台", "架构设计", "数据联动", "可观测性"]
+category: "architecture"
+language: "zh-CN"
+audience: "architects,data-engineers,devops,platform-engineers"
+complexity: "advanced"
 ---
+
 
 
 ## 变更历史

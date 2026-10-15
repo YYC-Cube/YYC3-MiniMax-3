@@ -1,7 +1,8 @@
 ---
-name: tos-app-package
-description: 将 TOS 应用打包为可安装的 .deb 包或 tar.gz 双包，并支持通过应用中心安装。当用户需要给应用打包、制作安装包、构建 deb 包、安装应用到TOS应用中心时使用此技能。Triggers on: 打包、deb、安装包、应用包、package、build deb、设计应用、做应用、应用原型、应用设计、原型设计、安装本地应用、安装deb包、部署应用包、上传安装包。
+name: "tos-app-package"
+description: "将 TOS 应用打包为可安装的 .deb 包或 tar.gz 双包，并支持通过应用中心安装。当用户需要给应用打包、制作安装包、构建 deb 包、安装应用到TOS应用中心时使用此技能。Triggers on: 打包、deb、安装包、应用包、package、build deb、设计应用、做应用、应用原型、应用设计、原型设计、安装本地应用、安装deb包、部署应用包、上传安装包。"
 ---
+
 
 # TOS 应用打包技能
 

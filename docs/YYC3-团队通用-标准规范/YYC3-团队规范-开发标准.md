@@ -1,17 +1,18 @@
 ---
-file: YYC3-团队规范-开发标准.md
-description: YYC³ 团队统一开发标准 — 涵盖文档规范、代码标准、项目规范、质量保障的全量规范体系
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-01
-updated: 2026-05-01
-status: stable
-tags: [规范],[标准],[文档格式],[代码标准],[命名规范],[质量保障]
-category: policy
-language: zh-CN
-audience: developers,managers,stakeholders
-complexity: intermediate
+file: "YYC3-团队规范-开发标准.md"
+description: "YYC³ 团队统一开发标准 — 涵盖文档规范、代码标准、项目规范、质量保障的全量规范体系"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-01"
+updated: "2026-05-01"
+status: "stable"
+tags: ["规范", "标准", "文档格式", "代码标准", "命名规范", "质量保障"]
+category: "policy"
+language: "zh-CN"
+audience: "developers,managers,stakeholders"
+complexity: "intermediate"
 ---
+
 > ***YanYuCloudCube***
 > *言启象限 | 语枢未来*
 > ***Words Initiate Quadrants, Language Serves as Core for Future***

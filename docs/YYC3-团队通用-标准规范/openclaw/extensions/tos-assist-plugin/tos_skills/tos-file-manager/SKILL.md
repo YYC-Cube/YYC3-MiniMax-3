@@ -1,7 +1,8 @@
 ---
-name: tos-file-manager
-description: Execute TOS file management operations, including file sharing and share link configuration (supports tnas.online/DDNS remote access), favorites, safe box (open/close/reset/permanently delete files), recycle bin, and remote folder mount/unmount. Use when users ask to share files/folders, create/edit/delete share links, manage favorites, open/close safe box, manage recycle bin, or mount/unmount remote folders on a TerraMaster NAS.
+name: "tos-file-manager"
+description: "Execute TOS file management operations, including file sharing and share link configuration (supports tnas.online/DDNS remote access), favorites, safe box (open/close/reset/permanently delete files), recycle bin, and remote folder mount/unmount. Use when users ask to share files/folders, create/edit/delete share links, manage favorites, open/close safe box, manage recycle bin, or mount/unmount remote folders on a TerraMaster NAS."
 ---
+
 
 # tos-file-manager
 

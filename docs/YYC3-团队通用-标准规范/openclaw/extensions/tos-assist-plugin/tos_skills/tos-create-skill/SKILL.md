@@ -1,7 +1,8 @@
 ---
-name: tos-create-skill
-description: Create a new TOS operation skill and auto-verify after creation
+name: "tos-create-skill"
+description: "Create a new TOS operation skill and auto-verify after creation"
 ---
+
 
 # Create TOS Skill
 

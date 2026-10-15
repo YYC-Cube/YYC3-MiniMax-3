@@ -1,14 +1,15 @@
 ---
-file: Family-README.md
-description: YYC³ AI Family Agent 中心 - 全屏沉浸式交互中心 - 完整设计规范
-author: YanYuCloudCube Team <admin@0379.email>
-version: v1.0.1
-created: 2026-10-11
-updated: 2026-10-11
-status: stable
-tags: [文档]
-category: doc
+file: "Family-README.md"
+description: "YYC³ AI Family Agent 中心 - 全屏沉浸式交互中心 - 完整设计规范"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v1.0.1"
+created: "2026-10-11"
+updated: "2026-10-11"
+status: "stable"
+tags: ["文档"]
+category: "doc"
 ---
+
 
 > ***YanYuCloudCube***
 > *言启象限 | 语枢未来*

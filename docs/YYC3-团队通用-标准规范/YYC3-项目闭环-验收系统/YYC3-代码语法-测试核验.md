@@ -1,17 +1,18 @@
 ---
-file: YYC3-代码语法-测试核验.md
-description: YYC³ 项目闭环验收系统 — 代码语法质量检测与核验标准（第一类验收阶段）
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-25
-updated: 2026-05-30
-status: stable
-tags: [验收],[代码语法],[质量检测],[TypeScript],[ESLint],[闭环]
-category: acceptance
-language: zh-CN
-audience: developers,qa-engineers,devops
-complexity: intermediate
+file: "YYC3-代码语法-测试核验.md"
+description: "YYC³ 项目闭环验收系统 — 代码语法质量检测与核验标准（第一类验收阶段）"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-25"
+updated: "2026-05-30"
+status: "stable"
+tags: ["验收", "代码语法", "质量检测", "TypeScript", "ESLint", "闭环"]
+category: "acceptance"
+language: "zh-CN"
+audience: "developers,qa-engineers,devops"
+complexity: "intermediate"
 ---
+
 
 <div align="center">
 

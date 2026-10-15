@@ -1,17 +1,18 @@
 ---
-file: YYC3-全局统一-验收标准.md
-description: YYC³ 项目闭环验收系统 — 全局统一验收标准与规范体系（总纲文档）
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-25
-updated: 2026-05-30
-status: stable
-tags: [验收],[全局标准],[统一规范],[质量体系],[五高架构],[五标体系]
-category: acceptance
-language: zh-CN
-audience: developers,qa-engineers,project-managers,devops,architects,stakeholders
-complexity: advanced
+file: "YYC3-全局统一-验收标准.md"
+description: "YYC³ 项目闭环验收系统 — 全局统一验收标准与规范体系（总纲文档）"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-25"
+updated: "2026-05-30"
+status: "stable"
+tags: ["验收", "全局标准", "统一规范", "质量体系", "五高架构", "五标体系"]
+category: "acceptance"
+language: "zh-CN"
+audience: "developers,qa-engineers,project-managers,devops,architects,stakeholders"
+complexity: "advanced"
 ---
+
 
 # YYC³ 全局统一验收标准与规范体系
 

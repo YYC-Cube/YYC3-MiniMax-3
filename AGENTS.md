@@ -1,14 +1,15 @@
 ---
-file: AGENTS.md
-description: figma-make-app 工程上下文 — React + Vite + Tailwind 结构约定与开发规范
-author: YanYuCloudCube Team <admin@0379.email>
-version: v1.0.1
-created: 2026-10-11
-updated: 2026-10-11
-status: stable
-tags: [文档]
-category: doc
+file: "AGENTS.md"
+description: "figma-make-app 工程上下文 — React + Vite + Tailwind 结构约定与开发规范"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v1.0.1"
+created: "2026-10-11"
+updated: "2026-10-11"
+status: "stable"
+tags: ["文档"]
+category: "doc"
 ---
+
 
 > ***YanYuCloudCube***
 > *言启象限 | 语枢未来*

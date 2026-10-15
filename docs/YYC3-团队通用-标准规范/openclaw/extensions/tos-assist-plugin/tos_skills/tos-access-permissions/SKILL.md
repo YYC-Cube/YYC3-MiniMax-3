@@ -1,7 +1,8 @@
 ---
-name: tos-access-permissions
-description: Manage TOS encrypted shared folders, protocol access settings (SMB/NFS/WebDAV), ACL permissions (tmacltool), AD domain connection, and LDAP server connection. Use this skill when users need to create/mount/unmount/delete encrypted shared folders, export encryption keys, configure SMB/NFS/WebDAV remote access for shared folders, set folder ACL permissions, or connect to an AD domain or LDAP server.
+name: "tos-access-permissions"
+description: "Manage TOS encrypted shared folders, protocol access settings (SMB/NFS/WebDAV), ACL permissions (tmacltool), AD domain connection, and LDAP server connection. Use this skill when users need to create/mount/unmount/delete encrypted shared folders, export encryption keys, configure SMB/NFS/WebDAV remote access for shared folders, set folder ACL permissions, or connect to an AD domain or LDAP server."
 ---
+
 
 # TOS Access Permissions
 

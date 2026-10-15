@@ -1,7 +1,8 @@
 ---
-name: tos-router
-description: "TOS skill 强制路由器。以下特定 TOS 领域的用户提问（注意：非全部 TOS 领域，仅限下列领域）必须先经过本路由器判断意图，再路由到正确 skill，严禁跳过路由器直接调用任何 TOS 操作 skill 或售后回答 skill。当前覆盖领域：加密共享文件夹、协议访问（SMB/NFS/WebDAV）、ACL 权限、AD 域、LDAP，应用安装/启用/禁用/卸载/默认安装位置，rsync 备份、BTRFS 快照、Time Machine，文件共享/分享链接、收藏夹、安全箱、回收站、远程文件夹挂载，WiFi、Telnet、媒体索引、端口、OVS Bond/PPTP/OpenVPN/L2TP/流量管理/DDNS，存储池/卷的创建/删除/扩展/格式化、S.M.A.R.T. 测试、Hyper Cache，时间/时区、语言、开关机计划、UPS、磁盘休眠、定时任务、SMTP、安全隔离、服务/进程管理、SPC、配置恢复/重置、恢复出厂、开发者模式。根据用户意图（提问 vs 执行）路由到正确的 skill：提问→tos-after-sale-support（仅回答），执行→对应操作 skill（仅执行）。"
+name: "tos-router"
+description: "\"TOS skill 强制路由器。以下特定 TOS 领域的用户提问（注意：非全部 TOS 领域，仅限下列领域）必须先经过本路由器判断意图，再路由到正确 skill，严禁跳过路由器直接调用任何 TOS 操作 skill 或售后回答 skill。当前覆盖领域：加密共享文件夹、协议访问（SMB/NFS/WebDAV）、ACL 权限、AD 域、LDAP，应用安装/启用/禁用/卸载/默认安装位置，rsync 备份、BTRFS 快照、Time Machine，文件共享/分享链接、收藏夹、安全箱、回收站、远程文件夹挂载，WiFi、Telnet、媒体索引、端口、OVS Bond/PPTP/OpenVPN/L2TP/流量管理/DDNS，存储池/卷的创建/删除/扩展/格式化、S.M.A.R.T. 测试、Hyper Cache，时间/时区、语言、开关机计划、UPS、磁盘休眠、定时任务、SMTP、安全隔离、服务/进程管理、SPC、配置恢复/重置、恢复出厂、开发者模式。根据用户意图（提问 vs 执行）路由到正确的 skill：提问→tos-after-sale-support（仅回答），执行→对应操作 skill（仅执行）。\""
 ---
+
 
 # TOS Skill Router
 

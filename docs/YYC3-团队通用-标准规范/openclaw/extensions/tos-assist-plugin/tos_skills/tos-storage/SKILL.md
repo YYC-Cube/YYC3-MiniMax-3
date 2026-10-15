@@ -1,7 +1,8 @@
 ---
-name: tos-storage
-description: "TNAS storage management operations, including storage pool/volume creation, expansion, deletion, formatting, disk S.M.A.R.T. testing, Hyper Cache creation and deletion. Triggers when user requests: create/delete/expand/format volumes, create/delete storage pools, create/delete Hyper Cache, SMART disk testing, or other storage-related operations."
+name: "tos-storage"
+description: "\"TNAS storage management operations, including storage pool/volume creation, expansion, deletion, formatting, disk S.M.A.R.T. testing, Hyper Cache creation and deletion. Triggers when user requests: create/delete/expand/format volumes, create/delete storage pools, create/delete Hyper Cache, SMART disk testing, or other storage-related operations.\""
 ---
+
 
 # TOS Storage Management Skill
 

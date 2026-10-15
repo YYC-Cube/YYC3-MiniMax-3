@@ -1,17 +1,18 @@
 ---
-file: YYC3-单元框架-审核验收.md
-description: YYC³ 项目闭环验收系统 — 测试框架搭建与配置审核标准（第五类验收阶段）
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-25
-updated: 2026-05-30
-status: stable
-tags: [验收],[测试框架],[Vitest],[Playwright],[CI/CD],[工具链],[闭环]
-category: acceptance
-language: zh-CN
-audience: developers,devops,qa-engineers
-complexity: advanced
+file: "YYC3-单元框架-审核验收.md"
+description: "YYC³ 项目闭环验收系统 — 测试框架搭建与配置审核标准（第五类验收阶段）"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-25"
+updated: "2026-05-30"
+status: "stable"
+tags: ["验收", "测试框架", "Vitest", "Playwright", "CI/CD", "工具链", "闭环"]
+category: "acceptance"
+language: "zh-CN"
+audience: "developers,devops,qa-engineers"
+complexity: "advanced"
 ---
+
 
 <div align="center">
 

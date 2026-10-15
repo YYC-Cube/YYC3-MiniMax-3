@@ -1,7 +1,8 @@
 ---
-name: tos-system-mgmt
-description: "Execute TNAS system management operations including time/timezone settings, language switching, power on/off schedules, UPS configuration, disk sleep, scheduled tasks, SMTP mail server, security isolation mode, service/process management, SPC, system config restore/reset, factory reset, and developer mode. Use when user asks to modify TNAS system time or timezone, change interface/notification language, set power schedules, configure UPS, adjust disk sleep, create scheduled tasks, setup SMTP, toggle security isolation, stop services or processes, or mentions SPC/config restore/config reset/factory reset/developer mode on a TerraMaster NAS."
+name: "tos-system-mgmt"
+description: "\"Execute TNAS system management operations including time/timezone settings, language switching, power on/off schedules, UPS configuration, disk sleep, scheduled tasks, SMTP mail server, security isolation mode, service/process management, SPC, system config restore/reset, factory reset, and developer mode. Use when user asks to modify TNAS system time or timezone, change interface/notification language, set power schedules, configure UPS, adjust disk sleep, create scheduled tasks, setup SMTP, toggle security isolation, stop services or processes, or mentions SPC/config restore/config reset/factory reset/developer mode on a TerraMaster NAS.\""
 ---
+
 
 # TNAS System Management
 

@@ -1,7 +1,8 @@
 ---
-name: tos-create-general-skill
-description: Create a non-TOS OpenClaw skill (general-purpose skill). Use when user needs to create a skill that is NOT related to TOS operations.
+name: "tos-create-general-skill"
+description: "Create a non-TOS OpenClaw skill (general-purpose skill). Use when user needs to create a skill that is NOT related to TOS operations."
 ---
+
 
 # Create General (Non-TOS) OpenClaw Skill
 

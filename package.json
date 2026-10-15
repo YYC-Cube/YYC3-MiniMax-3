@@ -3,6 +3,21 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "YYC³ AI Family · Comic Drama — AI 驱动的工业化漫剧生产平台：8 Agent 协同，小说到成片全链路闭环（React 19 + Vite 8 + Tailwind v4 + PWA）",
+  "keywords": [
+    "yyc3",
+    "ai-family",
+    "comic-drama",
+    "short-drama",
+    "multi-agent",
+    "react-19",
+    "typescript",
+    "vite",
+    "tailwindcss",
+    "pwa",
+    "figma-make",
+    "ai-production"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

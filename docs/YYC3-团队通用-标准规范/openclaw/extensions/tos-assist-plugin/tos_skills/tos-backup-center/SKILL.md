@@ -1,7 +1,8 @@
 ---
-name: tos-backup-center
-description: Manage TOS (Terramaster OS) backup operations including rsync backup tasks, filesystem snapshots, and Time Machine backup authorization. Use when users request operations on backup center features such as creating/modifying/deleting rsync tasks, managing BTRFS snapshots (enable/query/delete/take/lock/unlock), or configuring Time Machine authorized directories. Triggers on terms like "rsync backup", "snapshot", "Time Machine", "Time Machine", "snapshot", "backup task" in the context of TOS/NAS management.
+name: "tos-backup-center"
+description: "Manage TOS (Terramaster OS) backup operations including rsync backup tasks, filesystem snapshots, and Time Machine backup authorization. Use when users request operations on backup center features such as creating/modifying/deleting rsync tasks, managing BTRFS snapshots (enable/query/delete/take/lock/unlock), or configuring Time Machine authorized directories. Triggers on terms like \"rsync backup\", \"snapshot\", \"Time Machine\", \"Time Machine\", \"snapshot\", \"backup task\" in the context of TOS/NAS management."
 ---
+
 
 # TOS Backup Center
 

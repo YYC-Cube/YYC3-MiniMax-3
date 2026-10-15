@@ -1,17 +1,18 @@
 ---
-file: YYC3-团队规范-文档闭环.md
-description: YYC³ 团队规范、代码标准、项目规范、质量保障、闭环范式
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-05-01
-updated: 2026-05-01
-status: stable
-tags: [规范],[标准],[文档格式],[代码标准],[命名规范],[质量保障]
-category: policy
-language: zh-CN
-audience: developers,managers,stakeholders
-complexity: intermediate
+file: "YYC3-团队规范-文档闭环.md"
+description: "YYC³ 团队规范、代码标准、项目规范、质量保障、闭环范式"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-05-01"
+updated: "2026-05-01"
+status: "stable"
+tags: ["规范", "标准", "文档格式", "代码标准", "命名规范", "质量保障"]
+category: "policy"
+language: "zh-CN"
+audience: "developers,managers,stakeholders"
+complexity: "intermediate"
 ---
+
 # YYC³（YanYuCloudCube）项目文档闭环建标准
 
 > ***YanYuCloudCube***

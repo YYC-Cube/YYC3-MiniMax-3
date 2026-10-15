@@ -1,7 +1,9 @@
 ---
-sidebar_position:  3
-# # tags: [应用中心]
+sidebar_position: "3"
 ---
+
+
+# # tags: [应用中心]
 
 # 应用中心
 

@@ -1,6 +1,9 @@
 ---
-name: tos-network-manager
-description: >
+name: "tos-network-manager"
+description: ">"
+---
+
+
   One-stop quick management for TNAS wireless network connection, Telnet service management,
   media index configuration, port management, and high-risk operation interception.
   Trigger conditions: user mentions WiFi connection, wireless network connection, enable Telnet,
@@ -10,7 +13,6 @@ description: >
   Use when: user asks to connect WiFi, enable Telnet, configure media index thumbnails,
   modify service ports on TNAS/TOS, or attempts high-risk operations
   (OVS Bond, PPTP, OpenVPN, L2TP/IPSec, traffic management, edit network interfaces, add/edit media index, DDNS).
----
 
 # TOS Network Manager
 

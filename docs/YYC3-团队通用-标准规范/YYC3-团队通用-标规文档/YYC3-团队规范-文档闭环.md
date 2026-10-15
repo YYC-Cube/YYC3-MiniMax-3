@@ -1,17 +1,18 @@
 ---
-file: YYC3-团队规范-文档闭环.md
-description: YYC³ 项目文档闭环建标准 — 模版体系、追溯机制、迭代演进全量规范
-author: YanYuCloudCube Team <admin@0379.email>
-version: v2.0.0
-created: 2026-03-21
-updated: 2026-05-30
-status: stable
-tags: [规范],[标准],[文档格式],[闭环],[追溯],[模版]
-category: policy
-language: zh-CN
-audience: developers,managers,stakeholders
-complexity: intermediate
+file: "YYC3-团队规范-文档闭环.md"
+description: "YYC³ 项目文档闭环建标准 — 模版体系、追溯机制、迭代演进全量规范"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v2.0.0"
+created: "2026-03-21"
+updated: "2026-05-30"
+status: "stable"
+tags: ["规范", "标准", "文档格式", "闭环", "追溯", "模版"]
+category: "policy"
+language: "zh-CN"
+audience: "developers,managers,stakeholders"
+complexity: "intermediate"
 ---
+
 
 <div align="center">
 

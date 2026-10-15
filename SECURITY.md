@@ -1,14 +1,15 @@
 ---
-file: SECURITY.md
-description: 安全政策 / Security Policy
-author: YanYuCloudCube Team <admin@0379.email>
-version: v1.0.1
-created: 2026-10-11
-updated: 2026-10-11
-status: stable
-tags: [文档]
-category: doc
+file: "SECURITY.md"
+description: "安全政策 / Security Policy"
+author: "YanYuCloudCube Team <admin@0379.email>"
+version: "v1.0.1"
+created: "2026-10-11"
+updated: "2026-10-11"
+status: "stable"
+tags: ["文档"]
+category: "doc"
 ---
+
 
 > ***YanYuCloudCube***
 > *言启象限 | 语枢未来*
