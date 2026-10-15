@@ -10,23 +10,20 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  Mail,
-  Lock,
+  AlertCircle,
   Eye,
   EyeOff,
-  AlertCircle,
-  CheckCircle2,
+  Lock,
   LockKeyhole,
-  ArrowRight,
-  Shield,
-  Layers,
-  Sparkles,
+  Mail
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
+import React, { useState } from 'react';
 import AuthBrandClock from '../../components/auth/AuthBrandClock';
+import BrandMark from '../../components/common/BrandMark';
+import { APP_BRAND_LINE, APP_SHORT_NAME } from '../../config/brand';
 import { AUTH_TOKENS } from '../../tokens';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface LoginPageProps {
   onNavigate: (page: PageId) => void;
@@ -78,14 +75,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
   return (
     <div
-      className="min-h-screen w-full flex select-none overflow-hidden animate-in fade-in duration-200"
+      className="min-h-screen w-full flex flex-col lg:flex-row select-none overflow-y-auto lg:overflow-hidden animate-in fade-in duration-200"
       style={{ backgroundColor: AUTH_TOKENS.canvasRight }}
     >
       {/* ============================================================== */}
       {/* LEFT 55% · Brand Showcase Zone (792px on 1440px canvas)       */}
       {/* ============================================================== */}
       <div
-        className="w-[55%] relative flex flex-col justify-between p-16 overflow-hidden border-r border-[rgba(255,255,255,0.06)]"
+        className="w-full lg:w-[55%] relative flex flex-col justify-between p-6 pt-24 sm:p-10 sm:pt-20 lg:p-16 overflow-hidden border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.06)]"
         style={{
           backgroundColor: AUTH_TOKENS.canvasLeft,
         }}
@@ -106,37 +103,33 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
         {/* 1. Top Brand Logo & Subtitle */}
         <div className="z-10 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00e0b8] via-[#00B4D8] to-[#9d7cd8] p-0.5 shadow-md">
-            <div className="w-full h-full bg-[#071222] rounded-[6px] flex items-center justify-center font-black text-xs text-[#00e0b8]">
-              YYC³
-            </div>
-          </div>
+          <BrandMark variant="mark" size={32} />
           <div className="h-5 w-px bg-[rgba(255,255,255,0.15)]" />
           <span className="text-xs text-[#8a97a8] tracking-wider uppercase font-mono">
-            AI Family · Comic Drama
+            {APP_BRAND_LINE}
           </span>
         </div>
 
         {/* 2. Center Visual: AI Family Chrono Clock Dial (360px) & Slogans */}
-        <div className="z-10 my-auto flex flex-col items-center text-center max-w-[540px] mx-auto">
-          {/* Chronograph Radar Ring */}
-          <AuthBrandClock diameter={340} variant="running" activeAgentId="yushu-wanwu" />
+        <div className="z-10 my-6 lg:my-auto flex flex-col items-center text-center max-w-[540px] w-full mx-auto">
+          {/* Chronograph Radar Ring（fluid：移动端按屏宽收缩） */}
+          <AuthBrandClock diameter={340} variant="running" activeAgentId="yushu-wanwu" fluid />
 
           {/* Slogans */}
-          <div className="mt-8 space-y-2">
+          <div className="mt-6 lg:mt-8 space-y-2">
             <h1 className="text-2xl lg:text-3xl font-bold text-[#e8f0f8] tracking-tight">
               八个 AI 伙伴，一条漫剧产线
             </h1>
             <p className="text-xs text-[#8a97a8] leading-relaxed max-w-md mx-auto">
               小说 → 剧本 → 分镜 → 图像 → 视频 → 成片 → 分发<br />
-              由 YYC³ AI Family 全链路协同自主完成
+              由 {APP_SHORT_NAME} AI Family 全链路协同自主完成
             </p>
           </div>
         </div>
 
         {/* 3. Bottom Operational Micro Indicators & Build Info */}
-        <div className="z-10 flex flex-col gap-2 pt-4 border-t border-[rgba(255,255,255,0.06)]">
-          <div className="flex items-center justify-between text-xs font-mono">
+        <div className="z-10 flex flex-col gap-2 pt-4 mt-6 lg:mt-0 border-t border-[rgba(255,255,255,0.06)]">
+          <div className="flex items-center justify-between gap-3 text-xs font-mono">
             <div>
               <span className="text-[11px] text-[#5c697a] block">单集核算成本</span>
               <span className="text-sm font-bold text-[#00e0b8]">¥ 1.8</span>
@@ -162,22 +155,21 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       {/* RIGHT 45% · Form Zone (648px on 1440px canvas)                */}
       {/* ============================================================== */}
       <div
-        className="w-[45%] flex flex-col items-center justify-center p-8 relative"
+        className="w-full lg:w-[45%] flex flex-col items-center justify-center p-4 sm:p-8 py-10 lg:py-8 relative"
         style={{ backgroundColor: AUTH_TOKENS.canvasRight }}
       >
         {/* Quick Demo State Toggles for Figma Dev Verification */}
-        <div className="absolute top-4 right-6 flex items-center gap-1.5 p-1 rounded-lg bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] text-[11px] font-mono">
+        <div className="relative lg:absolute lg:top-4 lg:right-6 self-end mb-4 lg:mb-0 flex items-center gap-1.5 p-1 rounded-lg bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] text-[11px] font-mono">
           <span className="text-[#5c697a] px-1">状态仿真:</span>
           {(['normal', 'loading', 'error', 'forbidden'] as const).map((s) => (
             <button
               key={s}
               type="button"
               onClick={() => setSimState(s)}
-              className={`px-2 py-0.5 rounded cursor-pointer ${
-                simState === s
-                  ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
-                  : 'text-[#8a97a8] hover:text-white'
-              }`}
+              className={`px-2 py-0.5 rounded cursor-pointer ${simState === s
+                ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
+                : 'text-[#8a97a8] hover:text-white'
+                }`}
             >
               {s === 'normal' ? '默认' : s === 'loading' ? '加载' : s === 'error' ? '错误' : '停用'}
             </button>
@@ -242,11 +234,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               {/* 1. Account Input */}
               <div className="space-y-1">
                 <div
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-[#0a1628] border transition-all duration-200 ${
-                    isError
-                      ? 'border-[#ff4422]'
-                      : 'border-[rgba(255,255,255,0.08)] focus-within:border-[#00e0b8]'
-                  }`}
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-[#0a1628] border transition-all duration-200 ${isError
+                    ? 'border-[#ff4422]'
+                    : 'border-[rgba(255,255,255,0.08)] focus-within:border-[#00e0b8]'
+                    }`}
                 >
                   <Mail className="w-4 h-4 text-[#5c697a]" />
                   <input
@@ -264,11 +255,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               {/* 2. Password Input */}
               <div className="space-y-1">
                 <div
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-[#0a1628] border transition-all duration-200 ${
-                    isError
-                      ? 'border-[#ff4422]'
-                      : 'border-[rgba(255,255,255,0.08)] focus-within:border-[#00e0b8]'
-                  }`}
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-[#0a1628] border transition-all duration-200 ${isError
+                    ? 'border-[#ff4422]'
+                    : 'border-[rgba(255,255,255,0.08)] focus-within:border-[#00e0b8]'
+                    }`}
                 >
                   <Lock className="w-4 h-4 text-[#5c697a]" />
                   <input

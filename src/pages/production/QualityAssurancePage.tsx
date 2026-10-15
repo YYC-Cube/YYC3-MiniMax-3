@@ -134,10 +134,10 @@ export const QualityAssurancePage: React.FC<QualityAssurancePageProps> = ({
         </div>
       </div>
 
-      {/* Main Split: Left Problem Shot Lanes, Right Side-by-Side Adjudication Panel */}
-      <div className="flex gap-4">
+      {/* Main Split: Left Problem Shot Lanes, Right Side-by-Side Adjudication Panel（<lg 纵向堆叠） */}
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left: Problem Shot Lanes */}
-        <div className="w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(255,68,34,0.25)] p-4 space-y-3">
+        <div className="w-full lg:w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(255,68,34,0.25)] p-4 space-y-3">
           <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
             <span className="text-xs font-bold text-[#e8f0f8] flex items-center gap-1.5">
               <AlertTriangle className="w-4 h-4 text-[#ff4422]" />
@@ -151,7 +151,7 @@ export const QualityAssurancePage: React.FC<QualityAssurancePageProps> = ({
             onClick={() => setSelectedShotId('S01-04')}
             className="p-3.5 rounded-xl bg-[#0a1628] border-2 border-[#ff4422] shadow-lg shadow-red-950/20 cursor-pointer space-y-2"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <span className="text-xs font-bold font-mono text-[#e8f0f8]">
                 S01-04 苏清月阻拦特写
               </span>
@@ -179,9 +179,9 @@ export const QualityAssurancePage: React.FC<QualityAssurancePageProps> = ({
         </div>
 
         {/* Right: Side-by-Side Adjudication Inspector */}
-        <div className="w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] p-4 flex flex-col justify-between space-y-4">
+        <div className="w-full lg:w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] p-4 flex flex-col justify-between space-y-4">
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
+            <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-[rgba(255,255,255,0.06)]">
               <div>
                 <span className="text-xs font-bold text-[#e8f0f8]">
                   S01-04 视觉对比裁决面板

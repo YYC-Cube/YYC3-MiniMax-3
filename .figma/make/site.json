@@ -1,13 +1,8 @@
 {
-  "description": "An AI-driven platform for industrialized comic drama production, enabling seamless script-to-video workflows for creators and studios.",
+  "language": "zh-CN",
+  "title": "YYC³ AI Family · Comic Drama",
+  "description": "面向创作者与工作室的 AI 驱动工业化漫剧生产平台",
   "icons": {
-    "icon": "/yyc3-icons/Web%20App/favicon-32.png"
-  },
-  "robots": {
-    "index": false
-  },
-  "accessibility": {
-    "addBypassLinks": false,
-    "ignoreReducedMotion": false
+    "icon": "/icons/favicon-32.png"
   }
 }

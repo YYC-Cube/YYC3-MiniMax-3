@@ -93,9 +93,9 @@ export const ConsistencyTrainingPage: React.FC<ConsistencyTrainingPageProps> = (
       </div>
 
       {/* Main 3-Column Split */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left: Character List */}
-        <div className="w-60 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 space-y-3 shrink-0">
+        <div className="w-full lg:w-60 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 space-y-3 lg:shrink-0">
           <span className="text-xs font-bold text-[#e8f0f8] block">角色列表 (带 Ref 标)</span>
           <div className="space-y-2">
             <div className="p-2.5 rounded-lg bg-[#152640] border-l-2 border-[#00e0b8] cursor-pointer">
@@ -127,7 +127,7 @@ export const ConsistencyTrainingPage: React.FC<ConsistencyTrainingPageProps> = (
         {/* Center: Training Console & Dataset Grid */}
         <div className="flex-1 space-y-4">
           {/* Progress Bar Header */}
-          <div className="p-4 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-[11px] text-[#8a97a8] block">当前目标一致性得分</span>
               <div className="flex items-baseline gap-2 mt-0.5">
@@ -136,7 +136,7 @@ export const ConsistencyTrainingPage: React.FC<ConsistencyTrainingPageProps> = (
                 <span className="text-2xl font-bold font-mono text-[#22C55E]">94%</span>
               </div>
             </div>
-            <div className="w-64 space-y-1">
+            <div className="w-full sm:w-64 space-y-1 shrink-0">
               <div className="flex justify-between text-[10px] text-[#8a97a8] font-mono">
                 <span>训练集收敛度</span>
                 <span>88%</span>
@@ -237,7 +237,7 @@ export const ConsistencyTrainingPage: React.FC<ConsistencyTrainingPageProps> = (
         </div>
 
         {/* Right: Training History Timeline */}
-        <div className="w-72 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 space-y-4 shrink-0">
+        <div className="w-full lg:w-72 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 space-y-4 lg:shrink-0">
           <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
             <span className="text-xs font-bold text-[#e8f0f8] flex items-center gap-1.5">
               <History className="w-3.5 h-3.5 text-[#00B4D8]" />

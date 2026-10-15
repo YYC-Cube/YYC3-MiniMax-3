@@ -10,21 +10,18 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
+  ArrowRight,
   Box,
   Camera,
-  Sun,
-  Layers,
-  ArrowRight,
-  RotateCw,
-  Sparkles,
-  Sliders,
-  Table,
   LayoutGrid,
+  Sparkles,
+  Sun,
+  Table
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import React, { useState } from 'react';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface Storyboard3DPageProps {
   onNavigate: (page: PageId) => void;
@@ -103,9 +100,9 @@ export const Storyboard3DPage: React.FC<Storyboard3DPageProps> = ({
       </div>
 
       {/* Main 3D Viewport Layout */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left: Scene & Prop Assets */}
-        <div className="w-64 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 space-y-3 shrink-0 text-xs">
+        <div className="w-full lg:w-64 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 space-y-3 lg:shrink-0 text-xs">
           <span className="font-bold text-[#e8f0f8] block">场景环境与角色机位</span>
           <div className="space-y-2">
             <div className="p-2.5 rounded-lg bg-[#152640] border border-[#00e0b8]/30">
@@ -130,8 +127,8 @@ export const Storyboard3DPage: React.FC<Storyboard3DPageProps> = ({
 
           {/* 3D Grid & Wireframe Elements */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-72 h-72 rounded-full border border-[rgba(0,224,184,0.15)] animate-pulse" />
-            <div className="w-96 h-96 rounded-full border border-[rgba(0,224,184,0.08)] absolute" />
+            <div className="w-56 h-56 sm:w-72 sm:h-72 rounded-full border border-[rgba(0,224,184,0.15)] animate-pulse" />
+            <div className="w-72 h-72 sm:w-96 sm:h-96 rounded-full border border-[rgba(0,224,184,0.08)] absolute" />
             <div className="text-center space-y-2 z-10">
               <Camera className="w-10 h-10 text-[#00e0b8] mx-auto animate-bounce" />
               <div className="text-xs font-mono text-[#e8f0f8] bg-[#0f1e35]/90 px-3 py-1 rounded-full border border-[rgba(0,224,184,0.3)]">
@@ -154,7 +151,7 @@ export const Storyboard3DPage: React.FC<Storyboard3DPageProps> = ({
         </div>
 
         {/* Right: Camera Inspector */}
-        <div className="w-80 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 space-y-4 shrink-0 text-xs">
+        <div className="w-full lg:w-80 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 space-y-4 lg:shrink-0 text-xs">
           <span className="font-bold text-[#e8f0f8] block">机位与光学参数</span>
 
           <div>
@@ -180,11 +177,10 @@ export const Storyboard3DPage: React.FC<Storyboard3DPageProps> = ({
                   key={ang}
                   type="button"
                   onClick={() => setCameraAngle(ang)}
-                  className={`py-1.5 rounded cursor-pointer ${
-                    cameraAngle === ang
-                      ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
-                      : 'bg-[#0a1628] text-[#8a97a8]'
-                  }`}
+                  className={`py-1.5 rounded cursor-pointer ${cameraAngle === ang
+                    ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
+                    : 'bg-[#0a1628] text-[#8a97a8]'
+                    }`}
                 >
                   {ang === 'low' ? '仰拍' : ang === 'eye' ? '平视' : '俯拍'}
                 </button>

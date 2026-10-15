@@ -43,7 +43,7 @@ describe('W1AIFamilyWidget jsdom 交互契约（R16-B：发送链路与折叠态
     );
 
     // 折叠态不渲染展开面板
-    expect(queryByText('YYC³ AI Family 协同中枢')).toBeNull();
+    expect(queryByText('YYC³ · 协同中枢')).toBeNull();
     // 悬浮球存在且含 Sparkles 图标与角标
     expect(getByTitle('展开 AI Family 全局助手浮窗')).toBeTruthy();
     expect(container.querySelector('.lucide-sparkles')).toBeTruthy();

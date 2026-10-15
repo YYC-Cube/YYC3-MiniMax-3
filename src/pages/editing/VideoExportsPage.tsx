@@ -10,23 +10,12 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  Share2,
-  Cpu,
-  Download,
-  RotateCcw,
-  CheckCircle2,
-  Clock,
-  Layers,
-  Sparkles,
-  Play,
-  Film,
-  HardDrive,
+  Download
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import ConfidenceBadge from '../../components/common/ConfidenceBadge';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import React, { useState } from 'react';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface VideoExportsPageProps {
   onNavigate: (page: PageId) => void;
@@ -123,9 +112,9 @@ export const VideoExportsPage: React.FC<VideoExportsPageProps> = ({
       </div>
 
       {/* Main Split: Left New Export Config Card (340px) + Right Render Tasks Queue */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left Export Config Card */}
-        <div className="w-80 rounded-xl bg-[#0f1e35] border border-[rgba(157,124,216,0.2)] p-4 space-y-4 shrink-0 domain-border-edit">
+        <div className="w-full lg:w-80 rounded-xl bg-[#0f1e35] border border-[rgba(157,124,216,0.2)] p-4 space-y-4 lg:shrink-0 domain-border-edit">
           <span className="text-xs font-bold text-[#e8f0f8] block">新建多规格导出预设</span>
 
           <div>
@@ -136,11 +125,10 @@ export const VideoExportsPage: React.FC<VideoExportsPageProps> = ({
                   key={r}
                   type="button"
                   onClick={() => setResolution(r)}
-                  className={`py-1.5 rounded cursor-pointer ${
-                    resolution === r
+                  className={`py-1.5 rounded cursor-pointer ${resolution === r
                       ? 'bg-[#9d7cd8] text-white font-bold'
                       : 'bg-[#0a1628] text-[#8a97a8]'
-                  }`}
+                    }`}
                 >
                   {r}
                 </button>
@@ -156,11 +144,10 @@ export const VideoExportsPage: React.FC<VideoExportsPageProps> = ({
                   key={f}
                   type="button"
                   onClick={() => setFormat(f)}
-                  className={`py-1.5 rounded cursor-pointer ${
-                    format === f
+                  className={`py-1.5 rounded cursor-pointer ${format === f
                       ? 'bg-[#9d7cd8] text-white font-bold'
                       : 'bg-[#0a1628] text-[#8a97a8]'
-                  }`}
+                    }`}
                 >
                   {f}
                 </button>
@@ -215,9 +202,8 @@ export const VideoExportsPage: React.FC<VideoExportsPageProps> = ({
                 <div className="flex items-center gap-3">
                   <div className="flex-1 h-2 rounded-full bg-[#152640] overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-300 ${
-                        task.status === 'completed' ? 'bg-[#22C55E]' : 'bg-[#00e0b8]'
-                      }`}
+                      className={`h-full rounded-full transition-all duration-300 ${task.status === 'completed' ? 'bg-[#22C55E]' : 'bg-[#00e0b8]'
+                        }`}
                       style={{ width: `${task.progress}%` }}
                     />
                   </div>

@@ -10,22 +10,15 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  Mic2,
-  Play,
-  Pause,
-  RotateCcw,
-  Sparkles,
-  Volume2,
-  Sliders,
-  CheckCircle2,
   ArrowRight,
-  User,
-  Music,
+  Pause,
+  Play,
+  Sparkles
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import React, { useState } from 'react';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface VoiceStudioPageProps {
   onNavigate: (page: PageId) => void;
@@ -99,19 +92,18 @@ export const VoiceStudioPage: React.FC<VoiceStudioPageProps> = ({
       </div>
 
       {/* Main 3 Column Split */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left: Dialogue List */}
-        <div className="w-72 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 space-y-2.5 shrink-0">
+        <div className="w-full lg:w-72 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 space-y-2.5 lg:shrink-0">
           <span className="text-xs font-bold text-[#e8f0f8] block">分镜台词对白列表</span>
           <div className="space-y-2 text-xs">
             {dialogues.map((d) => (
               <div
                 key={d.id}
-                className={`p-2.5 rounded-lg border transition-all cursor-pointer ${
-                  d.id === 1
-                    ? 'bg-[#152640] border-[#00e0b8]'
-                    : 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
-                }`}
+                className={`p-2.5 rounded-lg border transition-all cursor-pointer ${d.id === 1
+                  ? 'bg-[#152640] border-[#00e0b8]'
+                  : 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-1 font-mono text-[10px]">
                   <span className="text-[#00e0b8]">{d.shot} · {d.character}</span>
@@ -204,7 +196,7 @@ export const VoiceStudioPage: React.FC<VoiceStudioPageProps> = ({
         </div>
 
         {/* Right: Character-Timbre Binding */}
-        <div className="w-72 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 space-y-3 shrink-0">
+        <div className="w-full lg:w-72 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 space-y-3 lg:shrink-0">
           <span className="text-xs font-bold text-[#e8f0f8] block">角色音色绑定矩阵</span>
           <div className="space-y-2 text-xs">
             <div className="p-2.5 rounded-lg bg-[#0a1628] border border-[rgba(0,224,184,0.2)]">

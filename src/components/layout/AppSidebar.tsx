@@ -60,6 +60,8 @@ interface AppSidebarProps {
   currentPage: PageId;
   onNavigate: (page: PageId) => void;
   className?: string;
+  /** 移动端抽屉展开态（<lg 生效；lg 以上侧栏恒展开） */
+  mobileOpen?: boolean;
 }
 
 /** 侧栏图标映射（表现层；键随 NAV_GROUPS 单源，漏配 = React 渲染缺图标而非缺导航项） */
@@ -109,6 +111,8 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   currentPage,
   onNavigate,
   className = '',
+  /** 移动端抽屉是否展开（lg 以上恒为展开态，由 lg:translate-x-0 保证） */
+  mobileOpen = false,
 }) => {
   // 导航分组单源（registry.NAV_GROUPS）；label/badge/color 随单源，本组件仅补 icon 表现层
   const groups = NAV_GROUPS;
@@ -117,7 +121,8 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
   return (
     <aside
-      className={`w-60 h-[calc(100vh-3.5rem)] bg-[#0a1628]/90 border-r border-[rgba(0,224,184,0.12)] flex flex-col justify-between shrink-0 sticky top-14 select-none backdrop-blur-sm z-30 ${className}`}
+      className={`w-72 max-w-[85vw] lg:w-60 h-screen lg:h-[calc(100vh-3.5rem)] bg-[#0a1628]/95 lg:bg-[#0a1628]/90 border-r border-[rgba(0,224,184,0.12)] flex flex-col justify-between shrink-0 fixed lg:sticky top-0 lg:top-14 z-50 lg:z-30 select-none backdrop-blur-sm transform transition-transform duration-200 ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        } ${className}`}
     >
       {/* Scrollable Navigation Groups */}
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-5">
@@ -233,7 +238,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       </div>
 
       {/* Pinned Bottom Status Bar */}
-      <div className="p-3 border-t border-[rgba(255,255,255,0.08)] bg-[#071222] space-y-2.5">
+      <div className="p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-[rgba(255,255,255,0.08)] bg-[#071222] space-y-2.5">
         {/* Gate Status Capsule (G0-G5) */}
         <div className="p-2 rounded-lg bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">

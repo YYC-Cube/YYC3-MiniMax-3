@@ -23,6 +23,7 @@ const baseProps = {
   isPrototypeOpen: false,
   onToggleFamilyWidget: () => { },
   onNavigate: () => { },
+  onOpenSidebar: () => { },
 };
 
 describe('components/layout/TopNav 渲染契约', () => {
@@ -37,10 +38,16 @@ describe('components/layout/TopNav 渲染契约', () => {
     expect(html).toContain('Dev Mode');
   });
 
-  it('通知徽章：默认未读 2 渲染；传 0 不渲染；按钮总数 = 8 业务 + 3 驾驶模式 = 11（含 useState 组件须经渲染器，禁直调函数）', () => {
+  it('移动端汉堡键存在且绑定 aria-label（lg 以上由 CSS 隐藏，不影响 SSR 契约）', () => {
+    const html = renderToStaticMarkup(<TopNav {...baseProps} />);
+    expect(html).toContain('aria-label="打开导航菜单"');
+    expect(html).toContain('aria-label="全局搜索"');
+  });
+
+  it('通知徽章：默认未读 2 渲染；传 0 不渲染；按钮总数 = 10 业务（含汉堡+移动搜索）+ 3 驾驶模式 = 13（含 useState 组件须经渲染器，禁直调函数）', () => {
     expect(renderToStaticMarkup(<TopNav {...baseProps} />)).toContain('>2<');
     const html = renderToStaticMarkup(<TopNav {...baseProps} unreadNotifications={0} />);
     expect(html).not.toContain('>2<');
-    expect(html.match(/<button/g)?.length ?? 0).toBe(11);
+    expect(html.match(/<button/g)?.length ?? 0).toBe(13);
   });
 });

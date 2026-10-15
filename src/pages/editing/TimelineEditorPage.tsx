@@ -147,9 +147,9 @@ export const TimelineEditorPage: React.FC<TimelineEditorPageProps> = ({
       </div>
 
       {/* Middle Section: Left Material Drawer (240px) + Center 16:9 Preview + Right Inspector (280px) */}
-      <div className="flex gap-3 h-[360px]">
+      <div className="flex flex-col lg:flex-row gap-3 lg:h-[360px]">
         {/* Left Material Drawer */}
-        <div className="w-56 rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-3 space-y-3 shrink-0 flex flex-col justify-between">
+        <div className="w-full lg:w-56 max-h-[40vh] lg:max-h-none rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-3 space-y-3 lg:shrink-0 flex flex-col justify-between overflow-y-auto lg:overflow-visible">
           <div className="space-y-3">
             <span className="text-xs font-bold text-[#e8f0f8] block">素材库与音效</span>
             <div className="grid grid-cols-2 gap-1.5 text-[11px]">
@@ -188,8 +188,8 @@ export const TimelineEditorPage: React.FC<TimelineEditorPageProps> = ({
           </div>
         </div>
 
-        {/* Center: Video Player Preview (16:9 Aspect Ratio) */}
-        <div className="flex-1 rounded-xl bg-[#071222] border border-[rgba(255,255,255,0.08)] flex flex-col justify-between p-3 relative overflow-hidden">
+        {/* Center: Video Player Preview (16:9 Aspect Ratio；移动端 aspect-video 保高，桌面由父高决定) */}
+        <div className="w-full lg:w-auto flex-1 shrink-0 aspect-video lg:aspect-auto rounded-xl bg-[#071222] border border-[rgba(255,255,255,0.08)] flex flex-col justify-between p-3 relative overflow-hidden">
           <div className="flex items-center justify-between text-xs text-[#8a97a8] z-10">
             <span className="font-mono text-[#00e0b8]">预览窗口 · 1080p 60fps</span>
             <span className="font-mono font-bold text-[#e8f0f8]">
@@ -244,7 +244,7 @@ export const TimelineEditorPage: React.FC<TimelineEditorPageProps> = ({
         </div>
 
         {/* Right Inspector */}
-        <div className="w-72 rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-3.5 space-y-3 shrink-0 text-xs overflow-y-auto">
+        <div className="w-full lg:w-72 rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-3.5 space-y-3 lg:shrink-0 text-xs overflow-y-auto">
           <span className="font-bold text-[#e8f0f8] block">片段属性检查器</span>
 
           <div className="p-2.5 rounded-lg bg-[#0a1628] space-y-1">

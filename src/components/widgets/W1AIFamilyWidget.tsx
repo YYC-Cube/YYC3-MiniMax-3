@@ -21,9 +21,11 @@ import {
   X
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { APP_SHORT_NAME } from '../../config/brand';
 import { AGENTS_LIST, AGENTS_MAP, COUNSEL_ROLE_AGENT_IDS, DEFAULT_AGENT_ID } from '../../tokens';
 import { PageId } from '../../types';
 import AgentAvatar from '../common/AgentAvatar';
+import BrandMark from '../common/BrandMark';
 import ConfidenceBadge from '../common/ConfidenceBadge';
 
 interface Message {
@@ -135,7 +137,7 @@ export const W1AIFamilyWidget: React.FC<W1AIFamilyWidgetProps> = ({
       <button
         type="button"
         onClick={onToggle}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-gradient-to-tr from-[#0f1e35] via-[#152640] to-[#0a1628] border-2 border-[#00e0b8] shadow-2xl flex items-center justify-center cursor-pointer group z-50 hover:scale-105 transition-all duration-200"
+        className="hidden lg:flex fixed bottom-24 lg:bottom-6 right-4 lg:right-6 w-14 h-14 rounded-full bg-gradient-to-tr from-[#0f1e35] via-[#152640] to-[#0a1628] border-2 border-[#00e0b8] shadow-2xl items-center justify-center cursor-pointer group z-50 hover:scale-105 transition-all duration-200"
         style={{
           boxShadow: '0 0 20px rgba(0, 224, 184, 0.35)',
         }}
@@ -151,10 +153,10 @@ export const W1AIFamilyWidget: React.FC<W1AIFamilyWidgetProps> = ({
     );
   }
 
-  // Expanded 400x600px Widget
+  // Expanded：<lg 全屏抽屉（含刘海/手势条安全区）；lg 起恢复右下角 400x600 浮窗
   return (
     <div
-      className="fixed bottom-6 right-6 w-[400px] h-[600px] rounded-2xl bg-[#0f1e35] border border-[rgba(0,224,184,0.3)] shadow-2xl z-50 flex flex-col overflow-hidden backdrop-blur-xl animate-in slide-in-from-bottom-5 duration-200"
+      className="fixed inset-0 lg:inset-auto lg:bottom-6 lg:right-6 w-full lg:w-[400px] h-full lg:h-[600px] rounded-none lg:rounded-2xl bg-[#0f1e35] border-0 lg:border border-[rgba(0,224,184,0.3)] shadow-2xl z-50 flex flex-col overflow-hidden backdrop-blur-xl animate-in slide-in-from-bottom-5 duration-200 pt-[env(safe-area-inset-top)] lg:pt-0 pb-[env(safe-area-inset-bottom)] lg:pb-0"
       style={{
         boxShadow: '0 16px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 224, 184, 0.15)',
       }}
@@ -162,9 +164,9 @@ export const W1AIFamilyWidget: React.FC<W1AIFamilyWidgetProps> = ({
       {/* Top Header */}
       <div className="p-3 border-b border-[rgba(255,255,255,0.08)] bg-[#152640] flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#00e0b8] animate-pulse" />
+          <BrandMark variant="mark" size={18} />
           <span className="text-xs font-bold text-[#e8f0f8] tracking-wide">
-            YYC³ AI Family 协同中枢
+            {APP_SHORT_NAME} · 协同中枢
           </span>
           <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#0a1628] text-[#00e0b8] border border-[rgba(0,224,184,0.2)]">
             ReAct-C
@@ -215,7 +217,7 @@ export const W1AIFamilyWidget: React.FC<W1AIFamilyWidgetProps> = ({
       {/* Proactive Tip Banner (Collapsible & Dismissable) */}
       {!proactiveDismissed && (
         <div className="bg-[rgba(255,122,69,0.12)] border-b border-[rgba(255,122,69,0.3)] px-3 py-2 text-xs">
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-1.5 text-[#ff7a45] font-bold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>知遇·伯乐 主动提示</span>

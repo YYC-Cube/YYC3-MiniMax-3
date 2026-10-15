@@ -10,21 +10,14 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  Send,
-  Sparkles,
-  Calendar,
   CheckCircle2,
-  Clock,
-  ArrowRight,
-  ShieldCheck,
-  AlertTriangle,
-  Layers,
-  Film,
+  Send,
+  Sparkles
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import React, { useState } from 'react';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface PublishWizardPageProps {
   onNavigate: (page: PageId) => void;
@@ -99,7 +92,7 @@ export const PublishWizardPage: React.FC<PublishWizardPageProps> = ({
       </div>
 
       {/* Main Split: Left Configuration, Right Summary Sidebar */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left Form */}
         <div className="flex-1 rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-5 space-y-5">
           {/* Platform Multi-Select Chips */}
@@ -119,11 +112,10 @@ export const PublishWizardPage: React.FC<PublishWizardPageProps> = ({
                         prev.includes(p.id) ? prev.filter((i) => i !== p.id) : [...prev, p.id]
                       );
                     }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all flex items-center gap-1.5 ${
-                      isSelected
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all flex items-center gap-1.5 ${isSelected
                         ? 'bg-[#152640] border-2 border-[#00e0b8] text-[#e8f0f8] shadow-md'
                         : 'bg-[#0a1628] border border-[rgba(255,255,255,0.06)] text-[#8a97a8]'
-                    }`}
+                      }`}
                   >
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.iconColor }} />
                     <span>{p.name}</span>
@@ -167,7 +159,7 @@ export const PublishWizardPage: React.FC<PublishWizardPageProps> = ({
         </div>
 
         {/* Right Summary & Time Recommendation Sidebar */}
-        <div className="w-80 rounded-xl bg-[#0f1e35] border border-[rgba(255,122,92,0.25)] p-4 space-y-4 shrink-0 flex flex-col justify-between domain-border-push">
+        <div className="w-full lg:w-80 rounded-xl bg-[#0f1e35] border border-[rgba(255,122,92,0.25)] p-4 space-y-4 lg:shrink-0 flex flex-col justify-between domain-border-push">
           <div className="space-y-4">
             <span className="text-xs font-bold text-[#e8f0f8] block">分发任务预估摘要</span>
 

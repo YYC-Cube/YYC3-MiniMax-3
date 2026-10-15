@@ -20,22 +20,37 @@ import {
   Shield,
   Star,
 } from 'lucide-react';
-import React from 'react';
+import React, { useRef } from 'react';
+import { CLOCK_HUB_RATIO, getHandLengths, useElementSize, useRealTimeClock } from '../../hooks/useRealTimeClock';
 import { AGENTS_LIST, DEFAULT_AGENT_ID } from '../../tokens';
+import ClockHands from '../common/ClockHands';
 
 interface AuthBrandClockProps {
   diameter?: number; // 360 for login, 300 for register
   variant?: 'running' | 'static';
   className?: string;
   activeAgentId?: string; // default to 'yushu-wanwu' matching the screenshot
+  /** 流式模式：撑满父容器宽度并按实测宽度收缩直径（移动端单栏用；默认固定 diameter） */
+  fluid?: boolean;
 }
 
 export const AuthBrandClock: React.FC<AuthBrandClockProps> = ({
-  diameter = 360,
+  diameter: diameterProp = 360,
   variant = 'running',
   className = '',
   activeAgentId = 'yushu-wanwu',
+  fluid = false,
 }) => {
+  // 真实时钟：1s 走时 + 三针角度 + 中心数字时间 + yy/mm/dd 星期（周末粉色）
+  const { timeStr, angles, dateInfo } = useRealTimeClock();
+
+  // fluid：按父容器实测宽度等比收缩（首帧/SSR 用 prop 直径，挂载后 ResizeObserver 校正）
+  const fluidRef = useRef<HTMLDivElement>(null);
+  const { width: fluidWidth } = useElementSize(fluidRef);
+  const diameter = fluid && fluidWidth > 0
+    ? Math.min(diameterProp, Math.floor(fluidWidth))
+    : diameterProp;
+
   // Agent glyph icons matching the astronomical chronograph screenshot
   const glyphMap: Record<string, React.ReactNode> = {
     [DEFAULT_AGENT_ID]: <Network className="w-5 h-5" />,
@@ -50,12 +65,15 @@ export const AuthBrandClock: React.FC<AuthBrandClockProps> = ({
 
   const scale = diameter / 360;
   const nodeSize = Math.round(48 * scale);
-  const centerHubSize = Math.round(96 * scale);
+  // 枢纽同比例缩小（直径 = 表盘外径 × 0.21，与大屏/参考图一致）
+  const centerHubSize = Math.round(diameter * CLOCK_HUB_RATIO);
   const radius = (diameter / 2) - (nodeSize / 2) - 8;
+  // 三针长度统一走 ClockHands 规范（时 0.42 / 分 0.56 / 秒 0.68 + 配重）
+  const { hour: hourLen, minute: minuteLen, second: secondLen, tail: secondTail } = getHandLengths(radius);
 
-  return (
+  const clockEl = (
     <div
-      className={`relative select-none flex items-center justify-center ${className}`}
+      className="relative select-none flex items-center justify-center"
       style={{
         width: `${diameter}px`,
         height: `${diameter}px`,
@@ -166,7 +184,21 @@ export const AuthBrandClock: React.FC<AuthBrandClockProps> = ({
         })}
       </svg>
 
-      {/* 3. Center Hub: 96x96 (or scaled) YYC³ Logo with breathing neon pulse */}
+      {/* 3. 真实时钟三针（时青碧/分天青/秒朱红；ClockHands 单源，随 diameter 自适应） */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox={`0 0 ${diameter} ${diameter}`}
+      >
+        <g transform={`translate(${diameter / 2}, ${diameter / 2})`}>
+          <ClockHands
+            angles={angles}
+            lengths={{ hour: hourLen, minute: minuteLen, second: secondLen, tail: secondTail }}
+            scale={scale}
+          />
+        </g>
+      </svg>
+
+      {/* 4. Center Hub: YYC³ Logo（同比例缩小）带呼吸霓虹脉冲 */}
       <div
         className="relative z-20 rounded-full bg-[#071222] border-2 border-[rgba(0,224,184,0.4)] flex flex-col items-center justify-center shadow-2xl transition-all duration-300"
         style={{
@@ -191,7 +223,52 @@ export const AuthBrandClock: React.FC<AuthBrandClockProps> = ({
         </div>
       </div>
 
-      {/* 4. 8 Agent Nodes positioned around the circumference */}
+      {/* 中心数字时间 + yy/mm/dd 星期（位于枢纽正下方；周末粉色） */}
+      <div
+        className="absolute left-1/2 z-20 -translate-x-1/2 text-center pointer-events-none"
+        style={{
+          top: `calc(50% + ${centerHubSize / 2 + 8}px)`,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <div
+          className="font-mono tabular-nums"
+          style={{
+            fontSize: `${Math.max(11, Math.round(15 * scale))}px`,
+            color: '#00e0b8',
+            textShadow: '0 0 10px rgba(0,224,184,0.4)',
+            letterSpacing: '1px',
+          }}
+        >
+          {timeStr}
+        </div>
+        <div
+          className="font-mono flex items-center justify-center gap-1"
+          style={{ marginTop: '2px' }}
+        >
+          <span
+            style={{
+              fontSize: `${Math.max(9, Math.round(10 * scale))}px`,
+              color: 'rgba(138,151,168,0.85)',
+              letterSpacing: '0.5px',
+            }}
+          >
+            {dateInfo.dateStr}
+          </span>
+          <span
+            style={{
+              fontSize: `${Math.max(9, Math.round(10 * scale))}px`,
+              color: dateInfo.isWeekend ? '#FF006E' : 'rgba(138,151,168,0.85)',
+              textShadow: dateInfo.isWeekend ? '0 0 6px rgba(255,0,110,0.4)' : 'none',
+              letterSpacing: '0.5px',
+            }}
+          >
+            {dateInfo.dayLabel}
+          </span>
+        </div>
+      </div>
+
+      {/* 5. 8 Agent Nodes positioned around the circumference */}
       {AGENTS_LIST.map((ag) => {
         const rad = ((ag.degree - 90) * Math.PI) / 180;
         const cx = diameter / 2;
@@ -254,6 +331,17 @@ export const AuthBrandClock: React.FC<AuthBrandClockProps> = ({
       })}
     </div>
   );
+
+  // fluid：外层测量容器撑满父宽，时钟按实测宽度居中收缩；非 fluid 维持固定 px 直径
+  if (fluid) {
+    return (
+      <div ref={fluidRef} className={`w-full flex justify-center ${className}`}>
+        {clockEl}
+      </div>
+    );
+  }
+
+  return <div className={className}>{clockEl}</div>;
 };
 
 export default AuthBrandClock;

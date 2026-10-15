@@ -21,6 +21,13 @@
     --domain-push: #FF7A5C;
   }
 
+  html {
+    /* 防止 iOS 横屏/输入聚焦时自动放大字号；横向溢出兜底 */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     background: linear-gradient(180deg, #0a1628 0%, #071222 100%);
     background-attachment: fixed;
@@ -30,6 +37,20 @@
     overflow-x: hidden;
     user-select: none;
     -webkit-font-smoothing: antialiased;
+    /* PWA standalone 下避免底部手势条遮挡内容 */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* 可编辑/输入元素恢复文本选择与 iOS 16px 防缩放（由表单组件自身字号保证，此处仅放开选择） */
+  input, textarea, [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  /* 图片/媒体永不溢出视口，消除移动端意外横向滚动 */
+  img, svg, video, canvas {
+    max-width: 100%;
   }
 
   /* Monospace for numbers and code */

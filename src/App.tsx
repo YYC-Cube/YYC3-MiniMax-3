@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useAppOverlays } from './hooks/useAppOverlays';
 import { useDevModeMeta } from './hooks/useDevModeMeta';
 import type { RenderContext } from './navigation/registry';
-import { getPageEntry } from './navigation/registry';
+import { getPageEntry, PAGE_IDS } from './navigation/registry';
 import { DriveModeId } from './tokens';
 import { DevModeMeta, PageId, ViewState } from './types';
 
@@ -23,25 +23,39 @@ import { DevModeMeta, PageId, ViewState } from './types';
 import AppSidebar from './components/layout/AppSidebar';
 import AuthHeader from './components/layout/AuthHeader';
 import GlobalCommandMenu from './components/layout/GlobalCommandMenu';
+import MobileBottomNav from './components/layout/MobileBottomNav';
 import TopNav from './components/layout/TopNav';
 
 // Widgets & Modals
 import DevModeDrawer from './components/common/DevModeDrawer';
+import PwaUpdateToast from './components/common/PwaUpdateToast';
 import { PageSlot } from './components/common/RouteErrorBoundary';
 import AgentCounselModal from './components/counsel/AgentCounselModal';
 import InteractivePrototypeRunner from './components/prototype/InteractivePrototypeRunner';
 import W1AIFamilyWidget from './components/widgets/W1AIFamilyWidget';
 import W2CognitionWidget from './components/widgets/W2CognitionWidget';
 
+/**
+ * 启动深链：PWA manifest shortcuts 使用 /?p=<pageId>。
+ * 仅在首屏读取一次，非法值回退工作台。
+ */
+function readInitialPage(): PageId {
+  const raw = new URLSearchParams(window.location.search).get('p');
+  return raw && (PAGE_IDS as string[]).includes(raw) ? (raw as PageId) : 'dashboard';
+}
+
 export default function App() {
   // 核心导航状态机（布局职责本体；浮层与元数据编排已外移至 hooks/）
-  const [currentPage, setCurrentPage] = useState<PageId>('dashboard');
+  const [currentPage, setCurrentPage] = useState<PageId>(readInitialPage);
   const [currentDriveMode, setCurrentDriveMode] = useState<DriveModeId>('L1');
   const [pageState, setPageState] = useState<ViewState>('normal');
+  /** <lg 侧栏抽屉展开态（lg 以上侧栏恒展开，此状态无视觉影响） */
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleNavigate = (page: PageId) => {
     setCurrentPage(page);
     setPageState('normal');
+    setSidebarOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -95,6 +109,9 @@ export default function App() {
 
         {/* Dev Mode Drawer for Auth pages */}
         {drawer(`Auth 页面: ${currentPage}`)}
+
+        {/* PWA 新版本更新提示（auth 域同样挂载） */}
+        <PwaUpdateToast />
       </div>
     );
   }
@@ -115,23 +132,42 @@ export default function App() {
         isPrototypeOpen={overlays.isPrototypeOpen}
         onToggleFamilyWidget={actions.toggleFamilyWidget}
         onNavigate={handleNavigate}
+        onOpenSidebar={() => setSidebarOpen(true)}
       />
 
       {/* 2. Main Workspace Layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left 240px Grouped App Sidebar */}
+        {/* 移动端抽屉遮罩（<lg；点击关闭；桌面 lg 恒隐藏） */}
+        {sidebarOpen && (
+          <button
+            type="button"
+            aria-label="关闭导航菜单"
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden fixed inset-0 top-14 z-40 bg-black/60 backdrop-blur-[1px] cursor-default"
+          />
+        )}
+
+        {/* Left 240px Grouped App Sidebar（<lg 为滑入抽屉） */}
         <AppSidebar
           currentPage={currentPage}
           onNavigate={handleNavigate}
+          mobileOpen={sidebarOpen}
         />
 
         {/* Center Content Stream (1440px Main Canvas) — 注册表分发 + 降级单点插槽 */}
-        <main className="flex-1 overflow-y-auto px-6 py-5 max-w-[1720px] mx-auto w-full">
+        <main className="flex-1 overflow-y-auto px-3 lg:px-6 py-4 lg:py-5 pb-24 lg:pb-5 max-w-[1720px] mx-auto w-full">
           <PageSlot navigate={handleNavigate}>
             {getPageEntry(currentPage).render(renderContext)}
           </PageSlot>
         </main>
       </div>
+
+      {/* 移动端底部五槽位导航（<lg；中央 AI FAB 打开 W1） */}
+      <MobileBottomNav
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+        onOpenFamilyWidget={actions.toggleFamilyWidget}
+      />
 
       {/* 3. Global Floating Universal Widget (W1) */}
       <W1AIFamilyWidget
@@ -176,6 +212,9 @@ export default function App() {
 
       {/* 8. Figma Dev Mode Inspector & State Simulator */}
       {drawer(`页面: ${currentPage}`)}
+
+      {/* 9. PWA 新版本更新提示 */}
+      <PwaUpdateToast />
     </div>
   );
 }

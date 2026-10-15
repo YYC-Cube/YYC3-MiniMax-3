@@ -21,7 +21,9 @@ import {
   Mail
 } from 'lucide-react';
 import React, { useState } from 'react';
+import BrandMark from '../../components/common/BrandMark';
 import Thumb from '../../components/common/Thumb';
+import { APP_BRAND_LINE } from '../../config/brand';
 import { AUTH_TOKENS } from '../../tokens';
 import { DevModeMeta, PageId, ViewState } from '../../types';
 
@@ -66,11 +68,11 @@ export const InviteLandingPage: React.FC<InviteLandingPageProps> = ({
 
   return (
     <div
-      className="min-h-screen w-full flex select-none overflow-hidden animate-in fade-in duration-200"
+      className="min-h-screen w-full flex flex-col lg:flex-row select-none overflow-y-auto lg:overflow-hidden animate-in fade-in duration-200"
       style={{ backgroundColor: AUTH_TOKENS.canvasRight }}
     >
       {/* State Switcher for Figma Dev Validation */}
-      <div className="absolute top-4 right-6 flex items-center gap-1.5 p-1 rounded-lg bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] text-[10px] font-mono z-30">
+      <div className="relative lg:absolute lg:top-4 lg:right-6 self-end m-3 lg:m-0 flex items-center gap-1.5 p-1 rounded-lg bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] text-[10px] font-mono z-30">
         <span className="text-[#5c697a] px-1">状态:</span>
         <button
           type="button"
@@ -102,7 +104,7 @@ export const InviteLandingPage: React.FC<InviteLandingPageProps> = ({
       {/* LEFT 45% · Invitation Information Zone (Mirrored layout)      */}
       {/* ============================================================== */}
       <div
-        className="w-[45%] relative flex flex-col justify-between p-14 overflow-hidden border-r border-[rgba(255,255,255,0.06)]"
+        className="w-full lg:w-[45%] relative flex flex-col justify-between p-6 pt-24 sm:p-10 sm:pt-20 lg:p-14 overflow-hidden border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.06)]"
         style={{ backgroundColor: AUTH_TOKENS.canvasLeft }}
       >
         {/* Ambient Glow */}
@@ -113,18 +115,14 @@ export const InviteLandingPage: React.FC<InviteLandingPageProps> = ({
 
         {/* Top Logo */}
         <div className="z-10 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00e0b8] via-[#00B4D8] to-[#9d7cd8] p-0.5">
-            <div className="w-full h-full bg-[#071222] rounded-[6px] flex items-center justify-center font-black text-xs text-[#00e0b8]">
-              YYC³
-            </div>
-          </div>
+          <BrandMark variant="mark" size={32} />
           <span className="text-xs text-[#8a97a8] tracking-wider uppercase font-mono">
-            AI Family · Comic Drama
+            {APP_BRAND_LINE}
           </span>
         </div>
 
         {/* Center: Inviter Info & Pre-assigned Role */}
-        <div className="z-10 my-auto space-y-6 max-w-md">
+        <div className="z-10 my-6 lg:my-auto space-y-6 max-w-md w-full">
           {/* Inviter Avatar Group（装饰性头像：本地确定性渐变占位，零外链依赖） */}
           <div className="flex items-center">
             <Thumb
@@ -150,7 +148,7 @@ export const InviteLandingPage: React.FC<InviteLandingPageProps> = ({
           </div>
 
           {/* Pre-assigned Role Card */}
-          <div className="p-3.5 rounded-xl bg-[#0f1e35] border border-[rgba(157,124,216,0.3)] space-y-1.5 w-80">
+          <div className="p-3.5 rounded-xl bg-[#0f1e35] border border-[rgba(157,124,216,0.3)] space-y-1.5 w-full max-w-xs">
             <span className="text-[10px] text-[#5c697a] uppercase font-mono tracking-wider block">
               你将获得的角色
             </span>
@@ -178,7 +176,7 @@ export const InviteLandingPage: React.FC<InviteLandingPageProps> = ({
         </div>
 
         {/* Bottom Expiration Clock */}
-        <div className="z-10 flex items-center gap-1.5 text-xs text-[#FFB020] font-mono pt-3 border-t border-[rgba(255,255,255,0.06)]">
+        <div className="z-10 flex items-center gap-1.5 flex-wrap text-xs text-[#FFB020] font-mono pt-3 mt-6 lg:mt-0 border-t border-[rgba(255,255,255,0.06)]">
           <Clock className="w-3.5 h-3.5" />
           <span>该邀请链接将在 7 天后失效 (2026-10-18)</span>
         </div>
@@ -188,11 +186,11 @@ export const InviteLandingPage: React.FC<InviteLandingPageProps> = ({
       {/* RIGHT 55% · Account Confirmation Form Zone                    */}
       {/* ============================================================== */}
       <div
-        className="w-[55%] flex flex-col items-center justify-center p-8 relative"
+        className="w-full lg:w-[55%] flex flex-col items-center justify-center p-4 sm:p-8 py-10 lg:py-8 relative"
         style={{ backgroundColor: AUTH_TOKENS.canvasRight }}
       >
         <div
-          className="w-full max-w-[400px] rounded-2xl p-8 border shadow-2xl relative transition-all duration-200"
+          className="w-full max-w-[400px] rounded-2xl p-5 sm:p-8 border shadow-2xl relative transition-all duration-200"
           style={{
             backgroundColor: AUTH_TOKENS.formCard,
             borderColor: isExpired ? '#ff7a45' : 'rgba(0, 224, 184, 0.15)',

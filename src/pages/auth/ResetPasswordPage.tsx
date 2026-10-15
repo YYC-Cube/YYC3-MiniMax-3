@@ -106,7 +106,7 @@ export const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({
 
       {/* Form Card (Width 440px) */}
       <div
-        className="w-full max-w-[440px] rounded-2xl p-9 border shadow-2xl relative z-10 transition-all duration-200"
+        className="w-full max-w-[440px] rounded-2xl p-6 sm:p-9 border shadow-2xl relative z-10 transition-all duration-200"
         style={{
           backgroundColor: AUTH_TOKENS.formCard,
           borderColor: isTokenExpired ? '#ff7a45' : 'rgba(157, 124, 216, 0.25)',

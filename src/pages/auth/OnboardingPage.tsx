@@ -23,6 +23,7 @@ import {
 import React, { useState } from 'react';
 import AuthBrandClock from '../../components/auth/AuthBrandClock';
 import AgentAvatar from '../../components/common/AgentAvatar';
+import { APP_NAME, APP_SHORT_NAME } from '../../config/brand';
 import { AGENTS_LIST, AUTH_TOKENS, DEFAULT_AGENT_ID } from '../../tokens';
 import { DevModeMeta, PageId, ViewState } from '../../types';
 
@@ -72,7 +73,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col justify-between p-8 select-none relative overflow-hidden animate-in fade-in duration-200"
+      className="min-h-screen w-full flex flex-col justify-between p-4 sm:p-8 select-none relative overflow-hidden animate-in fade-in duration-200"
       style={{ backgroundColor: AUTH_TOKENS.canvasLeft }}
     >
       {/* Top 4-Segment Progress Bar */}
@@ -85,7 +86,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
             return (
               <div
                 key={step}
-                className="w-20 h-1 rounded-full transition-all duration-300"
+                className="w-16 sm:w-20 h-1 rounded-full transition-all duration-300"
                 style={{
                   backgroundColor: isCompleted || isCurrent ? '#00e0b8' : '#152640',
                   boxShadow: isCurrent ? '0 0 8px rgba(0, 224, 184, 0.6)' : undefined,
@@ -113,11 +114,11 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
         {/* ============================================================== */}
         {currentStep === 1 && (
           <div className="flex flex-col items-center text-center space-y-6 animate-in zoom-in-95">
-            <AuthBrandClock diameter={240} variant="running" activeAgentId={DEFAULT_AGENT_ID} />
+            <AuthBrandClock diameter={240} variant="running" activeAgentId={DEFAULT_AGENT_ID} fluid />
 
             <div className="space-y-2">
               <h1 className="text-3xl font-bold text-[#e8f0f8] tracking-tight">
-                欢迎加入 YYC³ AI Family
+                欢迎加入 {APP_SHORT_NAME} AI Family
               </h1>
               <p className="text-sm text-[#8a97a8] leading-relaxed max-w-md mx-auto">
                 你将拥有 8 个拟人化 AI 伙伴，他们会以 ReAct-C 闭环协同完成从小说到成片的每一步。
@@ -146,12 +147,12 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
             </div>
 
             {/* Three Aspect Ratio Options */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
               <div
                 onClick={() => setContentFormat('vertical')}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${contentFormat === 'vertical'
-                    ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
-                    : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
+                  ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
+                  : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
                   }`}
               >
                 <Smartphone className="w-6 h-6 text-[#00e0b8] mb-2" />
@@ -164,8 +165,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
               <div
                 onClick={() => setContentFormat('horizontal')}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${contentFormat === 'horizontal'
-                    ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
-                    : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
+                  ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
+                  : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
                   }`}
               >
                 <Tv className="w-6 h-6 text-[#00B4D8] mb-2" />
@@ -178,8 +179,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
               <div
                 onClick={() => setContentFormat('both')}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${contentFormat === 'both'
-                    ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
-                    : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
+                  ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
+                  : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
                   }`}
               >
                 <Layers className="w-6 h-6 text-[#9d7cd8] mb-2" />
@@ -202,8 +203,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                       type="button"
                       onClick={() => toggleGenre(g)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${isSel
-                          ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
-                          : 'bg-[#0a1628] text-[#8a97a8] hover:text-white border border-[rgba(255,255,255,0.08)]'
+                        ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
+                        : 'bg-[#0a1628] text-[#8a97a8] hover:text-white border border-[rgba(255,255,255,0.08)]'
                         }`}
                     >
                       {g}
@@ -246,12 +247,12 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
             </div>
 
             {/* Compute Selection */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
               <div
                 onClick={() => setComputeMode('dgx')}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${computeMode === 'dgx'
-                    ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
-                    : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)]'
+                  ? 'bg-[#152640] border-[#00e0b8] shadow-lg shadow-teal-950/30'
+                  : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)]'
                   }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -267,8 +268,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
               <div
                 onClick={() => setComputeMode('cloud')}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${computeMode === 'cloud'
-                    ? 'bg-[#152640] border-[#00e0b8]'
-                    : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)]'
+                  ? 'bg-[#152640] border-[#00e0b8]'
+                  : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)]'
                   }`}
               >
                 <Layers className="w-6 h-6 text-[#00B4D8] mb-2" />
@@ -281,8 +282,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
               <div
                 onClick={() => setComputeMode('hybrid')}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${computeMode === 'hybrid'
-                    ? 'bg-[#152640] border-[#00e0b8]'
-                    : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)]'
+                  ? 'bg-[#152640] border-[#00e0b8]'
+                  : 'bg-[#0f1e35] border-[rgba(255,255,255,0.06)]'
                   }`}
               >
                 <Sparkles className="w-6 h-6 text-[#9d7cd8] mb-2" />
@@ -395,7 +396,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
 
       {/* Bottom Footer Slogan */}
       <div className="text-center text-xs font-mono text-[#5c697a] z-10">
-        YYC³ AI Family · Comic Drama Industrial Production System
+        {APP_NAME} Industrial Production System
       </div>
     </div>
   );

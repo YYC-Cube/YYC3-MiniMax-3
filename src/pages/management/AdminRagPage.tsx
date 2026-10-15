@@ -10,20 +10,12 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  BrainCircuit,
-  Search,
-  Database,
-  Sparkles,
-  ArrowRight,
-  Upload,
-  RefreshCw,
-  CheckCircle2,
-  FileText,
+  Upload
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import React, { useState } from 'react';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface AdminRagPageProps {
   onNavigate: (page: PageId) => void;
@@ -88,9 +80,9 @@ export const AdminRagPage: React.FC<AdminRagPageProps> = ({
       </div>
 
       {/* Main Split: Left Knowledge Collections, Right Test Bench */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left Collections List */}
-        <div className="w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-4 space-y-3">
+        <div className="w-full lg:w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] p-4 space-y-3">
           <span className="text-xs font-bold text-[#e8f0f8] block">向量知识库集合</span>
 
           <div className="space-y-2.5">
@@ -98,11 +90,10 @@ export const AdminRagPage: React.FC<AdminRagPageProps> = ({
               <div
                 key={i}
                 onClick={() => setSelectedKb(col.name)}
-                className={`p-3 rounded-lg border transition-all cursor-pointer ${
-                  selectedKb === col.name
-                    ? 'bg-[#152640] border-[#00B4D8]'
-                    : 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] hover:border-[#00B4D8]/40'
-                }`}
+                className={`p-3 rounded-lg border transition-all cursor-pointer ${selectedKb === col.name
+                  ? 'bg-[#152640] border-[#00B4D8]'
+                  : 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] hover:border-[#00B4D8]/40'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <h4 className="text-xs font-bold text-[#e8f0f8]">{col.name}</h4>
@@ -119,7 +110,7 @@ export const AdminRagPage: React.FC<AdminRagPageProps> = ({
         </div>
 
         {/* Right: Retrieval Test Bench */}
-        <div className="w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(0,180,216,0.2)] p-4 space-y-3 domain-border-mgmt">
+        <div className="w-full lg:w-1/2 rounded-xl bg-[#0f1e35] border border-[rgba(0,180,216,0.2)] p-4 space-y-3 domain-border-mgmt">
           <span className="text-xs font-bold text-[#e8f0f8] block">实时检索验证测试台</span>
 
           <div className="flex items-center gap-2 bg-[#0a1628] p-2 rounded-lg border border-[rgba(255,255,255,0.08)]">
@@ -127,7 +118,8 @@ export const AdminRagPage: React.FC<AdminRagPageProps> = ({
               type="text"
               value={testQuery}
               onChange={(e) => setTestQuery(e.target.value)}
-              className="flex-1 bg-transparent text-xs text-[#e8f0f8] focus:outline-none"
+              placeholder="输入检索词…"
+              className="flex-1 min-w-0 bg-transparent text-xs text-[#e8f0f8] focus:outline-none"
             />
             <button
               type="button"

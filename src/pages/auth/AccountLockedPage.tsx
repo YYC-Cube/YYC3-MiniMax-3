@@ -100,7 +100,7 @@ export const AccountLockedPage: React.FC<AccountLockedPageProps> = ({
 
       {/* Centered Form Card (Width 480px, pad 40px) */}
       <div
-        className="w-full max-w-[480px] rounded-2xl p-9 border shadow-2xl relative z-10 transition-all duration-200"
+        className="w-full max-w-[480px] rounded-2xl p-6 sm:p-9 border shadow-2xl relative z-10 transition-all duration-200"
         style={{
           backgroundColor: AUTH_TOKENS.formCard,
           borderColor: 'rgba(255, 68, 34, 0.35)',

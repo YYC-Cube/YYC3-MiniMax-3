@@ -96,7 +96,7 @@ export const SessionExpiredAndForbiddenPage: React.FC<SessionExpiredAndForbidden
 
       {/* Centered Form Card (Width 480px, pad 48px) */}
       <div
-        className="w-full max-w-[480px] rounded-2xl p-10 border shadow-2xl relative z-10 transition-all duration-200"
+        className="w-full max-w-[480px] rounded-2xl p-6 sm:p-10 border shadow-2xl relative z-10 transition-all duration-200"
         style={{
           backgroundColor: AUTH_TOKENS.formCard,
           borderColor: mode === 'expired' ? 'rgba(255, 122, 69, 0.3)' : 'rgba(255, 68, 34, 0.3)',

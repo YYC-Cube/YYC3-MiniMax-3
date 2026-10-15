@@ -11,7 +11,7 @@
  * @license: MIT
  */
 
-// 四道断言：
+// 五道断言：
 // ① dist/index.html 存在且含挂载点
 // ② 本地静态服务下 index.html 与全部引用资产 HTTP 200 非空（URL 需 decode：图标路径含空格）
 // ③ manifest 中 src/pages/** 页面 chunk 文件全部存在
@@ -19,6 +19,8 @@
 //    页面 chunk 依赖闭包含主 chunk（顶层 createRoot(document…)），故垫 jsdom 环境
 //    （复用 devDependencies 的 jsdom，非新增依赖）；App 在 jsdom 中的运行期告警
 //    由 uncaught 监听收集为警告，不参与判红——本门禁只判定「产物可加载」。
+// ⑤ PWA 安装力：manifest.webmanifest 必备字段 + 图标 200 且 PNG 实际像素与 sizes 一致
+//    + sw.js 200 已注入版本（无残留占位符）+ index.html apple meta 与真实 title
 
 import { cp, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -141,7 +143,7 @@ function fetchOk(url) {
 console.log('── dist 烟囱测试 ──\n');
 
 // ① 入口存在性
-console.log('[1/4] 入口完整性');
+console.log('[1/5] 入口完整性');
 let indexHtml = '';
 try {
   indexHtml = await readFile(join(DIST, 'index.html'), 'utf8');
@@ -151,7 +153,7 @@ try {
 }
 
 // ② 静态服务 + 资产可达
-console.log('[2/4] HTTP 资产可达性');
+console.log('[2/5] HTTP 资产可达性');
 const server = await serveStatic(DIST);
 const { port } = server.address();
 const base = `http://127.0.0.1:${port}`;
@@ -177,8 +179,8 @@ try {
 }
 
 // ③ + ④ manifest 页面 chunk 存在性 + Node ESM（jsdom 垫片）真实加载
-console.log('[3/4] 页面 chunk 存在性（manifest）');
-console.log('[4/4] 页面 chunk 动态加载 + default 组件导出');
+console.log('[3/5] 页面 chunk 存在性（manifest）');
+console.log('[4/5] 页面 chunk 动态加载 + default 组件导出');
 let tmp = '';
 try {
   const manifest = JSON.parse(await readFile(join(DIST, '.vite/manifest.json'), 'utf8'));
@@ -207,6 +209,63 @@ try {
   assert(false, `manifest 流程失败：${err.message}（请确认 vite.config build.manifest: true 并重新 build）`);
 } finally {
   if (tmp) await rm(tmp, { recursive: true, force: true });
+}
+
+// ⑤ PWA 安装力断言
+console.log('[5/5] PWA 可安装性（manifest / 图标 / sw.js / apple meta）');
+const pwaServer = await serveStatic(DIST);
+const pwaBase = `http://127.0.0.1:${pwaServer.address().port}`;
+try {
+  let pwaManifest;
+  try {
+    const { res, body } = await fetchOk(`${pwaBase}/manifest.webmanifest`);
+    assert(res.status === 200, 'GET /manifest.webmanifest → 200');
+    assert(res.headers.get('content-type')?.includes('manifest'), 'Content-Type 为 application/manifest+json');
+    pwaManifest = JSON.parse(body);
+  } catch (err) {
+    assert(false, `manifest.webmanifest 读取/解析失败：${err.message}`);
+  }
+
+  if (pwaManifest) {
+    for (const field of ['name', 'short_name', 'start_url', 'scope', 'display', 'theme_color', 'background_color', 'icons']) {
+      assert(pwaManifest[field] !== undefined, `manifest.${field} 字段存在`);
+    }
+    assert(pwaManifest.display === 'standalone', 'display=standalone（可安装）');
+    assert(pwaManifest.name !== 'Figma Make App', 'manifest.name 已替换平台默认名');
+
+    for (const icon of pwaManifest.icons) {
+      const { res, body: buf } = await fetchOk(pwaBase + encodeURI(icon.src));
+      assert(res.status === 200 && buf.length > 100, `图标 ${icon.src} → 200（${buf.length} bytes）`);
+      // PNG IHDR：第 16-23 字节为宽/高（大端 32 位）
+      const w = buf.readUInt32BE(16);
+      const h = buf.readUInt32BE(20);
+      const declared = icon.sizes.split('x').map(Number);
+      assert(w === declared[0] && h === declared[1], `图标 ${icon.src} 实际像素 ${w}x${h} 与 sizes=${icon.sizes} 一致`);
+    }
+    const purposes = pwaManifest.icons.map((i) => i.purpose).sort().join(',');
+    assert(purposes.includes('any') && purposes.includes('maskable'), '图标覆盖 any + maskable 用途');
+  }
+
+  // index.html PWA meta
+  assert(indexHtml.includes('rel="manifest"'), 'index.html 含 manifest link');
+  assert(indexHtml.includes('apple-mobile-web-app-capable'), 'index.html 含 apple-mobile-web-app-capable');
+  assert(indexHtml.includes('apple-mobile-web-app-title'), 'index.html 含 apple-mobile-web-app-title=YYC³');
+  assert(indexHtml.includes('viewport-fit=cover'), 'viewport 含 viewport-fit=cover（安全区）');
+  assert(!indexHtml.includes('Figma Make App'), 'index.html title 已替换平台默认名');
+  assert(indexHtml.includes('/icons/favicon-32.png'), 'favicon-32 指向 /icons/ 干净路径');
+
+  // sw.js
+  try {
+    const { res, body } = await fetchOk(`${pwaBase}/sw.js`);
+    assert(res.status === 200, 'GET /sw.js → 200');
+    assert(!body.includes('__PRECACHE_URLS__') && !body.includes('__CACHE_VERSION__'), 'sw.js 占位符已全部注入');
+    assert(/const CACHE_VERSION = "[0-9a-f]{10}"/.test(body), 'sw.js 注入 10 位内容哈希版本号');
+    assert(body.includes('skipWaiting') && body.includes('clients.claim'), 'sw.js 含更新激活逻辑');
+  } catch (err) {
+    assert(false, `sw.js 请求失败：${err.message}`);
+  }
+} finally {
+  pwaServer.close();
 }
 
 console.log('');

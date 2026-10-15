@@ -26,7 +26,7 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
-    include: ['src/**/*.test.{ts,tsx}'],
+    include: ['src/**/*.test.{ts,tsx}', 'vite-plugins/**/*.test.mjs'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary'],

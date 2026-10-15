@@ -10,29 +10,20 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  Save,
-  History,
-  Download,
-  Sparkles,
   ArrowRight,
-  Check,
-  X,
-  Cpu,
-  Inbox,
-  Layers,
-  ChevronRight,
+  Download,
   Film,
-  User,
-  MapPin,
-  GitCommit,
+  History,
+  Inbox,
+  Sparkles
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import { DriveModeId } from '../../tokens';
-import DriveModeSwitch from '../../components/common/DriveModeSwitch';
+import React, { useState } from 'react';
 import ConfidenceBadge from '../../components/common/ConfidenceBadge';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import DriveModeSwitch from '../../components/common/DriveModeSwitch';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DriveModeId } from '../../tokens';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface ScriptDetailPageProps {
   onNavigate: (page: PageId) => void;
@@ -100,7 +91,7 @@ export const ScriptDetailPage: React.FC<ScriptDetailPageProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center flex-wrap gap-2.5">
           {/* Drive Mode Switch for this Task */}
           <div className="flex items-center gap-1.5">
             <span className="text-[11px] text-[#5c697a]">单任务驾驶:</span>
@@ -133,10 +124,10 @@ export const ScriptDetailPage: React.FC<ScriptDetailPageProps> = ({
         </div>
       </div>
 
-      {/* Main Three-Column Layout */}
-      <div className="flex gap-4 h-[calc(100vh-14rem)]">
+      {/* Main Three-Column Layout（<lg 三栏纵向堆叠） */}
+      <div className="flex flex-col lg:flex-row gap-4 lg:h-[calc(100vh-14rem)]">
         {/* Left Column (240px): Scene Navigation Tree */}
-        <div className="w-60 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 flex flex-col justify-between shrink-0 overflow-y-auto">
+        <div className="w-full lg:w-60 max-h-[32vh] lg:max-h-none rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-3 flex flex-col justify-between lg:shrink-0 overflow-y-auto">
           <div className="space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
               <span className="text-xs font-bold text-[#e8f0f8]">第 1 集 · 场次导航</span>
@@ -150,11 +141,10 @@ export const ScriptDetailPage: React.FC<ScriptDetailPageProps> = ({
                   <div
                     key={sc.id}
                     onClick={() => setActiveScene(sc.id)}
-                    className={`p-2.5 rounded-lg cursor-pointer transition-all ${
-                      isActive
-                        ? 'bg-[#152640] border-l-2 border-[#00e0b8] text-[#e8f0f8]'
-                        : 'hover:bg-[#152640]/50 text-[#8a97a8]'
-                    }`}
+                    className={`p-2.5 rounded-lg cursor-pointer transition-all ${isActive
+                      ? 'bg-[#152640] border-l-2 border-[#00e0b8] text-[#e8f0f8]'
+                      : 'hover:bg-[#152640]/50 text-[#8a97a8]'
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-bold truncate">{sc.title}</span>
@@ -178,7 +168,7 @@ export const ScriptDetailPage: React.FC<ScriptDetailPageProps> = ({
         </div>
 
         {/* Center Column: Screenplay Editor & AI Diff */}
-        <div className="flex-1 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-5 flex flex-col overflow-y-auto relative">
+        <div className="w-full lg:w-auto flex-1 min-h-[50vh] rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 lg:p-5 flex flex-col overflow-y-auto relative">
           {/* Editor Header / Formatting Toolbar */}
           <div className="flex items-center justify-between pb-3 mb-4 border-b border-[rgba(255,255,255,0.06)] text-xs">
             <div className="flex items-center gap-2">
@@ -287,7 +277,7 @@ export const ScriptDetailPage: React.FC<ScriptDetailPageProps> = ({
         </div>
 
         {/* Right Column (320px): Structured Entities & Storyboard Action */}
-        <div className="w-80 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 flex flex-col justify-between shrink-0 space-y-4 overflow-y-auto">
+        <div className="w-full lg:w-80 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.12)] p-4 flex flex-col justify-between lg:shrink-0 space-y-4 overflow-y-auto">
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
               <span className="text-xs font-bold text-[#e8f0f8]">结构化资产绑定</span>

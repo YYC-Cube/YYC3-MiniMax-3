@@ -10,21 +10,13 @@
  * @license: MIT
  */
 
-import React, { useState } from 'react';
 import {
-  Network,
-  Sparkles,
   AlertTriangle,
-  Layers,
-  ArrowRight,
-  Filter,
-  Share2,
-  CheckCircle2,
-  Download,
-  Info,
+  Sparkles
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
-import { EmptyState, LoadingState, ErrorState, NoPermissionState } from '../../components/common/States';
+import React, { useState } from 'react';
+import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface ProjectLorePageProps {
   onNavigate: (page: PageId) => void;
@@ -89,11 +81,10 @@ export const ProjectLorePage: React.FC<ProjectLorePageProps> = ({
                 key={l}
                 type="button"
                 onClick={() => setLayoutMode(l)}
-                className={`px-3 py-1 rounded cursor-pointer ${
-                  layoutMode === l
-                    ? 'bg-[#00B4D8] text-[#0a1628] font-bold'
-                    : 'text-[#8a97a8] hover:text-white'
-                }`}
+                className={`px-3 py-1 rounded cursor-pointer ${layoutMode === l
+                  ? 'bg-[#00B4D8] text-[#0a1628] font-bold'
+                  : 'text-[#8a97a8] hover:text-white'
+                  }`}
               >
                 {l === 'force' ? '力导向图' : l === 'timeline' ? '时间轴' : '层级树'}
               </button>
@@ -127,62 +118,63 @@ export const ProjectLorePage: React.FC<ProjectLorePageProps> = ({
         </button>
       </div>
 
-      {/* Main Split: Left Interactive Force Graph Canvas, Right Entity Inspector */}
-      <div className="flex gap-4">
+      {/* Main Split: Left Interactive Force Graph Canvas, Right Entity Inspector（<lg 纵向堆叠；图谱固定设计宽横滑） */}
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Left: Force-Directed Graph Canvas */}
-        <div className="flex-1 rounded-xl bg-[#0a1628] border border-[rgba(0,224,184,0.2)] h-[500px] relative overflow-hidden flex flex-col justify-between p-4">
-          <div className="flex items-center justify-between text-xs text-[#8a97a8] z-10">
-            <span className="font-mono text-[#00e0b8]">Force Simulation Active (5 Nodes, 7 Edges)</span>
-            <span className="font-mono">Zoom: 100% · Physics: Repulsion 400</span>
-          </div>
+        <div className="flex-1 min-w-0 rounded-xl bg-[#0a1628] border border-[rgba(0,224,184,0.2)] h-[500px] relative overflow-x-auto lg:overflow-hidden">
+          <div className="relative w-[560px] lg:w-full h-full flex flex-col justify-between p-4">
+            <div className="flex items-center justify-between text-xs text-[#8a97a8] z-10">
+              <span className="font-mono text-[#00e0b8]">Force Simulation Active (5 Nodes, 7 Edges)</span>
+              <span className="font-mono">Zoom: 100% · Physics: Repulsion 400</span>
+            </div>
 
-          {/* Simulated Graph Nodes & Connections */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none">
-            <line x1={260} y1={160} x2={420} y2={130} stroke="#00e0b8" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.6" />
-            <line x1={260} y1={160} x2={280} y2={310} stroke="#ff4422" strokeWidth="2" opacity="0.8" />
-            <line x1={260} y1={160} x2={120} y2={220} stroke="#00B4D8" strokeWidth="2" opacity="0.9" />
-            <line x1={420} y1={130} x2={460} y2={280} stroke="#9d7cd8" strokeWidth="1.5" opacity="0.7" />
-          </svg>
+            {/* Simulated Graph Nodes & Connections */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+              <line x1={260} y1={160} x2={420} y2={130} stroke="#00e0b8" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.6" />
+              <line x1={260} y1={160} x2={280} y2={310} stroke="#ff4422" strokeWidth="2" opacity="0.8" />
+              <line x1={260} y1={160} x2={120} y2={220} stroke="#00B4D8" strokeWidth="2" opacity="0.9" />
+              <line x1={420} y1={130} x2={460} y2={280} stroke="#9d7cd8" strokeWidth="1.5" opacity="0.7" />
+            </svg>
 
-          {/* Nodes Overlay */}
-          <div className="absolute inset-0 pointer-events-auto">
-            {nodes.map((node) => {
-              const isSelected = selectedEntity === node.name;
+            {/* Nodes Overlay */}
+            <div className="absolute inset-0 pointer-events-auto">
+              {nodes.map((node) => {
+                const isSelected = selectedEntity === node.name;
 
-              return (
-                <div
-                  key={node.id}
-                  onClick={() => setSelectedEntity(node.name)}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all ${
-                    isSelected
+                return (
+                  <div
+                    key={node.id}
+                    onClick={() => setSelectedEntity(node.name)}
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 p-2.5 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all ${isSelected
                       ? 'bg-[#152640] border-2 shadow-lg shadow-teal-950/40 scale-110 z-20'
                       : 'bg-[#0f1e35] border-[rgba(255,255,255,0.1)] hover:scale-105 z-10'
-                  }`}
-                  style={{
-                    left: `${node.x}px`,
-                    top: `${node.y}px`,
-                    borderColor: isSelected ? node.color : undefined,
-                  }}
-                >
-                  <span className="font-bold text-xs text-[#e8f0f8]">{node.name}</span>
-                  <span className="text-[9px] font-mono opacity-80" style={{ color: node.color }}>
-                    {node.ref}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+                      }`}
+                    style={{
+                      left: `${node.x}px`,
+                      top: `${node.y}px`,
+                      borderColor: isSelected ? node.color : undefined,
+                    }}
+                  >
+                    <span className="font-bold text-xs text-[#e8f0f8]">{node.name}</span>
+                    <span className="text-[9px] font-mono opacity-80" style={{ color: node.color }}>
+                      {node.ref}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
 
-          {/* Graph Legend */}
-          <div className="flex items-center gap-4 text-[10px] text-[#8a97a8] z-10 bg-[#0f1e35]/80 p-2 rounded-lg border border-[rgba(255,255,255,0.06)] w-fit">
-            <span>实线(红): 宿敌仇怨</span>
-            <span>虚线(青): 夫妻/契约</span>
-            <span>实线(蓝): 本命法宝绑定</span>
+            {/* Graph Legend */}
+            <div className="flex items-center gap-4 text-[10px] text-[#8a97a8] z-10 bg-[#0f1e35]/80 p-2 rounded-lg border border-[rgba(255,255,255,0.06)] w-fit">
+              <span>实线(红): 宿敌仇怨</span>
+              <span>虚线(青): 夫妻/契约</span>
+              <span>实线(蓝): 本命法宝绑定</span>
+            </div>
           </div>
         </div>
 
         {/* Right Entity Inspector */}
-        <div className="w-80 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] p-4 flex flex-col justify-between space-y-4 shrink-0">
+        <div className="w-full lg:w-80 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] p-4 flex flex-col justify-between space-y-4 lg:shrink-0">
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
               <div>

@@ -1,0 +1,13 @@
+{
+  "name": "YYC³ AI Family · Comic Drama",
+  "shortName": "YYC³",
+  "description": "面向创作者与工作室的 AI 驱动工业化漫剧生产平台",
+  "lang": "zh-CN",
+  "themeColor": "#0a1628",
+  "backgroundColor": "#0a1628",
+  "icons": {
+    "pwa192": "/icons/icon-192.png",
+    "pwa512": "/icons/icon-512.png",
+    "maskable512": "/icons/icon-maskable-512.png"
+  }
+}

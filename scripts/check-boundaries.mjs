@@ -24,6 +24,11 @@
  *                              （遥测走 ApiEventSink 端口注入，组合根 main.tsx 桥接——R6 专项）
  *  R9 pages-snapshot-binding   pages 层 useApiData 调用必须绑定 SNAPSHOT 键位
  *                              （快照降级激活 + 防手写错配污染快照——R12 专项）
+ * R10 brand-name-single-source 产品名只准定义于 config/brand.ts；UI 禁止散落
+ *                              「AI Family · Comic Drama」/「Figma Make App」字面量
+ *                              （__tests__、brand.ts、注释行豁免）——R17 专项
+ * R11 icons-single-source      src 禁止硬编码 /yyc3-icons/ 母版路径（含空格）；
+ *                              图标一律走 config/brand.ts 的 APP_ICONS——R17 专项
  *  D1 dist-chunk-budget        构建产物存在时：最大 .js chunk 原始体积 < 500KB（报告门禁「主 chunk 不回退」）
  */
 
@@ -113,6 +118,23 @@ for (const rel of collectSrcFiles()) {
     }
   }
 
+  // R10 产品名单源：禁止散落品牌全名/平台回退名（brand.ts 定义处、测试、注释豁免）
+  if (!inTests && rel !== 'config/brand.ts') {
+    const RE_BRAND_LITERAL = /AI Family · Comic Drama|Figma Make App/;
+    for (const [idx, line] of content.split('\n').entries()) {
+      const trimmed = line.trimStart();
+      const isComment = trimmed.startsWith('//') || trimmed.startsWith('*') || trimmed.startsWith('/*');
+      if (!isComment && RE_BRAND_LITERAL.test(line)) {
+        add('R10-brand-name-single-source', rel, `第 ${idx + 1} 行出现产品名字面量，请引用 config/brand.ts 常量`);
+      }
+    }
+  }
+
+  // R11 图标单源：禁止硬编码 yyc3-icons 母版路径（含空格，须走 APP_ICONS）
+  if (!inTests && rel !== 'config/brand.ts' && content.includes('yyc3-icons')) {
+    add('R11-icons-single-source', rel, '禁止硬编码 /yyc3-icons/ 路径，请使用 config/brand.ts 的 APP_ICONS');
+  }
+
   // R1/R2/R4 导入边界
   for (const spec of extractImportSpecifiers(content)) {
     const to = resolveInternal(spec, rel);
@@ -160,4 +182,4 @@ if (violations.length > 0) {
   process.exit(1);
 }
 
-console.log(`\n✓ 架构边界门禁通过：R1-R9 全部 0 违规${distChecked ? '，D1 chunk 预算达标' : '（dist 未构建，D1 跳过）'}`);
+console.log(`\n✓ 架构边界门禁通过：R1-R11 全部 0 违规${distChecked ? '，D1 chunk 预算达标' : '（dist 未构建，D1 跳过）'}`);

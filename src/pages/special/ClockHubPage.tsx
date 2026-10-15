@@ -34,7 +34,9 @@ import {
   Wrench,
   Zap
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import ClockHands from '../../components/common/ClockHands';
+import { CLOCK_HUB_RATIO, getHandLengths, useElementSize, useRealTimeClock } from '../../hooks/useRealTimeClock';
 import { AGENTS_LIST, DEFAULT_AGENT_ID } from '../../tokens';
 import { DevModeMeta, PageId } from '../../types';
 
@@ -61,18 +63,23 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
   onNavigate,
   onOpenCognitionWidget,
 }) => {
-  const [timeString, setTimeString] = useState('11:54:14');
-  const [dateString, setDateString] = useState('26/10/11 日');
+  // 真实时钟：1s 走时 + 三针角度 + yy/mm/dd 星期（复用 useRealTimeClock 单源）
+  const { timeStr, angles, dateInfo } = useRealTimeClock();
   const [activeAgentId, setActiveAgentId] = useState<string>('yushu-wanwu'); // Matches screenshot (语枢·万物 highlighted)
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeString(now.toTimeString().split(' ')[0]);
-    };
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // ===== 表盘自适应：以表盘容器短边相对设计基线 620px 等比缩放（防宽屏拉伸） =====
+  const dialRef = useRef<HTMLDivElement>(null);
+  const { width: dialW, height: dialH } = useElementSize(dialRef);
+  const scale = Math.min(1.15, Math.max(0.55, (dialW > 0 ? Math.min(dialW, dialH) : 620) / 620));
+  const RING_OUTER = 270 * scale;          // 外环半径（540 直径）
+  const ORBIT = 220 * scale;               // 8 节点轨道半径 / 激光线长度
+  // 中心枢纽直径 = 表盘直径 × 0.21（与 AuthBrandClock 同比例，视觉让位于三针）
+  const HUB = RING_OUTER * 2 * CLOCK_HUB_RATIO;
+  const TICK_LEN_MAJOR = 14 * scale;
+  const TICK_LEN_MINOR = 8 * scale;
+  /** 三针真实长度（时 0.42r / 分 0.56r / 秒 0.68r + 尾部配重 0.16r） */
+  const handLengths = getHandLengths(ORBIT);
+  const NODE = 56 * scale;
 
   const glyphMap: Record<string, React.ReactNode> = {
     [DEFAULT_AGENT_ID]: <Network className="w-6 h-6" />,
@@ -87,8 +94,8 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
 
   return (
     <div className="space-y-4 animate-in fade-in duration-200 select-none pb-4">
-      {/* 1. Header Bar matching screenshot */}
-      <div className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-[#0a1628]/95 border border-[rgba(0,224,184,0.15)] text-xs">
+      {/* 1. Header Bar matching screenshot（<lg 隐藏：全局 TopNav 已承载汉堡/搜索/通知/语言，避免重复占高） */}
+      <div className="hidden lg:flex items-center justify-between px-4 py-2.5 rounded-xl bg-[#0a1628]/95 border border-[rgba(0,224,184,0.15)] text-xs">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3">
           <Menu className="w-4 h-4 text-[#8a97a8] cursor-pointer hover:text-white" />
@@ -114,7 +121,7 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#152640] border border-[rgba(0,224,184,0.3)] text-[#00e0b8] cursor-pointer hover:bg-[#1f3659]"
           >
             <Zap className="w-3.5 h-3.5 text-[#00e0b8]" />
-            <span>模拟模式</span>
+            <span className="hidden sm:inline">模拟模式</span>
           </button>
 
           <div className="relative cursor-pointer p-1.5 text-[#8a97a8] hover:text-white">
@@ -133,7 +140,7 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
       </div>
 
       {/* 2. Top Title & Telemetry Metrics Pill */}
-      <div className="flex items-center justify-between px-2">
+      <div className="flex items-center justify-between flex-wrap gap-2 px-2">
         <div>
           <div className="flex items-center gap-2">
             <Compass className="w-5 h-5 text-[#00e0b8]" />
@@ -171,32 +178,36 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
       </div>
 
       {/* 3. Main Center Astronomical Chronograph Radar Dial (Height 620px) */}
-      <div className="relative rounded-2xl bg-[#071222] border border-[rgba(0,224,184,0.2)] h-[620px] overflow-hidden flex items-center justify-center shadow-2xl">
+      <div
+        ref={dialRef}
+        className="relative rounded-2xl bg-[#071222] border border-[rgba(0,224,184,0.2)] h-[62svh] lg:h-[620px] overflow-hidden flex items-center justify-center shadow-2xl"
+      >
         {/* Astronomical Concentric Rings & Crosshair Markers */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           {/* Outer Ring */}
-          <div className="w-[540px] h-[540px] rounded-full border border-[rgba(0,224,184,0.12)]" />
+          <div className="rounded-full border border-[rgba(0,224,184,0.12)]" style={{ width: RING_OUTER * 2, height: RING_OUTER * 2 }} />
           {/* Rotating Ring with Dual Accent Highlights */}
-          <div className="w-[500px] h-[500px] rounded-full border border-[rgba(0,224,184,0.25)] animate-clock-spin" style={{ borderTopColor: '#00e0b8', borderRightColor: '#FF69B4' }} />
+          <div
+            className="absolute rounded-full border border-[rgba(0,224,184,0.25)] animate-clock-spin"
+            style={{ width: 500 * scale, height: 500 * scale, borderTopColor: '#00e0b8', borderRightColor: '#FF69B4' }}
+          />
           {/* Mid Radar Dial */}
-          <div className="w-[380px] h-[380px] rounded-full border border-[rgba(255,255,255,0.05)]" />
+          <div className="absolute rounded-full border border-[rgba(255,255,255,0.05)]" style={{ width: 380 * scale, height: 380 * scale }} />
           {/* Inner Core Dial */}
-          <div className="w-[200px] h-[200px] rounded-full border border-[rgba(0,224,184,0.18)]" />
+          <div className="absolute rounded-full border border-[rgba(0,224,184,0.18)]" style={{ width: 200 * scale, height: 200 * scale }} />
 
           {/* Crosshair Axis Lines */}
           <div className="w-full h-px bg-[rgba(255,255,255,0.03)] absolute" />
           <div className="h-full w-px bg-[rgba(255,255,255,0.03)] absolute" />
 
-          {/* Radar Tick Marks (24 ticks around the 540px dial) */}
+          {/* Radar Tick Marks (24 ticks, 随短边缩放) */}
           <svg className="absolute inset-0 w-full h-full">
             {Array.from({ length: 24 }).map((_, i) => {
               const angle = (i * 360) / 24;
               const rad = ((angle - 90) * Math.PI) / 180;
               const isMajor = i % 3 === 0;
-              const r1 = 270 - (isMajor ? 14 : 8);
-              const r2 = 270;
-              const cx = '50%';
-              const cy = '50%';
+              const r1 = RING_OUTER - (isMajor ? TICK_LEN_MAJOR : TICK_LEN_MINOR);
+              const r2 = RING_OUTER;
               return (
                 <line
                   key={i}
@@ -213,6 +224,18 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
           </svg>
         </div>
 
+        {/* 真实时钟三针（时青碧短粗 / 分天青中 / 秒朱红长细带配重；ClockHands 单源） */}
+        <svg
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          width={RING_OUTER * 2}
+          height={RING_OUTER * 2}
+          viewBox={`0 0 ${RING_OUTER * 2} ${RING_OUTER * 2}`}
+        >
+          <g transform={`translate(${RING_OUTER}, ${RING_OUTER})`}>
+            <ClockHands angles={angles} lengths={handLengths} scale={scale} />
+          </g>
+        </svg>
+
         {/* Laser Connecting Lines (SVG) matching the reference screenshot */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
           {AGENTS_LIST.map((ag) => {
@@ -224,8 +247,8 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
                 <line
                   x1="50%"
                   y1="50%"
-                  x2={`calc(50% + ${Math.cos(rad) * 220}px)`}
-                  y2={`calc(50% + ${Math.sin(rad) * 220}px)`}
+                  x2={`calc(50% + ${Math.cos(rad) * ORBIT}px)`}
+                  y2={`calc(50% + ${Math.sin(rad) * ORBIT}px)`}
                   stroke={isHighlighted ? ag.color : 'rgba(0, 224, 184, 0.2)'}
                   strokeWidth={isHighlighted ? 2.5 : 1}
                   strokeDasharray={isHighlighted ? undefined : '4 4'}
@@ -236,8 +259,8 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
                     r="3"
                     fill="#FF69B4"
                     className="animate-ping"
-                    cx={`calc(50% + ${Math.cos(rad) * 110}px)`}
-                    cy={`calc(50% + ${Math.sin(rad) * 110}px)`}
+                    cx={`calc(50% + ${Math.cos(rad) * ORBIT * 0.5}px)`}
+                    cy={`calc(50% + ${Math.sin(rad) * ORBIT * 0.5}px)`}
                   />
                 )}
               </g>
@@ -247,24 +270,39 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
 
         {/* Center YYC³ Core Hub & Realtime Tabular Clock */}
         <div
-          className="relative z-20 w-32 h-32 rounded-full bg-[#071222] border-2 border-[rgba(0,224,184,0.4)] p-1 flex flex-col items-center justify-center cursor-pointer shadow-2xl transition-all duration-300 hover:scale-105"
+          className="relative z-20 rounded-full bg-[#071222] border-2 border-[rgba(0,224,184,0.4)] p-1 flex flex-col items-center justify-center cursor-pointer shadow-2xl transition-all duration-300 hover:scale-105"
           style={{
+            width: HUB,
+            height: HUB,
             boxShadow: '0 0 32px rgba(0, 224, 184, 0.3), inset 0 0 16px rgba(0, 224, 184, 0.1)',
           }}
           onClick={() => onNavigate('dashboard')}
           title="YYC³ 中枢内核"
         >
           <div className="flex flex-col items-center text-center">
-            <span className="text-xl font-black text-[#00e0b8] tracking-tight">YYC³</span>
-            <span className="text-[10px] font-mono text-[#8a97a8]">AI Family</span>
+            <span className="font-black text-[#00e0b8] tracking-tight" style={{ fontSize: 20 * scale }}>
+              YYC³
+            </span>
+            <span className="font-mono text-[#8a97a8]" style={{ fontSize: Math.max(8, 10 * scale) }}>
+              AI Family
+            </span>
           </div>
 
           {/* Realtime Time & Date below center matching screenshot */}
           <div className="absolute -bottom-10 flex flex-col items-center pointer-events-none">
             <span className="text-sm font-bold font-mono text-[#00B4D8] tabular-nums tracking-wide">
-              {timeString}
+              {timeStr}
             </span>
-            <span className="text-[10px] font-mono text-[#5c697a]">{dateString}</span>
+            <span className="text-[10px] font-mono flex items-center gap-1">
+              <span className="text-[#5c697a]">{dateInfo.dateStr}</span>
+              <span
+                style={dateInfo.isWeekend
+                  ? { color: '#FF006E', textShadow: '0 0 6px rgba(255,0,110,0.4)' }
+                  : { color: '#5c697a' }}
+              >
+                {dateInfo.dayLabel}
+              </span>
+            </span>
           </div>
         </div>
 
@@ -272,6 +310,7 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
         {AGENTS_LIST.map((ag) => {
           const rad = ((ag.degree - 90) * Math.PI) / 180;
           const isHighlighted = ag.id === activeAgentId;
+          const glyphSize = Math.max(16, Math.round(24 * scale));
 
           return (
             <div
@@ -282,25 +321,29 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
               }}
               className="absolute z-20 flex flex-col items-center cursor-pointer group -translate-x-1/2 -translate-y-1/2"
               style={{
-                left: `calc(50% + ${Math.cos(rad) * 220}px)`,
-                top: `calc(50% + ${Math.sin(rad) * 220}px)`,
+                left: `calc(50% + ${Math.cos(rad) * ORBIT}px)`,
+                top: `calc(50% + ${Math.sin(rad) * ORBIT}px)`,
               }}
               title={`${ag.name} (${ag.role}) · 点击打开认知增强轨迹`}
             >
               {/* Circular Glyph Node */}
               <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 relative ${isHighlighted
-                    ? 'ring-4 ring-[#FF69B4]/40 scale-110 shadow-2xl shadow-pink-900/50'
-                    : 'group-hover:scale-105 shadow-md'
+                className={`rounded-full flex items-center justify-center transition-all duration-200 relative ${isHighlighted
+                  ? 'ring-4 ring-[#FF69B4]/40 scale-110 shadow-2xl shadow-pink-900/50'
+                  : 'group-hover:scale-105 shadow-md'
                   }`}
                 style={{
+                  width: NODE,
+                  height: NODE,
                   backgroundColor: '#071222',
                   border: `2px solid ${ag.color}`,
                   color: ag.color,
                   boxShadow: `0 0 16px ${ag.color}35`,
                 }}
               >
-                {glyphMap[ag.id] || <Brain className="w-5 h-5" />}
+                {React.cloneElement((glyphMap[ag.id] || <Brain className="w-5 h-5" />) as React.ReactElement<{ className?: string; style?: React.CSSProperties }>, {
+                  style: { width: glyphSize, height: glyphSize },
+                })}
 
                 {/* Status Dot */}
                 <span
@@ -311,10 +354,13 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
 
               {/* Agent Name Tag & Time Marker */}
               <div className="mt-1.5 text-center leading-tight">
-                <span className="text-xs font-bold text-[#e8f0f8] block group-hover:text-[#00e0b8] transition-colors whitespace-nowrap">
+                <span
+                  className="font-bold text-[#e8f0f8] block group-hover:text-[#00e0b8] transition-colors whitespace-nowrap"
+                  style={{ fontSize: 12 * scale }}
+                >
                   {ag.name}
                 </span>
-                <span className="text-[10px] font-mono text-[#5c697a]">
+                <span className="text-[10px] font-mono text-[#5c697a]" style={{ fontSize: 10 * scale }}>
                   {ag.clockPosition}
                 </span>
               </div>
@@ -322,10 +368,10 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
           );
         })}
 
-        {/* Bottom Floating Badge matching screenshot */}
+        {/* Bottom Floating Badge matching screenshot（<lg 隐藏：避让底栏/W1 浮窗球，dashboard 由底栏生产 Tab 承载） */}
         <div
           onClick={() => onNavigate('dashboard')}
-          className="absolute bottom-5 right-6 z-30 flex items-center gap-2 cursor-pointer group"
+          className="hidden lg:flex absolute bottom-5 right-6 z-30 items-center gap-2 cursor-pointer group"
           title="YYC³ 核心安全防护浮动徽章"
         >
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00e0b8] to-[#9d7cd8] p-0.5 shadow-xl group-hover:scale-105 transition-transform">
@@ -339,8 +385,8 @@ export const ClockHubPage: React.FC<ClockHubPageProps> = ({
         </div>
       </div>
 
-      {/* 4. Bottom Operational Navigation Tabs matching screenshot footer */}
-      <div className="flex items-center justify-center gap-12 py-3 px-6 rounded-xl bg-[#0a1628] border border-[rgba(255,255,255,0.06)] text-xs text-[#8a97a8]">
+      {/* 4. Bottom Operational Navigation Tabs matching screenshot footer（<lg 隐藏：全局 MobileBottomNav 已承载等效入口） */}
+      <div className="hidden lg:flex items-center justify-center gap-12 py-3 px-6 rounded-xl bg-[#0a1628] border border-[rgba(255,255,255,0.06)] text-xs text-[#8a97a8]">
         <button
           type="button"
           onClick={() => onNavigate('tasks')}

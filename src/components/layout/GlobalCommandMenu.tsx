@@ -10,25 +10,25 @@
  * @license: MIT
  */
 
-import React, { useState, useEffect } from 'react';
 import {
-  Search,
-  X,
-  FileText,
-  Film,
-  Scissors,
-  Layers,
-  Send,
-  Shield,
+  ArrowRight,
   Bot,
   Compass,
-  ArrowRight,
-  Sparkles,
+  FileText,
+  Film,
   Key,
+  Layers,
   Lock,
-  UserPlus,
   LogIn,
+  Scissors,
+  Search,
+  Send,
+  Shield,
+  Sparkles,
+  UserPlus,
+  X,
 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { PageId } from '../../types';
 
 interface GlobalCommandMenuProps {
@@ -64,42 +64,42 @@ export const GlobalCommandMenu: React.FC<GlobalCommandMenuProps> = ({
     group: string;
     items: { title: string; subtitle: string; page: PageId; icon: React.ReactNode }[];
   }[] = [
-    {
-      group: '快捷跳转',
-      items: [
-        { title: '工作台首页', subtitle: '产线总览与双 DGX 状态', page: 'dashboard', icon: <Layers className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: '剧本工作台', subtitle: 'Notion 数据库风格剧本库', page: 'script', icon: <FileText className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: '分镜设计器', subtitle: '12 字段 Schema 与画布模式', page: 'storyboard', icon: <Film className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: '多轨道时间线剪辑', subtitle: '剪映专业版级四轨编辑器', page: 'video', icon: <Scissors className="w-4 h-4 text-[#9d7cd8]" /> },
-        { title: '质检门禁看板', subtitle: '格物·宗师 80% 一致性红线', page: 'qa', icon: <Shield className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: '多平台发布看板', subtitle: '抖音/视频号/B站/快手/小红书', page: 'publish-board', icon: <Send className="w-4 h-4 text-[#FF7A5C]" /> },
-        { title: '智能体训练中心', subtitle: 'Learning Inbox 与三层记忆', page: 'admin-agents', icon: <Bot className="w-4 h-4 text-[#00B4D8]" /> },
-        { title: 'AI Family 8 Agent 时钟环', subtitle: '1.5h 时钟环大屏中枢', page: 'family', icon: <Compass className="w-4 h-4 text-[#FFD700]" /> },
-      ],
-    },
-    {
-      group: '生产域操作',
-      items: [
-        { title: '批量生成任务台', subtitle: '多实例并行任务队列', page: 'production', icon: <Layers className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: '角色一致性训练', subtitle: 'LoRA Ref 保持与定妆照', page: 'assets-consistency', icon: <FileText className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: '世界观与知识图谱', subtitle: '力导向图与剧情冲突检测', page: 'project-lore', icon: <Sparkles className="w-4 h-4 text-[#00B4D8]" /> },
-      ],
-    },
-    {
-      group: 'Auth 鉴权域',
-      items: [
-        { title: 'A01 登录入口', subtitle: '55:45 沉浸式登录与品牌时钟环', page: 'auth-login', icon: <LogIn className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: 'A02 注册向导', subtitle: '6位OTP、密码强度与角色分配', page: 'auth-register', icon: <UserPlus className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: 'A03 找回密码', subtitle: '防撞库邮件重置链接派发', page: 'auth-forgot', icon: <Key className="w-4 h-4 text-[#FFD700]" /> },
-        { title: 'A04 重置密码', subtitle: 'Token 校验与新密码设置', page: 'auth-reset', icon: <Lock className="w-4 h-4 text-[#9d7cd8]" /> },
-        { title: 'A05 二次验证 MFA', subtitle: '智云·守护 TOTP/短信/邮箱三验', page: 'auth-mfa', icon: <Shield className="w-4 h-4 text-[#9d7cd8]" /> },
-        { title: 'A06 团队邀请', subtitle: '45:55 镜像反转邀请落地页', page: 'auth-invite', icon: <UserPlus className="w-4 h-4 text-[#00B4D8]" /> },
-        { title: 'A07 首次登录引导', subtitle: '4 步向导配置品牌、算力与 Agent', page: 'auth-onboarding', icon: <Compass className="w-4 h-4 text-[#00e0b8]" /> },
-        { title: 'A08 会话过期 / 403', subtitle: '未保存草稿恢复与角色越权警示', page: 'auth-expired', icon: <Lock className="w-4 h-4 text-[#ff7a45]" /> },
-        { title: 'A09 账号停用 / 锁定', subtitle: '5 次失败锁定与管理员停用态', page: 'auth-locked', icon: <Lock className="w-4 h-4 text-[#ff4422]" /> },
-      ],
-    },
-  ];
+      {
+        group: '快捷跳转',
+        items: [
+          { title: '工作台首页', subtitle: '产线总览与双 DGX 状态', page: 'dashboard', icon: <Layers className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: '剧本工作台', subtitle: 'Notion 数据库风格剧本库', page: 'script', icon: <FileText className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: '分镜设计器', subtitle: '12 字段 Schema 与画布模式', page: 'storyboard', icon: <Film className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: '多轨道时间线剪辑', subtitle: '剪映专业版级四轨编辑器', page: 'video', icon: <Scissors className="w-4 h-4 text-[#9d7cd8]" /> },
+          { title: '质检门禁看板', subtitle: '格物·宗师 80% 一致性红线', page: 'qa', icon: <Shield className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: '多平台发布看板', subtitle: '抖音/视频号/B站/快手/小红书', page: 'publish-board', icon: <Send className="w-4 h-4 text-[#FF7A5C]" /> },
+          { title: '智能体训练中心', subtitle: 'Learning Inbox 与三层记忆', page: 'admin-agents', icon: <Bot className="w-4 h-4 text-[#00B4D8]" /> },
+          { title: 'AI Family 8 Agent 时钟环', subtitle: '1.5h 时钟环大屏中枢', page: 'family', icon: <Compass className="w-4 h-4 text-[#FFD700]" /> },
+        ],
+      },
+      {
+        group: '生产域操作',
+        items: [
+          { title: '批量生成任务台', subtitle: '多实例并行任务队列', page: 'production', icon: <Layers className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: '角色一致性训练', subtitle: 'LoRA Ref 保持与定妆照', page: 'assets-consistency', icon: <FileText className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: '世界观与知识图谱', subtitle: '力导向图与剧情冲突检测', page: 'project-lore', icon: <Sparkles className="w-4 h-4 text-[#00B4D8]" /> },
+        ],
+      },
+      {
+        group: 'Auth 鉴权域',
+        items: [
+          { title: 'A01 登录入口', subtitle: '55:45 沉浸式登录与品牌时钟环', page: 'auth-login', icon: <LogIn className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: 'A02 注册向导', subtitle: '6位OTP、密码强度与角色分配', page: 'auth-register', icon: <UserPlus className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: 'A03 找回密码', subtitle: '防撞库邮件重置链接派发', page: 'auth-forgot', icon: <Key className="w-4 h-4 text-[#FFD700]" /> },
+          { title: 'A04 重置密码', subtitle: 'Token 校验与新密码设置', page: 'auth-reset', icon: <Lock className="w-4 h-4 text-[#9d7cd8]" /> },
+          { title: 'A05 二次验证 MFA', subtitle: '智云·守护 TOTP/短信/邮箱三验', page: 'auth-mfa', icon: <Shield className="w-4 h-4 text-[#9d7cd8]" /> },
+          { title: 'A06 团队邀请', subtitle: '45:55 镜像反转邀请落地页', page: 'auth-invite', icon: <UserPlus className="w-4 h-4 text-[#00B4D8]" /> },
+          { title: 'A07 首次登录引导', subtitle: '4 步向导配置品牌、算力与 Agent', page: 'auth-onboarding', icon: <Compass className="w-4 h-4 text-[#00e0b8]" /> },
+          { title: 'A08 会话过期 / 403', subtitle: '未保存草稿恢复与角色越权警示', page: 'auth-expired', icon: <Lock className="w-4 h-4 text-[#ff7a45]" /> },
+          { title: 'A09 账号停用 / 锁定', subtitle: '5 次失败锁定与管理员停用态', page: 'auth-locked', icon: <Lock className="w-4 h-4 text-[#ff4422]" /> },
+        ],
+      },
+    ];
 
   const filtered = commands
     .map((grp) => ({
@@ -113,9 +113,9 @@ export const GlobalCommandMenu: React.FC<GlobalCommandMenuProps> = ({
     .filter((grp) => grp.items.length > 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 p-4 bg-black/75 backdrop-blur-md animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex items-end lg:items-start justify-center lg:pt-24 p-0 lg:p-4 bg-black/75 backdrop-blur-md animate-in fade-in">
       <div
-        className="w-full max-w-xl rounded-2xl bg-[#0f1e35] border border-[rgba(0,224,184,0.3)] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150"
+        className="w-full max-w-xl rounded-t-2xl lg:rounded-2xl bg-[#0f1e35] border border-[rgba(0,224,184,0.3)] shadow-2xl overflow-hidden max-h-[88dvh] lg:max-h-none animate-in zoom-in-95 duration-150"
         style={{
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 224, 184, 0.15)',
         }}
@@ -144,7 +144,7 @@ export const GlobalCommandMenu: React.FC<GlobalCommandMenuProps> = ({
         </div>
 
         {/* Command Results */}
-        <div className="max-h-96 overflow-y-auto p-2 space-y-3">
+        <div className="max-h-[60dvh] lg:max-h-96 overflow-y-auto p-2 space-y-3">
           {filtered.map((grp) => (
             <div key={grp.group} className="space-y-1">
               <span className="px-3 text-[10px] font-bold text-[#5c697a] uppercase tracking-wider block">

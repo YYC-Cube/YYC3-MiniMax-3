@@ -10,25 +10,22 @@
  * @license: MIT
  */
 
-import React, { useState, useEffect } from 'react';
 import {
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
+  ArrowRight,
+  Check,
   CheckCircle2,
   Circle,
-  Shield,
-  Layers,
-  ArrowRight,
-  Info,
-  Check,
-  AlertCircle,
-  FileCheck,
+  Eye,
+  EyeOff,
+  Lock,
+  Mail
 } from 'lucide-react';
-import { PageId, ViewState, DevModeMeta } from '../../types';
+import React, { useEffect, useState } from 'react';
 import AuthBrandClock from '../../components/auth/AuthBrandClock';
+import BrandMark from '../../components/common/BrandMark';
+import { APP_BRAND_LINE } from '../../config/brand';
 import { AUTH_TOKENS } from '../../tokens';
+import { DevModeMeta, PageId, ViewState } from '../../types';
 
 interface RegisterPageProps {
   onNavigate: (page: PageId) => void;
@@ -140,14 +137,14 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
 
   return (
     <div
-      className="min-h-screen w-full flex select-none overflow-hidden animate-in fade-in duration-200"
+      className="min-h-screen w-full flex flex-col lg:flex-row select-none overflow-y-auto lg:overflow-hidden animate-in fade-in duration-200"
       style={{ backgroundColor: AUTH_TOKENS.canvasRight }}
     >
       {/* ============================================================== */}
       {/* LEFT 55% · Brand Showcase Zone (300px Clock Ring)            */}
       {/* ============================================================== */}
       <div
-        className="w-[50%] lg:w-[55%] relative flex flex-col justify-between p-14 overflow-hidden border-r border-[rgba(255,255,255,0.06)]"
+        className="w-full lg:w-[55%] relative flex flex-col justify-between p-6 pt-24 sm:p-10 sm:pt-20 lg:p-14 overflow-hidden border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.06)]"
         style={{ backgroundColor: AUTH_TOKENS.canvasLeft }}
       >
         <div
@@ -161,20 +158,16 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
 
         {/* Top Brand Logo */}
         <div className="z-10 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00e0b8] via-[#00B4D8] to-[#9d7cd8] p-0.5">
-            <div className="w-full h-full bg-[#071222] rounded-[6px] flex items-center justify-center font-black text-xs text-[#00e0b8]">
-              YYC³
-            </div>
-          </div>
+          <BrandMark variant="mark" size={32} />
           <div className="h-5 w-px bg-[rgba(255,255,255,0.15)]" />
           <span className="text-xs text-[#8a97a8] tracking-wider uppercase font-mono">
-            AI Family · Comic Drama
+            {APP_BRAND_LINE}
           </span>
         </div>
 
         {/* Center Clock Ring (Scaled to 300px) */}
-        <div className="z-10 my-auto flex flex-col items-center text-center max-w-[500px] mx-auto">
-          <AuthBrandClock diameter={300} variant="running" activeAgentId="chuangxiang-lingyun" />
+        <div className="z-10 my-6 lg:my-auto flex flex-col items-center text-center max-w-[500px] w-full mx-auto">
+          <AuthBrandClock diameter={300} variant="running" activeAgentId="chuangxiang-lingyun" fluid />
           <div className="mt-6 space-y-2">
             <h1 className="text-2xl lg:text-3xl font-bold text-[#e8f0f8] tracking-tight">
               加入产线，只需 60 秒
@@ -186,7 +179,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
         </div>
 
         {/* Bottom Metrics */}
-        <div className="z-10 flex items-center justify-between text-xs font-mono text-[#5c697a] pt-3 border-t border-[rgba(255,255,255,0.06)]">
+        <div className="z-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs font-mono text-[#5c697a] pt-3 mt-6 lg:mt-0 border-t border-[rgba(255,255,255,0.06)]">
           <span>单集成本 ≤ ¥2.00 标杆</span>
           <span>双 DGX 节点已在线</span>
           <span>v2.0.0</span>
@@ -197,22 +190,21 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
       {/* RIGHT 45% · Form Zone (Card width 440px)                      */}
       {/* ============================================================== */}
       <div
-        className="w-[50%] lg:w-[45%] flex flex-col items-center justify-center p-6 lg:p-10 relative overflow-y-auto"
+        className="w-full lg:w-[45%] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-10 py-10 lg:py-8 relative overflow-y-auto"
         style={{ backgroundColor: AUTH_TOKENS.canvasRight }}
       >
         {/* State Toggle for Figma Dev Validation */}
-        <div className="absolute top-4 right-6 flex items-center gap-1 p-1 rounded-lg bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] text-[10px] font-mono z-20">
+        <div className="relative lg:absolute lg:top-4 lg:right-6 self-end mb-4 lg:mb-0 flex items-center gap-1 p-1 rounded-lg bg-[#0f1e35] border border-[rgba(255,255,255,0.08)] text-[10px] font-mono z-20">
           <span className="text-[#5c697a] px-1">状态:</span>
           {(['normal', 'loading', 'error'] as const).map((s) => (
             <button
               key={s}
               type="button"
               onClick={() => setSimState(s)}
-              className={`px-2 py-0.5 rounded cursor-pointer ${
-                simState === s
-                  ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
-                  : 'text-[#8a97a8] hover:text-white'
-              }`}
+              className={`px-2 py-0.5 rounded cursor-pointer ${simState === s
+                ? 'bg-[#00e0b8] text-[#0a1628] font-bold'
+                : 'text-[#8a97a8] hover:text-white'
+                }`}
             >
               {s === 'normal' ? '默认' : s === 'loading' ? '加载' : '邮箱已占'}
             </button>
@@ -412,11 +404,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
                       <div
                         key={r.id}
                         onClick={() => setSelectedRole(r.id)}
-                        className={`p-2.5 rounded-lg border cursor-pointer transition-all ${
-                          isSelected
-                            ? 'bg-[#152640] border-[#00e0b8] shadow-sm'
-                            : 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
-                        }`}
+                        className={`p-2.5 rounded-lg border cursor-pointer transition-all ${isSelected
+                          ? 'bg-[#152640] border-[#00e0b8] shadow-sm'
+                          : 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] hover:border-[#00e0b8]/40'
+                          }`}
                       >
                         <div className="flex items-center justify-between mb-1">
                           <span className="font-bold text-[#e8f0f8] text-xs">{r.name}</span>

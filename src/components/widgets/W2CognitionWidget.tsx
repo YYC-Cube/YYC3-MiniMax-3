@@ -58,27 +58,27 @@ export const W2CognitionWidget: React.FC<W2CognitionWidgetProps> = ({
 
   return (
     <div
-      className="fixed bottom-6 right-6 w-[580px] h-[720px] rounded-2xl bg-[#0a1628] border border-[rgba(0,224,184,0.35)] shadow-2xl z-50 flex flex-col overflow-hidden backdrop-blur-2xl animate-in zoom-in-95 duration-200"
+      className="fixed inset-0 lg:inset-auto lg:bottom-6 lg:right-6 w-full lg:w-[580px] h-full lg:h-[720px] rounded-none lg:rounded-2xl bg-[#0a1628] border-0 lg:border border-[rgba(0,224,184,0.35)] shadow-2xl z-50 flex flex-col overflow-hidden backdrop-blur-2xl animate-in zoom-in-95 duration-200 pt-[env(safe-area-inset-top)] lg:pt-0 pb-[env(safe-area-inset-bottom)] lg:pb-0"
       style={{
         boxShadow: '0 24px 64px rgba(0, 0, 0, 0.8), 0 0 32px rgba(0, 224, 184, 0.2)',
       }}
     >
       {/* Top Header */}
       <div className="p-3.5 border-b border-[rgba(255,255,255,0.08)] bg-[#0f1e35] flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[rgba(123,140,255,0.2)] border border-[#7B8CFF] flex items-center justify-center text-[#7B8CFF]">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 shrink-0 rounded-lg bg-[rgba(123,140,255,0.2)] border border-[#7B8CFF] flex items-center justify-center text-[#7B8CFF]">
             <Brain className="w-4 h-4 animate-pulse" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-[#e8f0f8] tracking-wide">
                 W2 认知增强浮窗 · ReAct-C 轨迹复盘
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#152640] text-[#7B8CFF] border border-[rgba(123,140,255,0.3)]">
+              <span className="hidden sm:inline text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#152640] text-[#7B8CFF] border border-[rgba(123,140,255,0.3)]">
                 DEEP TRACE
               </span>
             </div>
-            <p className="text-[10px] text-[#8a97a8]">
+            <p className="hidden sm:block text-[10px] text-[#8a97a8]">
               可见即可信 · 人机共驾 · 闭环回放与提示词注入
             </p>
           </div>
@@ -103,10 +103,10 @@ export const W2CognitionWidget: React.FC<W2CognitionWidgetProps> = ({
         </div>
       </div>
 
-      {/* Main Content Area (Split: Left 9-Step Flow, Right Metadata Inspector) */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Main Content Area（<lg 纵向堆叠整窗滚动；lg 双栏左右分屏各自滚动） */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
         {/* Left: ReAct-C Nine Steps Visualizer */}
-        <div className="w-3/5 border-r border-[rgba(255,255,255,0.08)] flex flex-col bg-[#071222]/80">
+        <div className="w-full lg:w-3/5 border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.08)] flex flex-col bg-[#071222]/80">
           {/* Controls Bar */}
           <div className="p-2.5 bg-[#0f1e35]/80 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5">
@@ -147,7 +147,7 @@ export const W2CognitionWidget: React.FC<W2CognitionWidgetProps> = ({
           </div>
 
           {/* 9 Steps List */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
+          <div className="flex-1 max-h-[42vh] lg:max-h-none overflow-y-auto p-3 space-y-2">
             {REACT_C_STEPS.map((s) => {
               const agent = AGENTS_MAP[s.agentId];
               const isCurrent = activeStep === s.step;
@@ -158,10 +158,10 @@ export const W2CognitionWidget: React.FC<W2CognitionWidgetProps> = ({
                   key={s.step}
                   onClick={() => setActiveStep(s.step)}
                   className={`p-2.5 rounded-xl border transition-all cursor-pointer ${isCurrent
-                      ? 'bg-[#152640] border-[rgba(0,224,184,0.4)] shadow-md'
-                      : isPast
-                        ? 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] opacity-80'
-                        : 'bg-[#0a1628]/40 border-transparent opacity-40'
+                    ? 'bg-[#152640] border-[rgba(0,224,184,0.4)] shadow-md'
+                    : isPast
+                      ? 'bg-[#0a1628] border-[rgba(255,255,255,0.06)] opacity-80'
+                      : 'bg-[#0a1628]/40 border-transparent opacity-40'
                     }`}
                   style={{
                     borderLeft: isCurrent
@@ -226,7 +226,7 @@ export const W2CognitionWidget: React.FC<W2CognitionWidgetProps> = ({
         </div>
 
         {/* Right: Cognitive Inspector */}
-        <div className="w-2/5 flex flex-col p-3.5 bg-[#0a1628] overflow-y-auto space-y-4 text-xs">
+        <div className="w-full lg:w-2/5 flex flex-col p-3.5 bg-[#0a1628] lg:overflow-y-auto space-y-4 text-xs">
           <div>
             <span className="text-[10px] font-bold text-[#8a97a8] uppercase tracking-wider block mb-1.5">
               当前执行单元

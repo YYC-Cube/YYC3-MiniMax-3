@@ -28,6 +28,7 @@ import GateBadge from '../../components/common/GateBadge';
 import MetricCard from '../../components/common/MetricCard';
 import { EmptyState, ErrorState, LoadingState, NoPermissionState } from '../../components/common/States';
 import Thumb from '../../components/common/Thumb';
+import { APP_SHORT_NAME } from '../../config/brand';
 import { DriveModeId, GATE_CURRENT_ID, PIPELINE_STAGES } from '../../tokens';
 import { DevModeMeta, PageId, ScriptItem, ViewState } from '../../types';
 
@@ -75,9 +76,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* Top Greeting & Operational Summary */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[rgba(255,255,255,0.06)]">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold text-[#e8f0f8] tracking-tight">
-              YYC³ AI Family 生产指挥工作台
+          <div className="flex items-center flex-wrap gap-2">
+            <h1 className="text-xl lg:text-2xl font-bold text-[#e8f0f8] tracking-tight">
+              {APP_SHORT_NAME} · 生产指挥工作台
             </h1>
             <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#152640] text-[#00e0b8] border border-[rgba(0,224,184,0.3)]">
               双 DGX GB10 算力集群就绪

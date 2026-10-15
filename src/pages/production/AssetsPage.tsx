@@ -155,8 +155,8 @@ export const AssetsPage: React.FC<AssetsPageProps> = ({
         </div>
       </div>
 
-      {/* Main Grid + Right Asset Inspector */}
-      <div className="flex gap-5">
+      {/* Main Grid + Right Asset Inspector（<lg 纵向堆叠） */}
+      <div className="flex flex-col lg:flex-row gap-5">
         {/* Asset Cards Grid */}
         <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4">
           {filtered.map((asset) => (
@@ -222,7 +222,7 @@ export const AssetsPage: React.FC<AssetsPageProps> = ({
 
         {/* Right Asset Detail Sheet */}
         {inspectedAsset && (
-          <div className="w-88 shrink-0 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] p-4 flex flex-col justify-between space-y-4">
+          <div className="w-full lg:w-88 lg:shrink-0 rounded-xl bg-[#0f1e35] border border-[rgba(0,224,184,0.15)] p-4 flex flex-col justify-between space-y-4">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-2 border-b border-[rgba(255,255,255,0.06)]">
                 <div>
